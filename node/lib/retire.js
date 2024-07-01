@@ -4,7 +4,7 @@
  */
 
 var exports = exports || {};
-exports.version = '5.0.0-beta.1';
+exports.version = '5.0.1';
 
 function isDefined(o) {
   return typeof o !== 'undefined';
@@ -168,7 +168,7 @@ exports.scanUri = function (uri, repo) {
 };
 
 exports.scanFileName = function (fileName, repo) {
-  var result = scan(fileName, 'filename', repo, splitAndMatchAll('/'));
+  var result = scan(fileName, 'filename', repo, splitAndMatchAll(/[\/\\]/));
   return check(result, repo);
 };
 

@@ -1130,7 +1130,7 @@
         "summary": "The vulnerability allowed arbitrary JavaScript execution when inserting a specially crafted piece of content into the editor via the clipboard or APIs",
         "identifiers": {
           "githubID": "GHSA-27gm-ghr9-4v95",
-          "CVE": ["CVE-2020-17480", "CVE-2020-23066"]
+          "CVE": ["CVE-2020-17480"]
         },
         "severity": "high",
         "cwe": ["CWE-79"],
@@ -1408,6 +1408,75 @@
           "https://github.com/tinymce/tinymce",
           "https://www.tiny.cloud/docs/tinymce/6/6.8.1-release-notes/#new-convert_unsafe_embeds-option-that-controls-whether-object-and-embed-elements-will-be-converted-to-more-restrictive-alternatives-namely-img-for-image-mime-types-video-for-video-mime-types-audio-audio-mime-types-or-iframe-for-other-or-unspecified-mime-types",
           "https://www.tiny.cloud/docs/tinymce/7/7.0-release-notes/#convert_unsafe_embeds-editor-option-is-now-defaulted-to-true"
+        ]
+      },
+      {
+        "ranges": [
+          {
+            "atOrAbove": "0",
+            "below": "5.11.0"
+          },
+          {
+            "atOrAbove": "6.0.0",
+            "below": "6.8.4"
+          },
+          {
+            "atOrAbove": "7.0.0",
+            "below": "7.2.0"
+          }
+        ],
+        "summary": "TinyMCE Cross-Site Scripting (XSS) vulnerability using noscript elements",
+        "cwe": ["CWE-79"],
+        "severity": "medium",
+        "identifiers": {
+          "CVE": ["CVE-2024-38357"],
+          "githubID": "GHSA-w9jx-4g6g-rp7x"
+        },
+        "info": [
+          "https://github.com/advisories/GHSA-w9jx-4g6g-rp7x",
+          "https://github.com/tinymce/tinymce/security/advisories/GHSA-w9jx-4g6g-rp7x",
+          "https://nvd.nist.gov/vuln/detail/CVE-2024-38357",
+          "https://github.com/tinymce/tinymce/commit/5acb741665a98e83d62b91713c800abbff43b00d",
+          "https://github.com/tinymce/tinymce/commit/a9fb858509f86dacfa8b01cfd34653b408983ac0",
+          "https://github.com/tinymce/tinymce",
+          "https://owasp.org/www-community/attacks/xss",
+          "https://www.tiny.cloud/docs/tinymce/6/6.8.4-release-notes/#overview",
+          "https://www.tiny.cloud/docs/tinymce/7/7.2-release-notes/#overview"
+        ]
+      },
+      {
+        "ranges": [
+          {
+            "atOrAbove": "0",
+            "below": "5.11.0"
+          },
+          {
+            "atOrAbove": "6.0.0",
+            "below": "6.8.4"
+          },
+          {
+            "atOrAbove": "7.0.0",
+            "below": "7.2.0"
+          }
+        ],
+        "summary": "TinyMCE Cross-Site Scripting (XSS) vulnerability using noneditable_regexp option",
+        "cwe": ["CWE-79"],
+        "severity": "medium",
+        "identifiers": {
+          "CVE": ["CVE-2024-38356"],
+          "githubID": "GHSA-9hcv-j9pv-qmph"
+        },
+        "info": [
+          "https://github.com/advisories/GHSA-9hcv-j9pv-qmph",
+          "https://github.com/tinymce/tinymce/security/advisories/GHSA-9hcv-j9pv-qmph",
+          "https://nvd.nist.gov/vuln/detail/CVE-2024-38356",
+          "https://github.com/tinymce/tinymce/commit/5acb741665a98e83d62b91713c800abbff43b00d",
+          "https://github.com/tinymce/tinymce/commit/a9fb858509f86dacfa8b01cfd34653b408983ac0",
+          "https://github.com/tinymce/tinymce",
+          "https://owasp.org/www-community/attacks/xss",
+          "https://www.tiny.cloud/docs/tinymce/6/6.8.4-release-notes/#overview",
+          "https://www.tiny.cloud/docs/tinymce/7/7.2-release-notes/#overview",
+          "https://www.tiny.cloud/docs/tinymce/latest/7.2-release-notes/#overview"
         ]
       }
     ],
@@ -4480,7 +4549,7 @@
       "filename": ["axios-(§§version§§)(\\.min)?\\.js"],
       "filecontent": [
         "/\\* *axios v(§§version§§) ",
-        "// Axios v(§§version§§) ",
+        "// Axios v(§§version§§) C",
         "return\"\\[Axios v(§§version§§)\\] Transitional",
         "\\\"axios\\\",\\\"version\\\":\\\"(§§version§§)\\\""
       ],
@@ -4789,6 +4858,52 @@
   "nextjs": {
     "npmname": "next",
     "vulnerabilities": [
+      {
+        "ranges": [
+          {
+            "atOrAbove": "13.4.0",
+            "below": "13.5.1"
+          }
+        ],
+        "summary": "Next.js Vulnerable to HTTP Request Smuggling",
+        "cwe": ["CWE-444"],
+        "severity": "high",
+        "identifiers": {
+          "CVE": ["CVE-2024-34350"],
+          "githubID": "GHSA-77r5-gw3j-2mpf"
+        },
+        "info": [
+          "https://github.com/advisories/GHSA-77r5-gw3j-2mpf",
+          "https://github.com/vercel/next.js/security/advisories/GHSA-77r5-gw3j-2mpf",
+          "https://nvd.nist.gov/vuln/detail/CVE-2024-34350",
+          "https://github.com/vercel/next.js/commit/44eba020c615f0d9efe431f84ada67b81576f3f5",
+          "https://github.com/vercel/next.js",
+          "https://github.com/vercel/next.js/compare/v13.5.0...v13.5.1"
+        ]
+      },
+      {
+        "ranges": [
+          {
+            "atOrAbove": "13.4.0",
+            "below": "14.1.1"
+          }
+        ],
+        "summary": "Next.js Server-Side Request Forgery in Server Actions",
+        "cwe": ["CWE-918"],
+        "severity": "high",
+        "identifiers": {
+          "CVE": ["CVE-2024-34351"],
+          "githubID": "GHSA-fr5h-rqp8-mj6g"
+        },
+        "info": [
+          "https://github.com/advisories/GHSA-fr5h-rqp8-mj6g",
+          "https://github.com/vercel/next.js/security/advisories/GHSA-fr5h-rqp8-mj6g",
+          "https://nvd.nist.gov/vuln/detail/CVE-2024-34351",
+          "https://github.com/vercel/next.js/pull/62561",
+          "https://github.com/vercel/next.js/commit/8f7a6ca7d21a97bc9f7a1bbe10427b5ad74b9085",
+          "https://github.com/vercel/next.js"
+        ]
+      },
       {
         "ranges": [
           {
@@ -5438,7 +5553,7 @@
           }
         ],
         "summary": "Prototype Pollution in lodash",
-        "cwe": ["CWE-20"],
+        "cwe": ["CWE-1321", "CWE-20"],
         "severity": "high",
         "identifiers": {
           "CVE": ["CVE-2019-10744"],
@@ -5464,8 +5579,8 @@
           }
         ],
         "summary": "Prototype Pollution in lodash",
-        "cwe": ["CWE-471"],
-        "severity": "low",
+        "cwe": ["CWE-471", "CWE-1321"],
+        "severity": "medium",
         "identifiers": {
           "CVE": ["CVE-2018-3721"],
           "githubID": "GHSA-fvqr-27wr-82fm"
@@ -5810,6 +5925,98 @@
       "func": ["MathJax.version"]
     }
   },
+  "pdf.js": {
+    "bowername": ["pdfjs-dist"],
+    "npmname": "pdfjs-dist",
+    "vulnerabilities": [
+      {
+        "ranges": [
+          {
+            "atOrAbove": "0",
+            "below": "4.2.67"
+          }
+        ],
+        "summary": "PDF.js vulnerable to arbitrary JavaScript execution upon opening a malicious PDF",
+        "cwe": ["CWE-79"],
+        "severity": "high",
+        "identifiers": {
+          "CVE": ["CVE-2024-34342", "CVE-2024-4367"],
+          "githubID": "GHSA-wgrm-67xf-hhpq"
+        },
+        "info": [
+          "https://github.com/advisories/GHSA-wgrm-67xf-hhpq",
+          "https://github.com/mozilla/pdf.js/security/advisories/GHSA-wgrm-67xf-hhpq",
+          "https://github.com/mozilla/pdf.js/pull/18015",
+          "https://github.com/mozilla/pdf.js/commit/85e64b5c16c9aaef738f421733c12911a441cec6",
+          "https://bugzilla.mozilla.org/show_bug.cgi?id=1893645",
+          "https://github.com/mozilla/pdf.js"
+        ]
+      },
+      {
+        "ranges": [
+          {
+            "atOrAbove": "2.0.0",
+            "below": "2.0.550"
+          },
+          {
+            "atOrAbove": "0",
+            "below": "1.10.100"
+          }
+        ],
+        "summary": "Malicious PDF can inject JavaScript into PDF Viewer",
+        "cwe": ["CWE-94"],
+        "severity": "high",
+        "identifiers": {
+          "CVE": ["CVE-2018-5158"],
+          "githubID": "GHSA-7jg2-jgv3-fmr4"
+        },
+        "info": [
+          "https://github.com/advisories/GHSA-7jg2-jgv3-fmr4",
+          "https://nvd.nist.gov/vuln/detail/CVE-2018-5158",
+          "https://github.com/mozilla/pdf.js/pull/9659",
+          "https://github.com/mozilla/pdf.js/commit/2dc4af525d1612c98afcd1e6bee57d4788f78f97",
+          "https://access.redhat.com/errata/RHSA-2018:1414",
+          "https://access.redhat.com/errata/RHSA-2018:1415",
+          "https://bugzilla.mozilla.org/show_bug.cgi?id=1452075",
+          "https://github.com/mozilla/pdf.js",
+          "https://lists.debian.org/debian-lts-announce/2018/05/msg00007.html",
+          "https://security.gentoo.org/glsa/201810-01",
+          "https://usn.ubuntu.com/3645-1",
+          "https://www.debian.org/security/2018/dsa-4199",
+          "https://www.mozilla.org/security/advisories/mfsa2018-11",
+          "https://www.mozilla.org/security/advisories/mfsa2018-12",
+          "http://www.securityfocus.com/bid/104136",
+          "http://www.securitytracker.com/id/1040896"
+        ]
+      }
+    ],
+    "extractors": {
+      "uri": ["/pdf\\.js/(§§version§§)/", "/pdfjs-dist@(§§version§§)/"],
+      "filecontent": [
+        " pdfjs-dist@(§§version§§) ",
+        "(?:const|var) pdfjsVersion = ['\"](§§version§§)['\"];",
+        "PDFJS.version ?= ?['\"](§§version§§)['\"]",
+        "apiVersion: ?['\"](§§version§§)['\"][\\s\\S]*,data(:[a-zA-Z.]{1,6})?,[\\s\\S]*password(:[a-zA-Z.]{1,10})?,[\\s\\S]*disableAutoFetch(:[a-zA-Z.]{1,22})?,[\\s\\S]*rangeChunkSize",
+        "messageHandler\\.sendWithPromise\\(\"GetDocRequest\",\\{docId:[a-zA-Z],apiVersion:\"(§§version§§)\""
+      ]
+    }
+  },
+  "pdfobject": {
+    "vulnerabilities": [],
+    "extractors": {
+      "uri": [
+        "/pdfobject@(§§version§§)/",
+        "/pdfobject/(§§version§§)/pdfobject(\\.min)?\\.js"
+      ],
+      "filecontent": [
+        "\\* +PDFObject v(§§version§§)",
+        "/*[\\s]+PDFObject v(§§version§§)",
+        "let pdfobjectversion = \"(§§version§§)\";",
+        "pdfobjectversion:\"(§§version§§)\""
+      ]
+    }
+  },
+
   "dont check": {
     "vulnerabilities": [],
     "extractors": {
