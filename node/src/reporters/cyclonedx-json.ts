@@ -2,10 +2,10 @@ import { ConfigurableLogger, Hasher, Logger, LoggerOptions, Writer } from '../re
 
 import * as retire from '../retire';
 import * as fs from 'fs';
-import { v4 as uuidv4 } from 'uuid';
 import { Finding } from '../types';
 import { generatePURL } from './utils';
 import * as path from 'path';
+import * as crypto from 'crypto';
 
 function configureCycloneDXJSONLogger(logger: Logger, writer: Writer, config: LoggerOptions, hash: Hasher) {
   let vulnsFound = false;
@@ -89,7 +89,7 @@ function configureCycloneDXJSONLogger(logger: Logger, writer: Writer, config: Lo
         {
           bomFormat: 'CycloneDX',
           specVersion: '1.4',
-          serialNumber: `urn:uuid:${uuidv4()}`,
+          serialNumber: `urn:uuid:${crypto.randomUUID()}`,
           version: 1,
           metadata: {
             timestamp: finalResults.start,

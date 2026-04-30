@@ -353,5 +353,16 @@ exports.queries = {
   "zrender" : [
     `//SequenceExpression[/AssignmentExpression/:left/:property/:name == "showDebugDirtyRect"]/AssignmentExpression[//:left/:property/:name == "version"]/:right/:value`,
     `//BlockStatement[/FunctionDeclaration/:id/:name == "registerPainter" && /FunctionDeclaration/:id/:name == "getWheelDeltaMayPolyfill"]/VariableDeclaration/VariableDeclarator[/:id/:name == "version"]/Literal/:value`
+  ],
+  "d3.js" : [
+    `//BlockStatement[
+      /ExpressionStatement/AssignmentExpression/:left/:property/:name == "curveCatmullRomClosed" &&
+      /ExpressionStatement/AssignmentExpression/:left/:property/:name == "thresholdFreedmanDiaconis"
+    ]/ExpressionStatement/AssignmentExpression[ /:left/:property/:name == "version" ]/$$:right/:value`,
+    `//BlockStatement/ExpressionStatement/SequenceExpression[
+      /AssignmentExpression/:left/:property/:name == "thresholdFreedmanDiaconis" &&
+      /AssignmentExpression/:left/:property/:name == "thresholdSturges" &&
+      /AssignmentExpression/:left/:property/:name == "thresholdScott" 
+    ]/AssignmentExpression[ /:left/:property/:name == "version" ]/$$:right/:value`
   ]
 };

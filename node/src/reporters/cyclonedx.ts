@@ -4,9 +4,9 @@ import { ConfigurableLogger, Hasher, Logger, LoggerOptions, Writer } from '../re
 
 import * as retire from '../retire';
 import * as fs from 'fs';
-import { v4 as uuidv4 } from 'uuid';
 import { Finding } from '../types';
 import { generatePURL } from './utils';
+import * as crypto from 'crypto';
 
 function configureCycloneDXLogger(logger: Logger, writer: Writer, config: LoggerOptions, hash: Hasher) {
   let vulnsFound = false;
@@ -72,7 +72,7 @@ function configureCycloneDXLogger(logger: Logger, writer: Writer, config: Logger
       )
       .join('');
     write(`<?xml version="1.0"?>
-<bom xmlns="http://cyclonedx.org/schema/bom/1.4" serialNumber="urn:uuid:${uuidv4()}" version="1">
+<bom xmlns="http://cyclonedx.org/schema/bom/1.4" serialNumber="urn:uuid:${crypto.randomUUID()}" version="1">
   <metadata>
     <timestamp>${finalResults.start.toISOString()}</timestamp>
     <tools>

@@ -12678,6 +12678,27 @@
       ]
     }
   },
+  "d3.js": {
+    "licenses": [
+      "ISC >=0"
+    ],
+    "vulnerabilities": [],
+    "extractors": {
+      "uri": [
+        "/d3[@/](§§version§§)/d3.(min.)?js"
+      ],
+      "filename": [
+        "d3[-.](§§version§§)(.min)?.js"
+      ],
+      "filecontent": [
+        "\\/\\/ https:\\/\\/d3js\\.org (?:v|Version )(§§version§§) "
+      ],
+      "ast": [
+        "//BlockStatement[       /ExpressionStatement/AssignmentExpression/:left/:property/:name == \"curveCatmullRomClosed\" &&       /ExpressionStatement/AssignmentExpression/:left/:property/:name == \"thresholdFreedmanDiaconis\"     ]/ExpressionStatement/AssignmentExpression[ /:left/:property/:name == \"version\" ]/$$:right/:value",
+        "//BlockStatement/ExpressionStatement/SequenceExpression[       /AssignmentExpression/:left/:property/:name == \"thresholdFreedmanDiaconis\" &&       /AssignmentExpression/:left/:property/:name == \"thresholdSturges\" &&       /AssignmentExpression/:left/:property/:name == \"thresholdScott\"      ]/AssignmentExpression[ /:left/:property/:name == \"version\" ]/$$:right/:value"
+      ]
+    }
+  },
   "dont check": {
     "licenses": [],
     "vulnerabilities": [],
