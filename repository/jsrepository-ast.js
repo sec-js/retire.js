@@ -354,7 +354,7 @@ exports.queries = {
     `//SequenceExpression[/AssignmentExpression/:left/:property/:name == "showDebugDirtyRect"]/AssignmentExpression[//:left/:property/:name == "version"]/:right/:value`,
     `//BlockStatement[/FunctionDeclaration/:id/:name == "registerPainter" && /FunctionDeclaration/:id/:name == "getWheelDeltaMayPolyfill"]/VariableDeclaration/VariableDeclarator[/:id/:name == "version"]/Literal/:value`
   ],
-  "d3.js" : [
+  "d3" : [
     `//BlockStatement[
       /ExpressionStatement/AssignmentExpression/:left/:property/:name == "curveCatmullRomClosed" &&
       /ExpressionStatement/AssignmentExpression/:left/:property/:name == "thresholdFreedmanDiaconis"

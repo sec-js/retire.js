@@ -12461,7 +12461,7 @@
       ]
     }
   },
-  "d3.js": {
+  "d3": {
     "vulnerabilities": [],
     "extractors": {
       "uri": [

@@ -773,7 +773,7 @@
       "subversions": ["", ".min"]
     }
   },
-  "d3.js" : {
+  "d3" : {
     "https://cdnjs.cloudflare.com/ajax/libs/d3/§§version§§/d3§§subversion§§.js": {
       "versions": ["7.9.0", "7.0.0", "6.5.0", "5.16.0", "4.5.0"],
       "subversions": ["", ".min"]
