@@ -2,7 +2,8 @@
 module.exports = {
   transform: {
     '^.+\\.ts?$': [
-      'ts-jest'
+      'ts-jest',
+      { tsconfig: 'tsconfig.spec.json' },
     ],
   },
   testEnvironment: 'node',

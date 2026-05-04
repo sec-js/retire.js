@@ -4,617 +4,6 @@ var retirechrome = (() => {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
 
-  // ../../node/node_modules/astronomical/lib/cjs/nodeutils.js
-  var require_nodeutils = __commonJS({
-    "../../node/node_modules/astronomical/lib/cjs/nodeutils.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      exports.VISITOR_KEYS = exports.isBinding = exports.isVariableDeclaration = exports.isVariableDeclarator = exports.isFunctionExpression = exports.isFunctionDeclaration = exports.isIdentifier = exports.isMemberExpression = exports.isAssignmentExpression = exports.isUpdateExpression = exports.isPrimitive = exports.isLiteral = exports.isNodePath = exports.isNode = void 0;
-      exports.isScope = isScope;
-      exports.isScopable = isScopable;
-      exports.isExportSpecifier = isExportSpecifier;
-      var isNode = (candidate) => {
-        return typeof candidate === "object" && candidate != null && "type" in candidate;
-      };
-      exports.isNode = isNode;
-      var isNodePath = (candidate) => {
-        return typeof candidate === "object" && candidate != null && "node" in candidate;
-      };
-      exports.isNodePath = isNodePath;
-      var isLiteral = (candidate) => {
-        return (0, exports.isNode)(candidate) && candidate.type === "Literal";
-      };
-      exports.isLiteral = isLiteral;
-      var isPrimitive = (value) => {
-        return typeof value == "string" || typeof value == "number" || typeof value == "boolean";
-      };
-      exports.isPrimitive = isPrimitive;
-      var isUpdateExpression = (value) => {
-        return (0, exports.isNode)(value) && value.type === "UpdateExpression";
-      };
-      exports.isUpdateExpression = isUpdateExpression;
-      var isAssignmentExpression = (node) => {
-        return node.type === "AssignmentExpression";
-      };
-      exports.isAssignmentExpression = isAssignmentExpression;
-      var isMemberExpression = (node) => {
-        return node.type === "MemberExpression";
-      };
-      exports.isMemberExpression = isMemberExpression;
-      var isIdentifier = (node) => {
-        return node.type === "Identifier";
-      };
-      exports.isIdentifier = isIdentifier;
-      var isFunctionDeclaration = (node) => {
-        return node.type === "FunctionDeclaration";
-      };
-      exports.isFunctionDeclaration = isFunctionDeclaration;
-      var isFunctionExpression = (node) => {
-        return node.type === "FunctionExpression";
-      };
-      exports.isFunctionExpression = isFunctionExpression;
-      var isVariableDeclarator = (node) => {
-        return node.type === "VariableDeclarator";
-      };
-      exports.isVariableDeclarator = isVariableDeclarator;
-      var isVariableDeclaration = (node) => {
-        return node.type === "VariableDeclaration";
-      };
-      exports.isVariableDeclaration = isVariableDeclaration;
-      var isBinding = (node, parentNode, grandParentNode) => {
-        if (grandParentNode && node.type === "Identifier" && parentNode.type === "Property" && grandParentNode.type === "ObjectExpression") {
-          return false;
-        }
-        const keys = bindingIdentifiersKeys[parentNode.type] ?? [];
-        for (let i = 0; i < keys.length; i++) {
-          const key = keys[i];
-          const val = (
-            // @ts-expect-error key must present in parent
-            parentNode[key]
-          );
-          if (Array.isArray(val)) {
-            if (val.indexOf(node) >= 0)
-              return true;
-          } else {
-            if (val === node)
-              return true;
-          }
-        }
-        return false;
-      };
-      exports.isBinding = isBinding;
-      var bindingIdentifiersKeys = {
-        DeclareClass: ["id"],
-        DeclareFunction: ["id"],
-        DeclareModule: ["id"],
-        DeclareVariable: ["id"],
-        DeclareInterface: ["id"],
-        DeclareTypeAlias: ["id"],
-        DeclareOpaqueType: ["id"],
-        InterfaceDeclaration: ["id"],
-        TypeAlias: ["id"],
-        OpaqueType: ["id"],
-        CatchClause: ["param"],
-        LabeledStatement: ["label"],
-        UnaryExpression: ["argument"],
-        AssignmentExpression: ["left"],
-        ImportSpecifier: ["local"],
-        ImportNamespaceSpecifier: ["local"],
-        ImportDefaultSpecifier: ["local"],
-        ImportDeclaration: ["specifiers"],
-        ExportSpecifier: ["exported"],
-        ExportNamespaceSpecifier: ["exported"],
-        ExportDefaultSpecifier: ["exported"],
-        FunctionDeclaration: ["id", "params"],
-        FunctionExpression: ["id", "params"],
-        ArrowFunctionExpression: ["params"],
-        ObjectMethod: ["params"],
-        ClassMethod: ["params"],
-        ClassPrivateMethod: ["params"],
-        ForInStatement: ["left"],
-        ForOfStatement: ["left"],
-        ClassDeclaration: ["id"],
-        ClassExpression: ["id"],
-        RestElement: ["argument"],
-        UpdateExpression: ["argument"],
-        ObjectProperty: ["value"],
-        AssignmentPattern: ["left"],
-        ArrayPattern: ["elements"],
-        ObjectPattern: ["properties"],
-        VariableDeclaration: ["declarations"],
-        VariableDeclarator: ["id"]
-      };
-      exports.VISITOR_KEYS = {
-        ArrayExpression: ["elements"],
-        ArrayPattern: ["elements"],
-        ArrowFunctionExpression: ["params", "body"],
-        AssignmentExpression: ["left", "right"],
-        AssignmentPattern: ["left", "right"],
-        AwaitExpression: ["argument"],
-        BinaryExpression: ["left", "right"],
-        BlockStatement: ["body"],
-        BreakStatement: [],
-        CallExpression: ["callee", "arguments"],
-        CatchClause: ["param", "body"],
-        ChainExpression: ["expression"],
-        ClassBody: ["body"],
-        ClassDeclaration: ["id", "superClass", "body"],
-        ClassExpression: ["id", "superClass", "body"],
-        ConditionalExpression: ["test", "consequent", "alternate"],
-        ContinueStatement: [],
-        DebuggerStatement: [],
-        DoWhileStatement: ["body", "test"],
-        EmptyStatement: [],
-        ExportAllDeclaration: ["source"],
-        ExportDefaultDeclaration: ["declaration"],
-        ExportNamedDeclaration: ["declaration", "specifiers", "source"],
-        ExportSpecifier: ["local", "exported"],
-        ExpressionStatement: ["expression"],
-        ForInStatement: ["left", "right", "body"],
-        ForOfStatement: ["left", "right", "body"],
-        ForStatement: ["init", "test", "update", "body"],
-        FunctionDeclaration: ["id", "params", "body"],
-        FunctionExpression: ["id", "params", "body"],
-        Identifier: [],
-        IfStatement: ["test", "consequent", "alternate"],
-        ImportAttribute: ["key", "value"],
-        ImportDeclaration: ["specifiers", "source"],
-        ImportDefaultSpecifier: ["local"],
-        ImportNamespaceSpecifier: ["local"],
-        ImportSpecifier: ["local", "imported"],
-        LabeledStatement: ["label", "body"],
-        Literal: [],
-        LogicalExpression: ["left", "right"],
-        MemberExpression: ["object", "property"],
-        MetaProperty: ["meta", "property"],
-        MethodDefinition: ["key", "value"],
-        NewExpression: ["callee", "arguments"],
-        ObjectExpression: ["properties"],
-        ObjectPattern: ["properties"],
-        Program: ["body"],
-        Property: ["key", "value"],
-        RestElement: ["argument"],
-        ReturnStatement: ["argument"],
-        SequenceExpression: ["expressions"],
-        SpreadElement: ["argument"],
-        Super: [],
-        SwitchCase: ["test", "consequent"],
-        SwitchStatement: ["discriminant", "cases"],
-        TaggedTemplateExpression: ["tag", "quasi"],
-        TemplateElement: [],
-        TemplateLiteral: ["quasis", "expressions"],
-        ThisExpression: [],
-        ThrowStatement: ["argument"],
-        TryStatement: ["block", "handler", "finalizer"],
-        UnaryExpression: ["argument"],
-        UpdateExpression: ["argument"],
-        VariableDeclaration: ["declarations"],
-        VariableDeclarator: ["id", "init"],
-        WhileStatement: ["test", "body"],
-        WithStatement: ["object", "body"],
-        YieldExpression: ["argument"],
-        ImportExpression: ["source"],
-        Decorator: ["expression"],
-        PropertyDefinition: ["key", "value"],
-        Import: ["source"],
-        JSXAttribute: ["name", "value"],
-        JSXNamespacedName: ["namespace", "name"],
-        JSXElement: ["openingElement", "closingElement", "children"],
-        JSXClosingElement: ["name"],
-        JSXOpeningElement: ["name", "attributes"],
-        JSXFragment: ["openingFragment", "closingFragment", "children"],
-        JSXOpeningFragment: [],
-        JSXClosingFragment: [],
-        JSXText: [],
-        JSXExpressionContainer: ["expression"],
-        JSXSpreadChild: ["expression"],
-        JSXEmptyExpression: [],
-        JSXSpreadAttribute: ["argument"],
-        JSXIdentifier: [],
-        PrivateIdentifier: [],
-        JSXMemberExpression: ["object", "property"],
-        ParenthesizedExpression: ["expression"],
-        StaticBlock: ["body"]
-      };
-      function isBlockStatement(node) {
-        return node.type === "BlockStatement";
-      }
-      function isFunction(node) {
-        return node.type === "FunctionDeclaration" || node.type === "FunctionExpression";
-      }
-      function isCatchClause(node) {
-        return node.type === "CatchClause";
-      }
-      function isPattern(node) {
-        switch (node.type) {
-          case "AssignmentPattern":
-          case "ArrayPattern":
-          case "ObjectPattern":
-            return true;
-        }
-        return false;
-      }
-      function isScope(node, parentNode) {
-        if (isBlockStatement(node) && (isFunction(parentNode) || isCatchClause(parentNode))) {
-          return false;
-        }
-        if (isPattern(node) && (isFunction(parentNode) || isCatchClause(parentNode))) {
-          return true;
-        }
-        return (0, exports.isFunctionDeclaration)(parentNode) || (0, exports.isFunctionExpression)(parentNode) || isScopable(node);
-      }
-      function isScopable(node) {
-        switch (node.type) {
-          case "BlockStatement":
-          case "CatchClause":
-          case "DoWhileStatement":
-          case "ForInStatement":
-          case "ForStatement":
-          case "FunctionDeclaration":
-          case "FunctionExpression":
-          case "Program":
-          case "MethodDefinition":
-          case "SwitchStatement":
-          case "WhileStatement":
-          case "ArrowFunctionExpression":
-          case "ClassExpression":
-          case "ClassDeclaration":
-          case "ForOfStatement":
-          case "StaticBlock":
-            return true;
-        }
-        return false;
-      }
-      function isExportSpecifier(node) {
-        return node.type === "ExportSpecifier";
-      }
-    }
-  });
-
-  // ../../node/node_modules/astronomical/lib/cjs/parseQuery.js
-  var require_parseQuery = __commonJS({
-    "../../node/node_modules/astronomical/lib/cjs/parseQuery.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      exports.NodeType = exports.TokenType = void 0;
-      exports.tokenize = tokenize;
-      exports.parse = parse;
-      var _1 = require_cjs();
-      var nodeutils_1 = require_nodeutils();
-      var debugLogEnabled = false;
-      var log = debugLogEnabled ? {
-        debug: (...args) => {
-          console.debug(...args);
-        }
-      } : void 0;
-      var visitorKeys = Object.keys(nodeutils_1.VISITOR_KEYS);
-      var supportedIdentifiers = {};
-      for (let i = 0; i < visitorKeys.length; i++) {
-        const k = visitorKeys[i];
-        supportedIdentifiers[k] = k;
-      }
-      var TokenType;
-      (function(TokenType2) {
-        TokenType2[TokenType2["IDENTIFIER"] = 0] = "IDENTIFIER";
-        TokenType2[TokenType2["WILDCARD"] = 1] = "WILDCARD";
-        TokenType2[TokenType2["DESCENDANT"] = 2] = "DESCENDANT";
-        TokenType2[TokenType2["CHILD"] = 3] = "CHILD";
-        TokenType2[TokenType2["PARENT"] = 4] = "PARENT";
-        TokenType2[TokenType2["AND"] = 5] = "AND";
-        TokenType2[TokenType2["OR"] = 6] = "OR";
-        TokenType2[TokenType2["EQUALS"] = 7] = "EQUALS";
-        TokenType2[TokenType2["LITERAL"] = 8] = "LITERAL";
-        TokenType2[TokenType2["ATTRIBUTESELECTOR"] = 9] = "ATTRIBUTESELECTOR";
-        TokenType2[TokenType2["RESOLVESELECTOR"] = 10] = "RESOLVESELECTOR";
-        TokenType2[TokenType2["BINDINGSELECTOR"] = 11] = "BINDINGSELECTOR";
-        TokenType2[TokenType2["FILTERBEGIN"] = 12] = "FILTERBEGIN";
-        TokenType2[TokenType2["FILTEREND"] = 13] = "FILTEREND";
-        TokenType2[TokenType2["SEPARATOR"] = 14] = "SEPARATOR";
-        TokenType2[TokenType2["PARAMETERSBEGIN"] = 15] = "PARAMETERSBEGIN";
-        TokenType2[TokenType2["PARAMETERSEND"] = 16] = "PARAMETERSEND";
-        TokenType2[TokenType2["FUNCTION"] = 17] = "FUNCTION";
-      })(TokenType || (exports.TokenType = TokenType = {}));
-      exports.NodeType = {
-        PARENT: 241,
-        CHILD: 242,
-        DESCENDANT: 243,
-        AND: 244,
-        OR: 245,
-        EQUALS: 246,
-        LITERAL: 247,
-        FUNCTION: 248
-      };
-      function isIdentifierToken(token) {
-        if (token == void 0)
-          return false;
-        if (token.tokenType != TokenType.IDENTIFIER && token.tokenType != TokenType.WILDCARD)
-          return false;
-        if (!token.value)
-          return false;
-        if (!(token.value in supportedIdentifiers) && token.value != "*") {
-          throw new Error("Unsupported identifier: " + token.value);
-        }
-        ;
-        return true;
-      }
-      var whitespace = " \n\r	";
-      function isCharacter(charcode) {
-        return charcode >= 65 && charcode <= 90 || charcode >= 97 && charcode <= 122;
-      }
-      function isInteger(charcode) {
-        return charcode >= 48 && charcode <= 57;
-      }
-      function tokenize(input) {
-        let s = 0;
-        const result = [];
-        while (s < input.length) {
-          while (whitespace.includes(input[s]))
-            s++;
-          if (s >= input.length)
-            break;
-          if (input[s] == "/") {
-            if (input[s + 1] == "/") {
-              result.push({ tokenType: TokenType.DESCENDANT });
-              s += 2;
-              continue;
-            }
-            result.push({ tokenType: TokenType.CHILD });
-            s++;
-            continue;
-          }
-          if (input[s] == ":") {
-            result.push({ tokenType: TokenType.ATTRIBUTESELECTOR });
-            s++;
-            continue;
-          }
-          if (input[s] == "$" && input[s + 1] == "$") {
-            result.push({ tokenType: TokenType.RESOLVESELECTOR });
-            s += 2;
-            continue;
-          }
-          if (input[s] == "$") {
-            result.push({ tokenType: TokenType.BINDINGSELECTOR });
-            s++;
-            continue;
-          }
-          if (input[s] == "[") {
-            result.push({ tokenType: TokenType.FILTERBEGIN });
-            s++;
-            continue;
-          }
-          if (input[s] == "]") {
-            result.push({ tokenType: TokenType.FILTEREND });
-            s++;
-            continue;
-          }
-          if (input[s] == ",") {
-            result.push({ tokenType: TokenType.SEPARATOR });
-            s++;
-            continue;
-          }
-          if (input[s] == "(") {
-            result.push({ tokenType: TokenType.PARAMETERSBEGIN });
-            s++;
-            continue;
-          }
-          if (input[s] == "f" && input[s + 1] == "n" && input[s + 2] == ":") {
-            result.push({ tokenType: TokenType.FUNCTION });
-            s += 3;
-            continue;
-          }
-          if (input[s] == ")") {
-            result.push({ tokenType: TokenType.PARAMETERSEND });
-            s++;
-            continue;
-          }
-          if (input[s] == "&" && input[s + 1] == "&") {
-            result.push({ tokenType: TokenType.AND });
-            s += 2;
-            continue;
-          }
-          if (input[s] == "|" && input[s + 1] == "|") {
-            result.push({ tokenType: TokenType.OR });
-            s += 2;
-            continue;
-          }
-          if (input[s] == "=" && input[s + 1] == "=") {
-            result.push({ tokenType: TokenType.EQUALS });
-            s += 2;
-            continue;
-          }
-          if (input[s] == "'" || input[s] == '"') {
-            const begin = input[s];
-            const start = s;
-            s++;
-            while (s < input.length && input[s] != begin)
-              s++;
-            result.push({ tokenType: TokenType.LITERAL, value: input.slice(start + 1, s) });
-            s++;
-            continue;
-          }
-          if (input[s] == "." && input[s + 1] == ".") {
-            result.push({ tokenType: TokenType.PARENT });
-            s += 2;
-            continue;
-          }
-          if (input[s] == "*") {
-            result.push({ tokenType: TokenType.WILDCARD, value: "*" });
-            s++;
-            continue;
-          }
-          const charCode = input.charCodeAt(s);
-          if (isCharacter(charCode)) {
-            const start = s;
-            while (s < input.length && isCharacter(input.charCodeAt(s)))
-              s++;
-            result.push({ tokenType: TokenType.IDENTIFIER, value: input.slice(start, s) });
-            continue;
-          }
-          if (isInteger(charCode)) {
-            const start = s;
-            while (s < input.length && isInteger(input.charCodeAt(s)))
-              s++;
-            result.push({ tokenType: TokenType.LITERAL, value: input.slice(start, s) });
-            continue;
-          }
-          throw new Error("Unexpected token: " + input[s]);
-        }
-        return result;
-      }
-      function buildFilter(tokens) {
-        log?.debug("BUILD FILTER", tokens);
-        tokens.shift();
-        const p = buildTree(tokens);
-        const next = tokens[0];
-        if (next.tokenType == TokenType.AND) {
-          return {
-            type: exports.NodeType.AND,
-            left: p,
-            right: buildFilter(tokens)
-          };
-        }
-        if (next.tokenType == TokenType.OR) {
-          return {
-            type: exports.NodeType.OR,
-            left: p,
-            right: buildFilter(tokens)
-          };
-        }
-        if (next.tokenType == TokenType.EQUALS) {
-          const right = buildFilter(tokens);
-          if (right.type == exports.NodeType.OR || right.type == exports.NodeType.AND) {
-            return {
-              type: right.type,
-              left: {
-                type: exports.NodeType.EQUALS,
-                left: p,
-                right: right.left
-              },
-              right: right.right
-            };
-          }
-          if (right.type == exports.NodeType.EQUALS)
-            throw new Error("Unexpected equals in equals");
-          return {
-            type: exports.NodeType.EQUALS,
-            left: p,
-            right
-          };
-        }
-        if (next.tokenType == TokenType.FILTEREND) {
-          tokens.shift();
-          return p;
-        }
-        throw new Error("Unexpected token in filter: " + next?.tokenType);
-      }
-      var subNodes = [TokenType.CHILD, TokenType.DESCENDANT];
-      function buildTree(tokens) {
-        log?.debug("BUILD TREE", tokens);
-        if (tokens.length == 0)
-          throw new Error("Unexpected end of input");
-        const token = tokens.shift();
-        if (token == void 0)
-          throw new Error("Unexpected end of input");
-        if (token.tokenType == TokenType.PARENT) {
-          return {
-            type: exports.NodeType.PARENT,
-            child: buildTree(tokens)
-          };
-        }
-        if (subNodes.includes(token.tokenType)) {
-          let next = tokens.shift();
-          if (next?.tokenType == TokenType.FUNCTION) {
-            const name = tokens.shift();
-            if (name == void 0 || name.tokenType != TokenType.IDENTIFIER || name.value == void 0 || typeof name.value != "string")
-              throw new Error("Unexpected token: " + name?.tokenType + ". Expecting function name");
-            const value = name.value;
-            if (!(0, _1.isAvailableFunction)(value)) {
-              throw new Error("Unsupported function: " + name.value);
-            }
-            return buildFunctionCall(value, tokens);
-          }
-          if (next?.tokenType == TokenType.PARENT) {
-            return { type: exports.NodeType.PARENT, child: buildTree(tokens) };
-          }
-          const modifiers = [];
-          while (next && (next?.tokenType == TokenType.ATTRIBUTESELECTOR || next?.tokenType == TokenType.BINDINGSELECTOR || next?.tokenType == TokenType.RESOLVESELECTOR)) {
-            modifiers.push(next);
-            next = tokens.shift();
-          }
-          const isAttribute = modifiers.some((m) => m.tokenType == TokenType.ATTRIBUTESELECTOR);
-          const isBinding = modifiers.some((m) => m.tokenType == TokenType.BINDINGSELECTOR);
-          const isResolve = modifiers.some((m) => m.tokenType == TokenType.RESOLVESELECTOR);
-          if (isResolve && isBinding)
-            throw new Error("Cannot have both resolve and binding");
-          if (!next || !next.value || !isAttribute && !isIdentifierToken(next))
-            throw new Error("Unexpected or missing token: " + next?.tokenType);
-          const identifer = next.value;
-          let filter = void 0;
-          if (tokens.length > 0 && tokens[0].tokenType == TokenType.FILTERBEGIN) {
-            filter = buildFilter(tokens);
-            log?.debug("FILTER", filter, tokens);
-          }
-          let child = void 0;
-          if (tokens.length > 0 && subNodes.includes(tokens[0].tokenType)) {
-            child = buildTree(tokens);
-          }
-          if (typeof identifer != "string")
-            throw new Error("Identifier must be a string");
-          let nodeType = exports.NodeType.CHILD;
-          if (token.tokenType == TokenType.DESCENDANT) {
-            nodeType = exports.NodeType.DESCENDANT;
-          } else if (token.tokenType != TokenType.CHILD) {
-            throw new Error("Unexpected token:" + token.tokenType);
-          }
-          return {
-            type: nodeType,
-            value: identifer,
-            attribute: isAttribute,
-            binding: isBinding,
-            resolve: isResolve,
-            filter,
-            child
-          };
-        }
-        if (token.tokenType == TokenType.LITERAL) {
-          return {
-            type: exports.NodeType.LITERAL,
-            value: token.value
-          };
-        }
-        throw new Error("Unexpected token: " + token.tokenType);
-      }
-      function buildFunctionCall(name, tokens) {
-        log?.debug("BUILD FUNCTION", name, tokens);
-        const parameters = [];
-        const next = tokens.shift();
-        if (next?.tokenType != TokenType.PARAMETERSBEGIN)
-          throw new Error("Unexpected token: " + next?.tokenType);
-        while (tokens.length > 0 && tokens[0].tokenType != TokenType.PARAMETERSEND) {
-          parameters.push(buildTree(tokens));
-          if (tokens[0].tokenType == TokenType.SEPARATOR)
-            tokens.shift();
-        }
-        if (tokens.length == 0)
-          throw new Error("Unexpected end of input");
-        tokens.shift();
-        return {
-          type: exports.NodeType.FUNCTION,
-          function: name,
-          parameters
-        };
-      }
-      function parse(input) {
-        const tokens = tokenize(input);
-        const result = buildTree(tokens);
-        log?.debug("RESULT", result);
-        if (!result)
-          throw new Error("No root element found");
-        return result;
-      }
-    }
-  });
-
   // ../../node/node_modules/meriyah/dist/meriyah.cjs
   var require_meriyah = __commonJS({
     "../../node/node_modules/meriyah/dist/meriyah.cjs"(exports) {
@@ -9387,56 +8776,645 @@ var retirechrome = (() => {
     }
   });
 
-  // ../../node/node_modules/astronomical/lib/cjs/utils.js
-  var require_utils = __commonJS({
-    "../../node/node_modules/astronomical/lib/cjs/utils.js"(exports) {
+  // ../../node/node_modules/astronomical/lib/index.js
+  var require_lib = __commonJS({
+    "../../node/node_modules/astronomical/lib/index.js"(exports, module) {
       "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      exports.toArray = toArray;
-      exports.isDefined = isDefined;
-      function toArray(value) {
-        return Array.isArray(value) ? value : [value];
+      var __defProp = Object.defineProperty;
+      var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+      var __getOwnPropNames2 = Object.getOwnPropertyNames;
+      var __hasOwnProp = Object.prototype.hasOwnProperty;
+      var __export = (target, all) => {
+        for (var name in all)
+          __defProp(target, name, { get: all[name], enumerable: true });
+      };
+      var __copyProps = (to, from, except, desc) => {
+        if (from && typeof from === "object" || typeof from === "function") {
+          for (let key of __getOwnPropNames2(from))
+            if (!__hasOwnProp.call(to, key) && key !== except)
+              __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+        }
+        return to;
+      };
+      var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+      var index_exports = {};
+      __export(index_exports, {
+        default: () => createTraverser,
+        functions: () => functions,
+        isAvailableFunction: () => isAvailableFunction,
+        multiQuery: () => multiQuery,
+        parseSource: () => parseSource,
+        query: () => query
+      });
+      module.exports = __toCommonJS(index_exports);
+      var isNode = (candidate) => {
+        return typeof candidate === "object" && candidate != null && "type" in candidate;
+      };
+      var isNodePath = (candidate) => {
+        return typeof candidate === "object" && candidate != null && "node" in candidate;
+      };
+      var isPrimitive = (value) => {
+        return typeof value == "string" || typeof value == "number" || typeof value == "boolean";
+      };
+      var isUpdateExpression = (value) => {
+        return isNode(value) && value.type === "UpdateExpression";
+      };
+      var isAssignmentExpression = (node) => {
+        return node.type === "AssignmentExpression";
+      };
+      var isMemberExpression = (node) => {
+        return node.type === "MemberExpression";
+      };
+      var isIdentifier = (node) => {
+        return node.type === "Identifier";
+      };
+      var isFunctionDeclaration = (node) => {
+        return node.type === "FunctionDeclaration";
+      };
+      var isFunctionExpression = (node) => {
+        return node.type === "FunctionExpression";
+      };
+      var isVariableDeclarator = (node) => {
+        return node.type === "VariableDeclarator";
+      };
+      var isVariableDeclaration = (node) => {
+        return node.type === "VariableDeclaration";
+      };
+      var isBinding = (node, parentNode, grandParentNode) => {
+        if (grandParentNode && node.type === "Identifier" && parentNode.type === "Property" && grandParentNode.type === "ObjectExpression") {
+          return false;
+        }
+        const keys = bindingIdentifiersKeys[parentNode.type] ?? [];
+        for (let i = 0; i < keys.length; i++) {
+          const key = keys[i];
+          const val = (
+            // @ts-expect-error key must present in parent
+            parentNode[key]
+          );
+          if (Array.isArray(val)) {
+            if (val.indexOf(node) >= 0) return true;
+          } else {
+            if (val === node) return true;
+          }
+        }
+        return false;
+      };
+      var bindingIdentifiersKeys = {
+        DeclareClass: ["id"],
+        DeclareFunction: ["id"],
+        DeclareModule: ["id"],
+        DeclareVariable: ["id"],
+        DeclareInterface: ["id"],
+        DeclareTypeAlias: ["id"],
+        DeclareOpaqueType: ["id"],
+        InterfaceDeclaration: ["id"],
+        TypeAlias: ["id"],
+        OpaqueType: ["id"],
+        CatchClause: ["param"],
+        LabeledStatement: ["label"],
+        UnaryExpression: ["argument"],
+        AssignmentExpression: ["left"],
+        ImportSpecifier: ["local"],
+        ImportNamespaceSpecifier: ["local"],
+        ImportDefaultSpecifier: ["local"],
+        ImportDeclaration: ["specifiers"],
+        ExportSpecifier: ["exported"],
+        ExportNamespaceSpecifier: ["exported"],
+        ExportDefaultSpecifier: ["exported"],
+        FunctionDeclaration: ["id", "params"],
+        FunctionExpression: ["id", "params"],
+        ArrowFunctionExpression: ["params"],
+        ObjectMethod: ["params"],
+        ClassMethod: ["params"],
+        ClassPrivateMethod: ["params"],
+        ForInStatement: ["left"],
+        ForOfStatement: ["left"],
+        ClassDeclaration: ["id"],
+        ClassExpression: ["id"],
+        RestElement: ["argument"],
+        UpdateExpression: ["argument"],
+        ObjectProperty: ["value"],
+        AssignmentPattern: ["left"],
+        ArrayPattern: ["elements"],
+        ObjectPattern: ["properties"],
+        VariableDeclaration: ["declarations"],
+        VariableDeclarator: ["id"]
+      };
+      var VISITOR_KEYS = {
+        ArrayExpression: ["elements"],
+        ArrayPattern: ["elements"],
+        ArrowFunctionExpression: ["params", "body"],
+        AssignmentExpression: ["left", "right"],
+        AssignmentPattern: ["left", "right"],
+        AwaitExpression: ["argument"],
+        BinaryExpression: ["left", "right"],
+        BlockStatement: ["body"],
+        BreakStatement: [],
+        CallExpression: ["callee", "arguments"],
+        CatchClause: ["param", "body"],
+        ChainExpression: ["expression"],
+        ClassBody: ["body"],
+        ClassDeclaration: ["id", "superClass", "body"],
+        ClassExpression: ["id", "superClass", "body"],
+        ConditionalExpression: ["test", "consequent", "alternate"],
+        ContinueStatement: [],
+        DebuggerStatement: [],
+        DoWhileStatement: ["body", "test"],
+        EmptyStatement: [],
+        ExportAllDeclaration: ["source"],
+        ExportDefaultDeclaration: ["declaration"],
+        ExportNamedDeclaration: ["declaration", "specifiers", "source"],
+        ExportSpecifier: ["local", "exported"],
+        ExpressionStatement: ["expression"],
+        ForInStatement: ["left", "right", "body"],
+        ForOfStatement: ["left", "right", "body"],
+        ForStatement: ["init", "test", "update", "body"],
+        FunctionDeclaration: ["id", "params", "body"],
+        FunctionExpression: ["id", "params", "body"],
+        Identifier: [],
+        IfStatement: ["test", "consequent", "alternate"],
+        ImportAttribute: ["key", "value"],
+        ImportDeclaration: ["specifiers", "source"],
+        ImportDefaultSpecifier: ["local"],
+        ImportNamespaceSpecifier: ["local"],
+        ImportSpecifier: ["local", "imported"],
+        LabeledStatement: ["label", "body"],
+        Literal: [],
+        LogicalExpression: ["left", "right"],
+        MemberExpression: ["object", "property"],
+        MetaProperty: ["meta", "property"],
+        MethodDefinition: ["key", "value"],
+        NewExpression: ["callee", "arguments"],
+        ObjectExpression: ["properties"],
+        ObjectPattern: ["properties"],
+        Program: ["body"],
+        Property: ["key", "value"],
+        RestElement: ["argument"],
+        ReturnStatement: ["argument"],
+        SequenceExpression: ["expressions"],
+        SpreadElement: ["argument"],
+        Super: [],
+        SwitchCase: ["test", "consequent"],
+        SwitchStatement: ["discriminant", "cases"],
+        TaggedTemplateExpression: ["tag", "quasi"],
+        TemplateElement: [],
+        TemplateLiteral: ["quasis", "expressions"],
+        ThisExpression: [],
+        ThrowStatement: ["argument"],
+        TryStatement: ["block", "handler", "finalizer"],
+        UnaryExpression: ["argument"],
+        UpdateExpression: ["argument"],
+        VariableDeclaration: ["declarations"],
+        VariableDeclarator: ["id", "init"],
+        WhileStatement: ["test", "body"],
+        WithStatement: ["object", "body"],
+        YieldExpression: ["argument"],
+        ImportExpression: ["source"],
+        Decorator: ["expression"],
+        PropertyDefinition: ["key", "value"],
+        Import: ["source"],
+        JSXAttribute: ["name", "value"],
+        JSXNamespacedName: ["namespace", "name"],
+        JSXElement: ["openingElement", "closingElement", "children"],
+        JSXClosingElement: ["name"],
+        JSXOpeningElement: ["name", "attributes"],
+        JSXFragment: ["openingFragment", "closingFragment", "children"],
+        JSXOpeningFragment: [],
+        JSXClosingFragment: [],
+        JSXText: [],
+        JSXExpressionContainer: ["expression"],
+        JSXSpreadChild: ["expression"],
+        JSXEmptyExpression: [],
+        JSXSpreadAttribute: ["argument"],
+        JSXIdentifier: [],
+        PrivateIdentifier: [],
+        JSXMemberExpression: ["object", "property"],
+        ParenthesizedExpression: ["expression"],
+        StaticBlock: ["body"]
+      };
+      function isBlockStatement(node) {
+        return node.type === "BlockStatement";
       }
-      function isDefined(value) {
-        return value != void 0 && value != null;
+      function isFunction(node) {
+        return node.type === "FunctionDeclaration" || node.type === "FunctionExpression";
       }
-    }
-  });
-
-  // ../../node/node_modules/astronomical/lib/cjs/index.js
-  var require_cjs = __commonJS({
-    "../../node/node_modules/astronomical/lib/cjs/index.js"(exports) {
-      "use strict";
-      Object.defineProperty(exports, "__esModule", { value: true });
-      exports.functions = void 0;
-      exports.isAvailableFunction = isAvailableFunction;
-      exports.query = query;
-      exports.multiQuery = multiQuery;
-      exports.parseSource = parseSource;
-      exports.default = createTraverser;
-      var parseQuery_1 = require_parseQuery();
-      var meriyah_1 = require_meriyah();
-      var nodeutils_1 = require_nodeutils();
-      var utils_1 = require_utils();
+      function isCatchClause(node) {
+        return node.type === "CatchClause";
+      }
+      function isPattern(node) {
+        switch (node.type) {
+          case "AssignmentPattern":
+          case "ArrayPattern":
+          case "ObjectPattern":
+            return true;
+        }
+        return false;
+      }
+      function isScope(node, parentNode) {
+        if (isBlockStatement(node) && (isFunction(parentNode) || isCatchClause(parentNode))) {
+          return false;
+        }
+        if (isPattern(node) && (isFunction(parentNode) || isCatchClause(parentNode))) {
+          return true;
+        }
+        return isFunctionDeclaration(parentNode) || isFunctionExpression(parentNode) || isScopable(node);
+      }
+      function isScopable(node) {
+        switch (node.type) {
+          case "BlockStatement":
+          case "CatchClause":
+          case "DoWhileStatement":
+          case "ForInStatement":
+          case "ForStatement":
+          case "FunctionDeclaration":
+          case "FunctionExpression":
+          case "Program":
+          case "MethodDefinition":
+          case "SwitchStatement":
+          case "WhileStatement":
+          case "ArrowFunctionExpression":
+          case "ClassExpression":
+          case "ClassDeclaration":
+          case "ForOfStatement":
+          case "StaticBlock":
+            return true;
+        }
+        return false;
+      }
+      function isExportSpecifier(node) {
+        return node.type === "ExportSpecifier";
+      }
       var debugLogEnabled = false;
       var log = debugLogEnabled ? {
         debug: (...args) => {
           console.debug(...args);
         }
       } : void 0;
-      exports.functions = {
+      var visitorKeys = Object.keys(VISITOR_KEYS);
+      var supportedIdentifiers = {};
+      for (let i = 0; i < visitorKeys.length; i++) {
+        const k = visitorKeys[i];
+        supportedIdentifiers[k] = k;
+      }
+      var NodeType = {
+        PARENT: 241,
+        CHILD: 242,
+        DESCENDANT: 243,
+        AND: 244,
+        OR: 245,
+        EQUALS: 246,
+        LITERAL: 247,
+        FUNCTION: 248
+      };
+      function isIdentifierToken(token) {
+        if (token == void 0) return false;
+        if (token.tokenType != 0 && token.tokenType != 1) return false;
+        if (!token.value) return false;
+        if (!(token.value in supportedIdentifiers) && token.value != "*") {
+          throw new Error("Unsupported identifier: " + token.value);
+        }
+        ;
+        return true;
+      }
+      var whitespace = " \n\r	";
+      function isCharacter(charcode) {
+        return charcode >= 65 && charcode <= 90 || charcode >= 97 && charcode <= 122;
+      }
+      function isInteger(charcode) {
+        return charcode >= 48 && charcode <= 57;
+      }
+      function tokenize(input) {
+        let s = 0;
+        const result = [];
+        while (s < input.length) {
+          while (whitespace.includes(input[s])) s++;
+          if (s >= input.length) break;
+          if (input[s] == "/") {
+            if (input[s + 1] == "/") {
+              result.push({
+                tokenType: 2
+                /* DESCENDANT */
+              });
+              s += 2;
+              continue;
+            }
+            result.push({
+              tokenType: 3
+              /* CHILD */
+            });
+            s++;
+            continue;
+          }
+          if (input[s] == ":") {
+            result.push({
+              tokenType: 9
+              /* ATTRIBUTESELECTOR */
+            });
+            s++;
+            continue;
+          }
+          if (input[s] == "$" && input[s + 1] == "$") {
+            result.push({
+              tokenType: 10
+              /* RESOLVESELECTOR */
+            });
+            s += 2;
+            continue;
+          }
+          if (input[s] == "$") {
+            result.push({
+              tokenType: 11
+              /* BINDINGSELECTOR */
+            });
+            s++;
+            continue;
+          }
+          if (input[s] == "[") {
+            result.push({
+              tokenType: 12
+              /* FILTERBEGIN */
+            });
+            s++;
+            continue;
+          }
+          if (input[s] == "]") {
+            result.push({
+              tokenType: 13
+              /* FILTEREND */
+            });
+            s++;
+            continue;
+          }
+          if (input[s] == ",") {
+            result.push({
+              tokenType: 14
+              /* SEPARATOR */
+            });
+            s++;
+            continue;
+          }
+          if (input[s] == "(") {
+            result.push({
+              tokenType: 15
+              /* PARAMETERSBEGIN */
+            });
+            s++;
+            continue;
+          }
+          if (input[s] == "f" && input[s + 1] == "n" && input[s + 2] == ":") {
+            result.push({
+              tokenType: 17
+              /* FUNCTION */
+            });
+            s += 3;
+            continue;
+          }
+          if (input[s] == ")") {
+            result.push({
+              tokenType: 16
+              /* PARAMETERSEND */
+            });
+            s++;
+            continue;
+          }
+          if (input[s] == "&" && input[s + 1] == "&") {
+            result.push({
+              tokenType: 5
+              /* AND */
+            });
+            s += 2;
+            continue;
+          }
+          if (input[s] == "|" && input[s + 1] == "|") {
+            result.push({
+              tokenType: 6
+              /* OR */
+            });
+            s += 2;
+            continue;
+          }
+          if (input[s] == "=" && input[s + 1] == "=") {
+            result.push({
+              tokenType: 7
+              /* EQUALS */
+            });
+            s += 2;
+            continue;
+          }
+          if (input[s] == "'" || input[s] == '"') {
+            const begin = input[s];
+            const start = s;
+            s++;
+            while (s < input.length && input[s] != begin) s++;
+            result.push({ tokenType: 8, value: input.slice(start + 1, s) });
+            s++;
+            continue;
+          }
+          if (input[s] == "." && input[s + 1] == ".") {
+            result.push({
+              tokenType: 4
+              /* PARENT */
+            });
+            s += 2;
+            continue;
+          }
+          if (input[s] == "*") {
+            result.push({ tokenType: 1, value: "*" });
+            s++;
+            continue;
+          }
+          const charCode = input.charCodeAt(s);
+          if (isCharacter(charCode)) {
+            const start = s;
+            while (s < input.length && isCharacter(input.charCodeAt(s))) s++;
+            result.push({ tokenType: 0, value: input.slice(start, s) });
+            continue;
+          }
+          if (isInteger(charCode)) {
+            const start = s;
+            while (s < input.length && isInteger(input.charCodeAt(s))) s++;
+            result.push({ tokenType: 8, value: input.slice(start, s) });
+            continue;
+          }
+          throw new Error("Unexpected token: " + input[s]);
+        }
+        return result;
+      }
+      function buildFilter(tokens) {
+        log?.debug("BUILD FILTER", tokens);
+        tokens.shift();
+        const p = buildTree(tokens);
+        const next = tokens[0];
+        if (next.tokenType == 5) {
+          return {
+            type: NodeType.AND,
+            left: p,
+            right: buildFilter(tokens)
+          };
+        }
+        if (next.tokenType == 6) {
+          return {
+            type: NodeType.OR,
+            left: p,
+            right: buildFilter(tokens)
+          };
+        }
+        if (next.tokenType == 7) {
+          const right = buildFilter(tokens);
+          if (right.type == NodeType.OR || right.type == NodeType.AND) {
+            return {
+              type: right.type,
+              left: {
+                type: NodeType.EQUALS,
+                left: p,
+                right: right.left
+              },
+              right: right.right
+            };
+          }
+          if (right.type == NodeType.EQUALS) throw new Error("Unexpected equals in equals");
+          return {
+            type: NodeType.EQUALS,
+            left: p,
+            right
+          };
+        }
+        if (next.tokenType == 13) {
+          tokens.shift();
+          return p;
+        }
+        throw new Error("Unexpected token in filter: " + next?.tokenType);
+      }
+      var subNodes = [
+        3,
+        2
+        /* DESCENDANT */
+      ];
+      function buildTree(tokens) {
+        log?.debug("BUILD TREE", tokens);
+        if (tokens.length == 0) throw new Error("Unexpected end of input");
+        const token = tokens.shift();
+        if (token == void 0) throw new Error("Unexpected end of input");
+        if (token.tokenType == 4) {
+          return {
+            type: NodeType.PARENT,
+            child: buildTree(tokens)
+          };
+        }
+        if (subNodes.includes(token.tokenType)) {
+          let next = tokens.shift();
+          if (next?.tokenType == 17) {
+            const name = tokens.shift();
+            if (name == void 0 || name.tokenType != 0 || name.value == void 0 || typeof name.value != "string") throw new Error("Unexpected token: " + name?.tokenType + ". Expecting function name");
+            const value = name.value;
+            if (!isAvailableFunction(value)) {
+              throw new Error("Unsupported function: " + name.value);
+            }
+            return buildFunctionCall(value, tokens);
+          }
+          if (next?.tokenType == 4) {
+            return { type: NodeType.PARENT, child: buildTree(tokens) };
+          }
+          const modifiers = [];
+          while (next && (next?.tokenType == 9 || next?.tokenType == 11 || next?.tokenType == 10)) {
+            modifiers.push(next);
+            next = tokens.shift();
+          }
+          const isAttribute = modifiers.some(
+            (m) => m.tokenType == 9
+            /* ATTRIBUTESELECTOR */
+          );
+          const isBinding2 = modifiers.some(
+            (m) => m.tokenType == 11
+            /* BINDINGSELECTOR */
+          );
+          const isResolve = modifiers.some(
+            (m) => m.tokenType == 10
+            /* RESOLVESELECTOR */
+          );
+          if (isResolve && isBinding2) throw new Error("Cannot have both resolve and binding");
+          if (!next || !next.value || !isAttribute && !isIdentifierToken(next)) throw new Error("Unexpected or missing token: " + next?.tokenType);
+          const identifer = next.value;
+          let filter = void 0;
+          if (tokens.length > 0 && tokens[0].tokenType == 12) {
+            filter = buildFilter(tokens);
+            log?.debug("FILTER", filter, tokens);
+          }
+          let child = void 0;
+          if (tokens.length > 0 && subNodes.includes(tokens[0].tokenType)) {
+            child = buildTree(tokens);
+          }
+          if (typeof identifer != "string") throw new Error("Identifier must be a string");
+          let nodeType = NodeType.CHILD;
+          if (token.tokenType == 2) {
+            nodeType = NodeType.DESCENDANT;
+          } else if (token.tokenType != 3) {
+            throw new Error("Unexpected token:" + token.tokenType);
+          }
+          return {
+            type: nodeType,
+            value: identifer,
+            attribute: isAttribute,
+            binding: isBinding2,
+            resolve: isResolve,
+            filter,
+            child
+          };
+        }
+        if (token.tokenType == 8) {
+          return {
+            type: NodeType.LITERAL,
+            value: token.value
+          };
+        }
+        throw new Error("Unexpected token: " + token.tokenType);
+      }
+      function buildFunctionCall(name, tokens) {
+        log?.debug("BUILD FUNCTION", name, tokens);
+        const parameters = [];
+        const next = tokens.shift();
+        if (next?.tokenType != 15) throw new Error("Unexpected token: " + next?.tokenType);
+        while (tokens.length > 0 && tokens[0].tokenType != 16) {
+          parameters.push(buildTree(tokens));
+          if (tokens[0].tokenType == 14) tokens.shift();
+        }
+        if (tokens.length == 0) throw new Error("Unexpected end of input");
+        tokens.shift();
+        return {
+          type: NodeType.FUNCTION,
+          function: name,
+          parameters
+        };
+      }
+      function parse(input) {
+        const tokens = tokenize(input);
+        const result = buildTree(tokens);
+        log?.debug("RESULT", result);
+        if (!result) throw new Error("No root element found");
+        return result;
+      }
+      var import_meriyah = require_meriyah();
+      function toArray(value) {
+        return Array.isArray(value) ? value : [value];
+      }
+      function isDefined(value) {
+        return value != void 0 && value != null;
+      }
+      var debugLogEnabled2 = false;
+      var log2 = debugLogEnabled2 ? {
+        debug: (...args) => {
+          console.debug(...args);
+        }
+      } : void 0;
+      var functions = {
         "join": {
           fn: (result) => {
-            if (result.length != 2)
-              throw new Error("Invalid number of arugments for join");
+            if (result.length != 2) throw new Error("Invalid number of arugments for join");
             const [values, separators] = result;
-            if (separators.length != 1)
-              throw new Error("Invalid number of separators for join");
+            if (separators.length != 1) throw new Error("Invalid number of separators for join");
             const separator = separators[0];
-            if (typeof separator != "string")
-              throw new Error("Separator must be a string");
-            if (values.length == 0)
-              return [];
+            if (typeof separator != "string") throw new Error("Separator must be a string");
+            if (values.length == 0) return [];
             return [values.join(separator)];
           }
         },
@@ -9444,8 +9422,7 @@ var retirechrome = (() => {
           fn: (result) => {
             const flattened = [];
             for (let i = 0; i < result.length; i++) {
-              if (result[i].length === 0)
-                return [];
+              if (result[i].length === 0) return [];
               for (let j = 0; j < result[i].length; j++) {
                 flattened.push(result[i][j]);
               }
@@ -9455,36 +9432,31 @@ var retirechrome = (() => {
         },
         "first": {
           fn: (result) => {
-            if (result.length != 1)
-              throw new Error("Invalid number of arugments for first");
-            if (result[0].length == 0)
-              return [];
+            if (result.length != 1) throw new Error("Invalid number of arugments for first");
+            if (result[0].length == 0) return [];
             return [result[0][0]];
           }
         },
         "nthchild": {
           fn: (result) => {
-            if (result.length != 2)
-              throw new Error("Invalid number of arguments for nthchild");
-            if (result[1].length != 1)
-              throw new Error("Invalid number of arguments for nthchild");
+            if (result.length != 2) throw new Error("Invalid number of arguments for nthchild");
+            if (result[1].length != 1) throw new Error("Invalid number of arguments for nthchild");
             const x = result[1][0];
             const number = typeof x == "number" ? x : parseInt(x);
             return [result[0][number]];
           }
         }
       };
-      var functionNames = new Set(Object.keys(exports.functions));
+      var functionNames = new Set(Object.keys(functions));
       function isAvailableFunction(name) {
         return functionNames.has(name);
       }
       function breadCrumb(path) {
-        if (!debugLogEnabled)
-          return "";
+        if (!debugLogEnabled2) return "";
         return {
+          //Using the toString trick here to avoid calculating the breadcrumb if debug logging is off
           valueOf() {
-            if (path.parentPath == void 0)
-              return "@" + path.node.type;
+            if (path.parentPath == void 0) return "@" + path.node.type;
             return breadCrumb(path.parentPath) + "." + (path.parentKey == path.key ? path.key : path.parentKey + "[" + path.key + "]") + "@" + path.node.type;
           }
         };
@@ -9493,13 +9465,13 @@ var retirechrome = (() => {
         const traverser = createTraverser();
         const { getChildren, getPrimitiveChildren, getPrimitiveChildrenOrNodePaths, getBinding, createNodePath, traverse } = traverser;
         function createFilter(filter, filterResult) {
-          if (filter.type == parseQuery_1.NodeType.AND || filter.type == parseQuery_1.NodeType.OR || filter.type == parseQuery_1.NodeType.EQUALS) {
+          if (filter.type == NodeType.AND || filter.type == NodeType.OR || filter.type == NodeType.EQUALS) {
             return {
               type: filter.type,
               left: createFilter(filter.left, []),
               right: createFilter(filter.right, [])
             };
-          } else if (filter.type == parseQuery_1.NodeType.LITERAL) {
+          } else if (filter.type == NodeType.LITERAL) {
             const r = [filter.value];
             return {
               node: filter,
@@ -9515,26 +9487,26 @@ var retirechrome = (() => {
           };
         }
         function addFilterChildrenToState(filter, state) {
-          if ("type" in filter && (filter.type == parseQuery_1.NodeType.AND || filter.type == parseQuery_1.NodeType.OR || filter.type == parseQuery_1.NodeType.EQUALS)) {
+          if ("type" in filter && (filter.type == NodeType.AND || filter.type == NodeType.OR || filter.type == NodeType.EQUALS)) {
             addFilterChildrenToState(filter.left, state);
             addFilterChildrenToState(filter.right, state);
           } else if ("node" in filter) {
-            if (filter.node.type == parseQuery_1.NodeType.CHILD) {
-              log?.debug("ADDING FILTER CHILD", filter.node);
+            if (filter.node.type == NodeType.CHILD) {
+              log2?.debug("ADDING FILTER CHILD", filter.node);
               state.child[state.depth + 1].push(filter);
             }
-            if (filter.node.type == parseQuery_1.NodeType.DESCENDANT) {
-              log?.debug("ADDING FILTER DESCENDANT", filter.node);
+            if (filter.node.type == NodeType.DESCENDANT) {
+              log2?.debug("ADDING FILTER DESCENDANT", filter.node);
               state.descendant[state.depth + 1].push(filter);
             }
           }
         }
         function createFNodeAndAddToState(token, result, state) {
-          log?.debug("ADDING FNODE", token);
+          log2?.debug("ADDING FNODE", token);
           const fnode = createFNode(token, result);
-          if (token.type == parseQuery_1.NodeType.CHILD) {
+          if (token.type == NodeType.CHILD) {
             state.child[state.depth + 1].push(fnode);
-          } else if (token.type == parseQuery_1.NodeType.DESCENDANT) {
+          } else if (token.type == NodeType.DESCENDANT) {
             state.descendant[state.depth + 1].push(fnode);
           }
           return fnode;
@@ -9542,21 +9514,18 @@ var retirechrome = (() => {
         function isMatch(fnode, path) {
           if (fnode.node.attribute) {
             const m2 = fnode.node.value == path.parentKey || fnode.node.value == path.key;
-            if (m2)
-              log?.debug("ATTR MATCH", fnode.node.value, breadCrumb(path));
+            if (m2) log2?.debug("ATTR MATCH", fnode.node.value, breadCrumb(path));
             return m2;
           }
           if (fnode.node.value == "*") {
             return true;
           }
           const m = fnode.node.value == path.node.type;
-          if (m)
-            log?.debug("NODE MATCH", fnode.node.value, breadCrumb(path));
+          if (m) log2?.debug("NODE MATCH", fnode.node.value, breadCrumb(path));
           return m;
         }
         function addIfTokenMatch(fnode, path, state) {
-          if (!isMatch(fnode, path))
-            return;
+          if (!isMatch(fnode, path)) return;
           state.matches[state.depth].push([fnode, path]);
           if (fnode.node.filter) {
             const filter = createFilter(fnode.node.filter, []);
@@ -9572,7 +9541,7 @@ var retirechrome = (() => {
             addFilterChildrenToState(filter, state);
             const child = fnode.node.child;
             if (child) {
-              if (child.type == parseQuery_1.NodeType.FUNCTION) {
+              if (child.type == NodeType.FUNCTION) {
                 const fr = addFunction(fnode, child, path, state);
                 state.functionCalls[state.depth].push(fr);
               } else {
@@ -9581,7 +9550,7 @@ var retirechrome = (() => {
             }
           } else {
             const child = fnode.node.child;
-            if (child?.type == parseQuery_1.NodeType.FUNCTION) {
+            if (child?.type == NodeType.FUNCTION) {
               const fr = addFunction(fnode, child, path, state);
               state.functionCalls[state.depth].push(fr);
             } else if (child && !fnode.node.binding && !fnode.node.resolve) {
@@ -9592,10 +9561,10 @@ var retirechrome = (() => {
         function addFunction(rootNode, functionCall, path, state) {
           const functionNode = { node: rootNode.node, functionCall, parameters: [], result: [] };
           for (const param of functionCall.parameters) {
-            if (param.type == parseQuery_1.NodeType.LITERAL) {
+            if (param.type == NodeType.LITERAL) {
               functionNode.parameters.push({ node: param, result: [param.value] });
             } else {
-              if (param.type == parseQuery_1.NodeType.FUNCTION) {
+              if (param.type == NodeType.FUNCTION) {
                 functionNode.parameters.push(addFunction(functionNode, param, path, state));
               } else {
                 functionNode.parameters.push(createFNodeAndAddToState(param, [], state));
@@ -9605,22 +9574,18 @@ var retirechrome = (() => {
           return functionNode;
         }
         function addPrimitiveAttributeIfMatch(fnode, path) {
-          if (!fnode.node.attribute || fnode.node.value == void 0)
-            return;
-          if (fnode.node.child || fnode.node.filter)
-            return;
-          if (!Object.hasOwn(path.node, fnode.node.value))
-            return;
+          if (!fnode.node.attribute || fnode.node.value == void 0) return;
+          if (fnode.node.child || fnode.node.filter) return;
+          if (!Object.hasOwn(path.node, fnode.node.value)) return;
           const nodes = getPrimitiveChildren(fnode.node.value, path);
-          if (nodes.length == 0)
-            return;
-          log?.debug("PRIMITIVE", fnode.node.value, nodes);
+          if (nodes.length == 0) return;
+          log2?.debug("PRIMITIVE", fnode.node.value, nodes);
           fnode.result.push(...nodes);
         }
         function evaluateFilter(filter, path) {
-          log?.debug("EVALUATING FILTER", filter, breadCrumb(path));
+          log2?.debug("EVALUATING FILTER", filter, breadCrumb(path));
           if ("type" in filter) {
-            if (filter.type == parseQuery_1.NodeType.AND) {
+            if (filter.type == NodeType.AND) {
               const left = evaluateFilter(filter.left, path);
               if (left.length == 0) {
                 return [];
@@ -9628,7 +9593,7 @@ var retirechrome = (() => {
               const r = evaluateFilter(filter.right, path);
               return r;
             }
-            if (filter.type == parseQuery_1.NodeType.OR) {
+            if (filter.type == NodeType.OR) {
               const left = evaluateFilter(filter.left, path);
               if (left.length > 0) {
                 return left;
@@ -9636,55 +9601,48 @@ var retirechrome = (() => {
               const r = evaluateFilter(filter.right, path);
               return r;
             }
-            if (filter.type == parseQuery_1.NodeType.EQUALS) {
+            if (filter.type == NodeType.EQUALS) {
               const left = evaluateFilter(filter.left, path);
               const right = evaluateFilter(filter.right, path);
               if (right.length > 3) {
                 const rightSet = new Set(right);
                 const r2 = [];
                 for (let i = 0; i < left.length; i++) {
-                  if (rightSet.has(left[i]))
-                    r2.push(left[i]);
+                  if (rightSet.has(left[i])) r2.push(left[i]);
                 }
                 return r2;
               }
               const r = [];
               for (let i = 0; i < left.length; i++) {
-                if (right.includes(left[i]))
-                  r.push(left[i]);
+                if (right.includes(left[i])) r.push(left[i]);
               }
               return r;
             }
             throw new Error("Unknown filter type: " + filter.type);
           }
-          if (filter.node.type == parseQuery_1.NodeType.PARENT) {
+          if (filter.node.type == NodeType.PARENT) {
             const r = resolveFilterWithParent(filter.node, path);
             return r;
           }
           return filter.result;
         }
         function resolveBinding(path) {
-          if (!(0, nodeutils_1.isIdentifier)(path.node))
-            return void 0;
-          log?.debug("RESOLVING BINDING FOR ", path.node);
+          if (!isIdentifier(path.node)) return void 0;
+          log2?.debug("RESOLVING BINDING FOR ", path.node);
           const name = path.node.name;
-          if (name == void 0 || typeof name != "string")
-            return void 0;
+          if (name == void 0 || typeof name != "string") return void 0;
           const binding = getBinding(path.scopeId, name);
-          if (!binding)
-            return void 0;
-          log?.debug("THIS IS THE BINDING", binding);
+          if (!binding) return void 0;
+          log2?.debug("THIS IS THE BINDING", binding);
           return binding.path;
         }
         function resolveFilterWithParent(node, path) {
           let startNode = node;
           let startPath = path;
-          while (startNode.type == parseQuery_1.NodeType.PARENT) {
-            if (!startNode.child)
-              throw new Error("Parent filter must have child");
-            if (!startPath.parentPath)
-              return [];
-            log?.debug("STEP OUT", startNode, breadCrumb(startPath));
+          while (startNode.type == NodeType.PARENT) {
+            if (!startNode.child) throw new Error("Parent filter must have child");
+            if (!startPath.parentPath) return [];
+            log2?.debug("STEP OUT", startNode, breadCrumb(startPath));
             startNode = startNode.child;
             startPath = startPath.parentPath;
           }
@@ -9696,48 +9654,40 @@ var retirechrome = (() => {
           let startNode = node;
           const startPath = path;
           let paths = [startPath];
-          while (startNode.attribute && startNode.type == parseQuery_1.NodeType.CHILD) {
+          while (startNode.attribute && startNode.type == NodeType.CHILD) {
             const lookup = startNode.value;
-            if (!lookup)
-              throw new Error("Selector must have a value");
+            if (!lookup) throw new Error("Selector must have a value");
             const nodes = [];
             for (let i = 0; i < paths.length; i++) {
               const p = paths[i];
-              if (!(0, nodeutils_1.isNodePath)(p))
-                continue;
+              if (!isNodePath(p)) continue;
               const arr = getPrimitiveChildrenOrNodePaths(lookup, p);
               for (let j = 0; j < arr.length; j++) {
                 nodes.push(arr[j]);
               }
             }
-            if (nodes.length == 0)
-              return [];
+            if (nodes.length == 0) return [];
             paths = nodes;
             if (startNode.resolve) {
               const resolved = [];
               for (let i = 0; i < paths.length; i++) {
                 const p = paths[i];
-                if (!(0, nodeutils_1.isNodePath)(p))
-                  continue;
+                if (!isNodePath(p)) continue;
                 const binding = resolveBinding(p);
-                if (!binding)
-                  continue;
+                if (!binding) continue;
                 const children = getChildren("init", binding);
                 for (let j = 0; j < children.length; j++) {
                   resolved.push(children[j]);
                 }
               }
-              if (resolved.length > 0)
-                paths = resolved;
+              if (resolved.length > 0) paths = resolved;
             } else if (startNode.binding) {
               const bindings = [];
               for (let i = 0; i < paths.length; i++) {
                 const p = paths[i];
-                if (!(0, nodeutils_1.isNodePath)(p))
-                  continue;
+                if (!isNodePath(p)) continue;
                 const binding = resolveBinding(p);
-                if (binding)
-                  bindings.push(binding);
+                if (binding) bindings.push(binding);
               }
               paths = bindings;
             }
@@ -9746,8 +9696,7 @@ var retirechrome = (() => {
               const filtered = [];
               for (let i = 0; i < paths.length; i++) {
                 const p = paths[i];
-                if (!(0, nodeutils_1.isNodePath)(p))
-                  continue;
+                if (!isNodePath(p)) continue;
                 if (travHandle({ subquery: filter }, p).subquery.length > 0) {
                   filtered.push(p);
                 }
@@ -9758,7 +9707,7 @@ var retirechrome = (() => {
               const results = new Array(paths.length);
               for (let i = 0; i < paths.length; i++) {
                 const p = paths[i];
-                results[i] = (0, nodeutils_1.isPrimitive)(p) ? p : p.node;
+                results[i] = isPrimitive(p) ? p : p.node;
               }
               return results;
             }
@@ -9766,7 +9715,7 @@ var retirechrome = (() => {
           }
           const result = [];
           for (const path2 of paths) {
-            if ((0, nodeutils_1.isNodePath)(path2)) {
+            if (isNodePath(path2)) {
               if (memo.has(startNode) && memo.get(startNode).has(path2)) {
                 const cached = memo.get(startNode).get(path2);
                 for (let i = 0; i < cached.length; i++) {
@@ -9775,8 +9724,7 @@ var retirechrome = (() => {
               } else {
                 const subQueryKey = "subquery-" + subQueryCounter++;
                 const subQueryResult = travHandle({ [subQueryKey]: startNode }, path2)[subQueryKey];
-                if (!memo.has(startNode))
-                  memo.set(startNode, /* @__PURE__ */ new Map());
+                if (!memo.has(startNode)) memo.set(startNode, /* @__PURE__ */ new Map());
                 memo.get(startNode)?.set(path2, subQueryResult);
                 for (let i = 0; i < subQueryResult.length; i++) {
                   result.push(subQueryResult[i]);
@@ -9784,7 +9732,7 @@ var retirechrome = (() => {
               }
             }
           }
-          log?.debug("DIRECT TRAV RESOLVE RESULT", result);
+          log2?.debug("DIRECT TRAV RESOLVE RESULT", result);
           return result;
         }
         function addResultIfTokenMatch(fnode, path, state) {
@@ -9794,10 +9742,8 @@ var retirechrome = (() => {
           if (nodeFilters) {
             for (let i = 0; i < nodeFilters.length; i++) {
               const f = nodeFilters[i];
-              if (f.qNode !== fnode.node)
-                continue;
-              if (f.node !== path.node)
-                continue;
+              if (f.qNode !== fnode.node) continue;
+              if (f.node !== path.node) continue;
               filters.push(f);
             }
             for (let i = 0; i < filters.length; i++) {
@@ -9806,8 +9752,7 @@ var retirechrome = (() => {
                 matchingFilters.push(f);
               }
             }
-            if (filters.length > 0 && matchingFilters.length == 0)
-              return;
+            if (filters.length > 0 && matchingFilters.length == 0) return;
           }
           if (fnode.node.resolve) {
             const binding = resolveBinding(path);
@@ -9834,13 +9779,12 @@ var retirechrome = (() => {
             }
           } else if (!fnode.node.child) {
             fnode.result.push(path.node);
-          } else if (fnode.node.child.type == parseQuery_1.NodeType.FUNCTION) {
+          } else if (fnode.node.child.type == NodeType.FUNCTION) {
             const functionCallResult = state.functionCalls[state.depth].find((f) => f.node == fnode.node);
-            if (!functionCallResult)
-              throw new Error("Did not find expected function call for " + fnode.node.child.function);
+            if (!functionCallResult) throw new Error("Did not find expected function call for " + fnode.node.child.function);
             resolveFunctionCalls(fnode, functionCallResult, path, state);
           } else if (matchingFilters.length > 0) {
-            log?.debug("HAS MATCHING FILTER", fnode.result.length, matchingFilters.length, breadCrumb(path));
+            log2?.debug("HAS MATCHING FILTER", fnode.result.length, matchingFilters.length, breadCrumb(path));
             for (let i = 0; i < matchingFilters.length; i++) {
               const filterResult = matchingFilters[i].result;
               for (let j = 0; j < filterResult.length; j++) {
@@ -9860,8 +9804,8 @@ var retirechrome = (() => {
               parameterResults.push(p.result);
             }
           }
-          const functionResult = exports.functions[functionCallResult.functionCall.function].fn(parameterResults);
-          log?.debug("PARAMETER RESULTS", functionCallResult.functionCall.function, parameterResults, functionResult);
+          const functionResult = functions[functionCallResult.functionCall.function].fn(parameterResults);
+          log2?.debug("PARAMETER RESULTS", functionCallResult.functionCall.function, parameterResults, functionResult);
           for (let i = 0; i < functionResult.length; i++) {
             fnode.result.push(functionResult[i]);
           }
@@ -9914,7 +9858,7 @@ var retirechrome = (() => {
               }
             },
             exit(path, state2) {
-              log?.debug("EXIT", breadCrumb(path));
+              log2?.debug("EXIT", breadCrumb(path));
               const childAtDepthPlusOne = state2.child[state2.depth + 1];
               for (let i = 0; i < childAtDepthPlusOne.length; i++) {
                 addPrimitiveAttributeIfMatch(childAtDepthPlusOne[i], path);
@@ -9963,17 +9907,16 @@ var retirechrome = (() => {
       function multiQuery(code, namedQueries, returnAST) {
         const start = Date.now();
         const ast = typeof code == "string" ? parseSource(code) : code;
-        if (ast == null)
-          throw new Error("Could not pase code");
+        if (ast == null) throw new Error("Could not pase code");
         const queries = {};
         const entries = Object.entries(namedQueries);
         for (let i = 0; i < entries.length; i++) {
           const [name, queryStr] = entries[i];
-          queries[name] = (0, parseQuery_1.parse)(queryStr);
+          queries[name] = parse(queryStr);
         }
         const querier = createQuerier();
         const result = querier.beginHandle(queries, ast);
-        log?.debug("Query time: ", Date.now() - start);
+        log2?.debug("Query time: ", Date.now() - start);
         if (returnAST) {
           return { ...result, __AST: ast };
         }
@@ -9982,9 +9925,9 @@ var retirechrome = (() => {
       function parseSource(source, optimize = true) {
         const parsingOptions = optimize ? { loc: false, ranges: false } : { loc: true, ranges: true };
         try {
-          return (0, meriyah_1.parseScript)(source, { module: true, next: true, ...parsingOptions });
+          return (0, import_meriyah.parseScript)(source, { module: true, next: true, ...parsingOptions });
         } catch (e) {
-          return (0, meriyah_1.parseScript)(source, { module: false, next: true, ...parsingOptions, webcompat: true });
+          return (0, import_meriyah.parseScript)(source, { module: false, next: true, ...parsingOptions, webcompat: true });
         }
       }
       function createTraverser() {
@@ -10006,12 +9949,10 @@ var retirechrome = (() => {
               if (currentScope.bindings[name]) {
                 return currentScope.bindings[name];
               }
-              if (currentScope.parentScopeId === -1)
-                break;
+              if (currentScope.parentScopeId === -1) break;
               currentScope = scopes.get(currentScope.parentScopeId);
             } else {
-              if (currentScope === -1 || currentScope == void 0)
-                break;
+              if (currentScope === -1 || currentScope == void 0) break;
               currentScope = scopes.get(currentScope);
             }
           }
@@ -10047,11 +9988,11 @@ var retirechrome = (() => {
         function getPrimitiveChildren(key, path) {
           if (key in path.node) {
             const r = path.node[key];
-            const arr = (0, utils_1.toArray)(r);
+            const arr = toArray(r);
             const result = [];
             for (let i = 0; i < arr.length; i++) {
               const item = arr[i];
-              if ((0, utils_1.isDefined)(item) && (0, nodeutils_1.isPrimitive)(item)) {
+              if (isDefined(item) && isPrimitive(item)) {
                 result.push(item);
               }
             }
@@ -10067,12 +10008,12 @@ var retirechrome = (() => {
               const result = new Array(len);
               for (let i = 0; i < len; i++) {
                 const n = r[i];
-                result[i] = (0, nodeutils_1.isPrimitive)(n) ? n : createNodePath(n, i, key, path.scopeId, path.functionScopeId, path);
+                result[i] = isPrimitive(n) ? n : createNodePath(n, i, key, path.scopeId, path.functionScopeId, path);
               }
               return result;
             } else if (r != void 0) {
               return [
-                (0, nodeutils_1.isPrimitive)(r) ? r : createNodePath(r, key, key, path.scopeId, path.functionScopeId, path)
+                isPrimitive(r) ? r : createNodePath(r, key, key, path.scopeId, path.functionScopeId, path)
               ];
             }
           }
@@ -10082,17 +10023,14 @@ var retirechrome = (() => {
         function createNodePath(node, key, parentKey, scopeId, functionScopeId, nodePath) {
           if (nodePathMap.has(node)) {
             const path2 = nodePathMap.get(node);
-            if (nodePath && (0, nodeutils_1.isExportSpecifier)(nodePath.node) && key == "exported" && path2.key == "local") {
+            if (nodePath && isExportSpecifier(nodePath.node) && key == "exported" && path2.key == "local") {
               path2.key = "exported";
               path2.parentPath = nodePath;
               return path2;
             }
-            if (key != void 0)
-              path2.key = typeof key == "number" ? key.toString() : key;
-            if (parentKey != void 0)
-              path2.parentKey = parentKey;
-            if (nodePath != void 0)
-              path2.parentPath = nodePath;
+            if (key != void 0) path2.key = typeof key == "number" ? key.toString() : key;
+            if (parentKey != void 0) path2.parentKey = parentKey;
+            if (nodePath != void 0) path2.parentPath = nodePath;
             return path2;
           }
           const finalScope = (node.extra && node.extra.scopeId != void 0 ? node.extra.scopeId : scopeId) ?? createScope();
@@ -10105,7 +10043,7 @@ var retirechrome = (() => {
             key: typeof key == "number" ? key.toString() : key,
             parentKey
           };
-          if ((0, nodeutils_1.isNode)(node)) {
+          if (isNode(node)) {
             nodePathMap.set(node, path);
           }
           nodePathsCreated[node.type] = (nodePathsCreated[node.type] ?? 0) + 1;
@@ -10114,19 +10052,16 @@ var retirechrome = (() => {
         }
         function registerBinding(stack, scopeId, functionScopeId, key, parentKey) {
           const node = stack[stack.length - 1];
-          if (!(0, nodeutils_1.isIdentifier)(node))
-            return;
+          if (!isIdentifier(node)) return;
           const parentNode = stack[stack.length - 2];
-          if ((0, nodeutils_1.isAssignmentExpression)(parentNode) || (0, nodeutils_1.isMemberExpression)(parentNode) || (0, nodeutils_1.isUpdateExpression)(parentNode) || (0, nodeutils_1.isExportSpecifier)(parentNode))
-            return;
+          if (isAssignmentExpression(parentNode) || isMemberExpression(parentNode) || isUpdateExpression(parentNode) || isExportSpecifier(parentNode)) return;
           const grandParentNode = stack[stack.length - 3];
-          if (!(0, nodeutils_1.isBinding)(node, parentNode, grandParentNode))
-            return;
-          if (key == "id" && !(0, nodeutils_1.isVariableDeclarator)(parentNode)) {
+          if (!isBinding(node, parentNode, grandParentNode)) return;
+          if (key == "id" && !isVariableDeclarator(parentNode)) {
             setBinding(functionScopeId, node.name, { path: createNodePath(node, void 0, void 0, scopeId, functionScopeId) });
             return;
           }
-          if ((0, nodeutils_1.isVariableDeclarator)(parentNode) && (0, nodeutils_1.isVariableDeclaration)(grandParentNode)) {
+          if (isVariableDeclarator(parentNode) && isVariableDeclaration(grandParentNode)) {
             if (grandParentNode.kind == "var") {
               setBinding(functionScopeId, node.name, { path: createNodePath(parentNode, void 0, void 0, scopeId, functionScopeId) });
               return;
@@ -10135,38 +10070,34 @@ var retirechrome = (() => {
               return;
             }
           }
-          if ((0, nodeutils_1.isScope)(node, parentNode)) {
+          if (isScope(node, parentNode)) {
             setBinding(scopeId, node.name, { path: createNodePath(node, key, parentKey, scopeId, functionScopeId) });
           }
         }
         let bindingNodesVisited = 0;
         function registerBindings(stack, scopeId, functionScopeId) {
           const node = stack[stack.length - 1];
-          if (!(0, nodeutils_1.isNode)(node))
-            return;
-          if (node.extra?.scopeId != void 0)
-            return;
+          if (!isNode(node)) return;
+          if (node.extra?.scopeId != void 0) return;
           node.extra = node.extra ?? {};
           node.extra.scopeId = scopeId;
           bindingNodesVisited++;
-          const keys = nodeutils_1.VISITOR_KEYS[node.type];
-          if (keys.length == 0)
-            return;
+          const keys = VISITOR_KEYS[node.type];
+          if (keys.length == 0) return;
           let childScopeId = scopeId;
-          if ((0, nodeutils_1.isScopable)(node)) {
+          if (isScopable(node)) {
             childScopeId = createScope(scopeId);
           }
           for (let keyIdx = 0; keyIdx < keys.length; keyIdx++) {
             const key = keys[keyIdx];
             const childNodes = node[key];
-            const children = (0, utils_1.toArray)(childNodes);
+            const children = toArray(childNodes);
             for (let i = 0; i < children.length; i++) {
               const child = children[i];
-              if (!(0, utils_1.isDefined)(child) || !(0, nodeutils_1.isNode)(child))
-                continue;
-              const f = key === "body" && ((0, nodeutils_1.isFunctionDeclaration)(node) || (0, nodeutils_1.isFunctionExpression)(node)) ? childScopeId : functionScopeId;
+              if (!isDefined(child) || !isNode(child)) continue;
+              const f = key === "body" && (isFunctionDeclaration(node) || isFunctionExpression(node)) ? childScopeId : functionScopeId;
               stack.push(child);
-              if ((0, nodeutils_1.isIdentifier)(child)) {
+              if (isIdentifier(child)) {
                 const k = Array.isArray(childNodes) ? i : key;
                 registerBinding(stack, childScopeId, f, k, key);
               } else {
@@ -10182,11 +10113,10 @@ var retirechrome = (() => {
         }
         function traverseInner(node, visitor, scopeId, functionScopeId, state, path) {
           const nodePath = path ?? createNodePath(node, void 0, void 0, scopeId, functionScopeId);
-          const keys = nodeutils_1.VISITOR_KEYS[node.type];
+          const keys = VISITOR_KEYS[node.type];
           if (nodePath.parentPath) {
             const stack = [];
-            if (nodePath.parentPath.parentPath?.node)
-              stack.push(nodePath.parentPath.parentPath.node);
+            if (nodePath.parentPath.parentPath?.node) stack.push(nodePath.parentPath.parentPath.node);
             stack.push(nodePath.parentPath.node, nodePath.node);
             registerBindings(stack, nodePath.scopeId, nodePath.functionScopeId);
           }
@@ -10203,7 +10133,7 @@ var retirechrome = (() => {
             const nodePaths = [];
             for (let i = 0; i < children.length; i++) {
               const child = children[i];
-              if ((0, nodeutils_1.isNode)(child)) {
+              if (isNode(child)) {
                 const childPath = createNodePath(child, Array.isArray(childNodes) ? i : key, key, nodePath.scopeId, nodePath.functionScopeId, nodePath);
                 nodePaths.push(childPath);
               }
@@ -10221,10 +10151,10 @@ var retirechrome = (() => {
           const fscope = path?.functionScopeId ?? node.extra?.functionScopeId ?? scopeId;
           traverseInner(node, visitor, scopeId, fscope, state, path);
           if (!sOut.includes(scopeIdCounter)) {
-            log?.debug("Scopes created", scopeIdCounter, " Scopes removed", removedScopes, "Paths created", pathsCreated, bindingNodesVisited);
+            log2?.debug("Scopes created", scopeIdCounter, " Scopes removed", removedScopes, "Paths created", pathsCreated, bindingNodesVisited);
             sOut.push(scopeIdCounter);
             const k = Object.fromEntries(Object.entries(nodePathsCreated).sort((a, b) => a[1] - b[1]));
-            log?.debug("Node paths created", k);
+            log2?.debug("Node paths created", k);
           }
         }
         return {
@@ -10421,7 +10351,7 @@ var retirechrome = (() => {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.deepScan = deepScan;
-      var astronomical_1 = require_cjs();
+      var astronomical_1 = require_lib();
       var retire_1 = require_retire();
       function deepScan(content, repo) {
         const astQueries = {};
@@ -10505,7 +10435,7 @@ var retirechrome = (() => {
   });
 
   // node_modules/hash.js/lib/hash/utils.js
-  var require_utils2 = __commonJS({
+  var require_utils = __commonJS({
     "node_modules/hash.js/lib/hash/utils.js"(exports) {
       "use strict";
       var assert = require_minimalistic_assert();
@@ -10753,7 +10683,7 @@ var retirechrome = (() => {
   var require_common = __commonJS({
     "node_modules/hash.js/lib/hash/common.js"(exports) {
       "use strict";
-      var utils = require_utils2();
+      var utils = require_utils();
       var assert = require_minimalistic_assert();
       function BlockHash() {
         this.pending = null;
@@ -10832,7 +10762,7 @@ var retirechrome = (() => {
   var require_common2 = __commonJS({
     "node_modules/hash.js/lib/hash/sha/common.js"(exports) {
       "use strict";
-      var utils = require_utils2();
+      var utils = require_utils();
       var rotr32 = utils.rotr32;
       function ft_1(s, x, y, z) {
         if (s === 0)
@@ -10878,7 +10808,7 @@ var retirechrome = (() => {
   var require__ = __commonJS({
     "node_modules/hash.js/lib/hash/sha/1.js"(exports, module) {
       "use strict";
-      var utils = require_utils2();
+      var utils = require_utils();
       var common = require_common();
       var shaCommon = require_common2();
       var rotl32 = utils.rotl32;
@@ -11224,6 +11154,25 @@ Upgrade to version 1.9.0 or later.`,
               },
               {
                 atOrAbove: "1.2.0",
+                below: "3.5.0",
+                cwe: [
+                  "CWE-79"
+                ],
+                severity: "medium",
+                identifiers: {
+                  summary: "Regex in its jQuery.htmlPrefilter sometimes may introduce XSS",
+                  CVE: [
+                    "CVE-2020-11022"
+                  ],
+                  issue: "4642",
+                  githubID: "GHSA-gxr4-xjj5-5px2"
+                },
+                info: [
+                  "https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/"
+                ]
+              },
+              {
+                atOrAbove: "1.12.0",
                 below: "3.5.0",
                 cwe: [
                   "CWE-79"
@@ -13146,6 +13095,23 @@ Upgrade to version 1.9.0 or later.`,
                 info: [
                   "http://prototypejs.org/2008/01/25/prototype-1-6-0-2-bug-fixes-performance-improvements-and-security/",
                   "http://www.cvedetails.com/cve/CVE-2008-7220/"
+                ]
+              },
+              {
+                below: "1.7.4",
+                severity: "high",
+                cwe: [
+                  "CWE-1333"
+                ],
+                identifiers: {
+                  summary: "An issue was discovered in the stripTags and unescapeHTML components in Prototype 1.7.3 where an attacker can cause a Regular Expression Denial of Service (ReDOS) through stripping crafted HTML tags.",
+                  CVE: [
+                    "CVE-2020-27511"
+                  ]
+                },
+                info: [
+                  "https://nvd.nist.gov/vuln/detail/CVE-2020-27511",
+                  "https://github.com/prototypejs/prototype/issues/355"
                 ]
               }
             ],
@@ -16422,6 +16388,148 @@ Upgrade to version 1.9.0 or later.`,
                   "https://www.vulncheck.com/advisories/dompurify-xss-via-missing-rawtext-elements-in-safe-for-xml",
                   "https://www.vulncheck.com/advisories/dompurify-xss-via-missing-rawtext-elements-in-safeforxml"
                 ]
+              },
+              {
+                atOrAbove: "0",
+                below: "3.4.0",
+                severity: "medium",
+                cwe: [
+                  "CWE-783"
+                ],
+                identifiers: {
+                  summary: "## Summary\nIn `src/purify.ts:1117-1123`, `ADD_TAGS` as a function (via `EXTRA_ELEMENT_HANDLING.tagCheck`) bypasses `FORBID_TAGS` due to short-circuit evaluation.\n\nThe condition:\n```\n!(tagCheck(tagName)) && (!ALLOWED_TAGS[tagName] || FORBID_TAGS[tagName])\n```\nWhen `tagCheck(tagName)` returns `true`, the entire condition is `false` and the element is kept \u2014 `FORBID_TAGS[tagName]` is never evaluated.\n\n## Inconsistency\nThis contradicts the attribute-side pattern at line 1214 where `FORBID_ATTR` explicitly wins first:\n```\nif (FORBID_ATTR[lcName]) { continue; }\n```\nFor tags, FORBID should also take precedence over ADD.\n\n## Impact\nApplications using both `ADD_TAGS` as a function and `FORBID_TAGS` simultaneously get unexpected behavior \u2014 forbidden tags are allowed through. Config-dependent but a genuine logic inconsistency.\n\n## Suggested Fix\nCheck `FORBID_TAGS` before `tagCheck`:\n```\nif (FORBID_TAGS[tagName]) { /* remove */ }\nelse if (tagCheck(tagName) || ALLOWED_TAGS[tagName]) { /* keep */ }\n```\n\n## Affected Version\nv3.3.3 (commit 883ac15)",
+                  githubID: "GHSA-39q2-94rc-95cp"
+                },
+                info: [
+                  "https://github.com/cure53/DOMPurify/security/advisories/GHSA-39q2-94rc-95cp"
+                ]
+              },
+              {
+                atOrAbove: "0",
+                below: "3.4.0",
+                severity: "medium",
+                cwe: [
+                  "CWE-183",
+                  "CWE-79"
+                ],
+                identifiers: {
+                  summary: `There is an inconsistency between FORBID_TAGS and FORBID_ATTR handling when function-based ADD_TAGS is used.
+
+Commit [c361baa](https://github.com/cure53/DOMPurify/commit/c361baa18dbdcb3344a41110f4c48ad85bf48f80) added an early exit for FORBID_ATTR at line 1214:
+
+    /* FORBID_ATTR must always win, even if ADD_ATTR predicate would allow it */
+    if (FORBID_ATTR[lcName]) {
+      return false;
+    }
+
+The same fix was not applied to FORBID_TAGS. At line 1118-1123, when EXTRA_ELEMENT_HANDLING.tagCheck returns true, the short-circuit evaluation skips the FORBID_TAGS check entirely:
+
+    if (
+      !(
+        EXTRA_ELEMENT_HANDLING.tagCheck instanceof Function &&
+        EXTRA_ELEMENT_HANDLING.tagCheck(tagName)  // true -> short-circuits
+      ) &&
+      (!ALLOWED_TAGS[tagName] || FORBID_TAGS[tagName])  // never evaluated
+    ) {
+
+This allows forbidden elements to survive sanitization with their attributes intact.
+
+PoC (tested against current HEAD in Node.js + jsdom):
+
+    const DOMPurify = createDOMPurify(window);
+
+    DOMPurify.sanitize(
+      '<iframe src="https://evil.com"></iframe>',
+      {
+        ADD_TAGS: function(tag) { return true; },
+        FORBID_TAGS: ['iframe']
+      }
+    );
+    // Returns: '<iframe src="https://evil.com"></iframe>'
+    // Expected: '' (iframe forbidden)
+
+    DOMPurify.sanitize(
+      '<form action="https://evil.com/steal"><input name=password></form>',
+      {
+        ADD_TAGS: function(tag) { return true; },
+        FORBID_TAGS: ['form']
+      }
+    );
+    // Returns: '<form action="https://evil.com/steal"><input name="password"></form>'
+    // Expected: '<input name="password">' (form forbidden)
+
+Confirmed affected: iframe, object, embed, form. The src/action/data attributes survive because attribute sanitization runs separately and allows these URLs.
+
+Compare with FORBID_ATTR which correctly wins:
+
+    DOMPurify.sanitize(
+      '<p onclick="alert(1)">hello</p>',
+      {
+        ADD_ATTR: function(attr) { return true; },
+        FORBID_ATTR: ['onclick']
+      }
+    );
+    // Returns: '<p>hello</p>' (onclick correctly removed)
+
+Suggested fix: add FORBID_TAGS early exit before the tagCheck evaluation, mirroring line 1214:
+
+    /* FORBID_TAGS must always win, even if ADD_TAGS predicate would allow it */
+    if (FORBID_TAGS[tagName]) {
+      // proceed to removal logic
+    }
+
+This requires function-based ADD_TAGS in the config, which is uncommon. But the asymmetry with the FORBID_ATTR fix is clear, and the impact includes iframe and form injection with external URLs.
+
+Reporter: Koda Reef`,
+                  githubID: "GHSA-h7mw-gpvr-xq4m",
+                  CVE: [
+                    "CVE-2026-41240"
+                  ]
+                },
+                info: [
+                  "https://github.com/cure53/DOMPurify/security/advisories/GHSA-h7mw-gpvr-xq4m",
+                  "https://github.com/cure53/DOMPurify/releases/tag/3.4.0"
+                ]
+              },
+              {
+                atOrAbove: "1.0.10",
+                below: "3.4.0",
+                severity: "medium",
+                cwe: [
+                  "CWE-1289",
+                  "CWE-79"
+                ],
+                identifiers: {
+                  summary: "## Summary\n\n| Field | Value |\n|:------|:------|\n| **Severity** | Medium |\n| **Affected** | DOMPurify `main` at [`883ac15`](https://github.com/cure53/DOMPurify/tree/883ac15d47f907cb1a3b5a152fe90c4d8c10f9e6), introduced in v1.0.10 ([`7fc196db`](https://github.com/cure53/DOMPurify/commit/7fc196db0b42a0c360262dba0cc39c9c91bfe1ec)) |\n\n`SAFE_FOR_TEMPLATES` strips `{{...}}` expressions from untrusted HTML. This works in string mode but not with `RETURN_DOM` or `RETURN_DOM_FRAGMENT`, allowing XSS via template-evaluating frameworks like Vue 2.\n\n## Technical Details\n\nDOMPurify strips template expressions in two passes:\n\n1. **Per-node** \u2014 each text node is checked during the tree walk ([`purify.ts:1179-1191`](https://github.com/cure53/DOMPurify/blob/883ac15d47f907cb1a3b5a152fe90c4d8c10f9e6/src/purify.ts#L1179-L1191)):\n\n```js\n// pass #1: runs on every text node during tree walk\nif (SAFE_FOR_TEMPLATES && currentNode.nodeType === NODE_TYPE.text) {\n  content = currentNode.textContent;\n  content = content.replace(MUSTACHE_EXPR, ' ');  // {{...}} -> ' '\n  content = content.replace(ERB_EXPR, ' ');        // <%...%> -> ' '\n  content = content.replace(TMPLIT_EXPR, ' ');      // ${...  -> ' '\n  currentNode.textContent = content;\n}\n```\n\n2. **Final string scrub** \u2014 after serialization, the full HTML string is scrubbed again ([`purify.ts:1679-1683`](https://github.com/cure53/DOMPurify/blob/883ac15d47f907cb1a3b5a152fe90c4d8c10f9e6/src/purify.ts#L1679-L1683)). This is the safety net that catches expressions that only form after the DOM settles.\n\nThe `RETURN_DOM` path returns before pass #2 ever runs ([`purify.ts:1637-1661`](https://github.com/cure53/DOMPurify/blob/883ac15d47f907cb1a3b5a152fe90c4d8c10f9e6/src/purify.ts#L1637-L1661)):\n\n```js\n// purify.ts (simplified)\n\nif (RETURN_DOM) {\n  // ... build returnNode ...\n  return returnNode;        // <-- exits here, pass #2 never runs\n}\n\n// pass #2: only reached by string-mode callers\nif (SAFE_FOR_TEMPLATES) {\n  serializedHTML = serializedHTML.replace(MUSTACHE_EXPR, ' ');\n}\nreturn serializedHTML;\n```\n\nThe payload `{<foo></foo>{constructor.constructor('alert(1)')()}<foo></foo>}` exploits this:\n\n1. Parser creates: `TEXT(\"{\")` \u2192 `<foo>` \u2192 `TEXT(\"{payload}\")` \u2192 `<foo>` \u2192 `TEXT(\"}\")` \u2014 no single node contains `{{`, so pass #1 misses it\n2. `<foo>` is not allowed, so DOMPurify removes it but keeps surrounding text\n3. The three text nodes are now adjacent \u2014 `.outerHTML` reads them as `{{payload}}`, which Vue 2 compiles and executes\n\n## Reproduce\n\nOpen the following html in any browser and `alert(1)` pops up.\n\n```html\n<!DOCTYPE html>\n<html>\n\n<body>\n  <script src=\"https://cdn.jsdelivr.net/npm/dompurify@3.3.3/dist/purify.min.js\"><\/script>\n  <script src=\"https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.min.js\"><\/script>\n  <script>\n    var dirty = '<div id=\"app\">{<foo></foo>{constructor.constructor(\"alert(1)\")()}<foo></foo>}</div>';\n    var dom = DOMPurify.sanitize(dirty, { SAFE_FOR_TEMPLATES: true, RETURN_DOM: true });\n    document.body.appendChild(dom.firstChild);\n    new Vue({ el: '#app' });\n  <\/script>\n</body>\n\n</html>\n```\n\n## Impact\n\nAny application that sanitizes attacker-controlled HTML with `SAFE_FOR_TEMPLATES: true` and `RETURN_DOM: true` (or `RETURN_DOM_FRAGMENT: true`), then mounts the result into a template-evaluating framework, is vulnerable to XSS.\n\n## Recommendations\n\n### Fix\n\n`normalize()` merges the split text nodes, then the same regex from the string path catches the expression. Placed before the fragment logic, this fixes both `RETURN_DOM` and `RETURN_DOM_FRAGMENT`.\n\n```diff\n     if (RETURN_DOM) {\n+      if (SAFE_FOR_TEMPLATES) {\n+        body.normalize();\n+        let html = body.innerHTML;\n+        arrayForEach([MUSTACHE_EXPR, ERB_EXPR, TMPLIT_EXPR], (expr: RegExp) => {\n+          html = stringReplace(html, expr, ' ');\n+        });\n+        body.innerHTML = html;\n+      }\n+\n       if (RETURN_DOM_FRAGMENT) {\n         returnNode = createDocumentFragment.call(body.ownerDocument);\n```",
+                  githubID: "GHSA-crv5-9vww-q3g8",
+                  CVE: [
+                    "CVE-2026-41239"
+                  ]
+                },
+                info: [
+                  "https://github.com/cure53/DOMPurify/security/advisories/GHSA-crv5-9vww-q3g8",
+                  "https://github.com/cure53/DOMPurify/releases/tag/3.4.0"
+                ]
+              },
+              {
+                atOrAbove: "3.0.1",
+                below: "3.4.0",
+                severity: "medium",
+                cwe: [
+                  "CWE-1321",
+                  "CWE-79"
+                ],
+                identifiers: {
+                  summary: '## Summary\n\nDOMPurify versions 3.0.1 through 3.3.3 (latest) are vulnerable to a prototype pollution-based XSS bypass. When an application uses `DOMPurify.sanitize()` with the default configuration (no `CUSTOM_ELEMENT_HANDLING` option), a prior prototype pollution gadget can inject permissive `tagNameCheck` and `attributeNameCheck` regex values into `Object.prototype`, causing DOMPurify to allow arbitrary custom elements with arbitrary attributes \u2014 including event handlers \u2014 through sanitization.\n\n## Affected Versions\n\n- **3.0.1 through 3.3.3** (current latest) \u2014 all affected\n- **3.0.0 and all 2.x versions** \u2014 NOT affected (used `Object.create(null)` for initialization, no `|| {}` reassignment)\n- The vulnerable `|| {}` reassignment was introduced in the 3.0.0\u21923.0.1 refactor\n- This is **distinct** from GHSA-cj63-jhhr-wcxv (USE_PROFILES Array.prototype pollution, fixed in 3.3.2)\n- This is **distinct** from CVE-2024-45801 / GHSA-mmhx-hmjr-r674 (__depth prototype pollution, fixed in 3.1.3)\n\n## Root Cause\n\nIn `purify.js` at line 590, during config parsing:\n\n```javascript\nCUSTOM_ELEMENT_HANDLING = cfg.CUSTOM_ELEMENT_HANDLING || {};\n```\n\nWhen no `CUSTOM_ELEMENT_HANDLING` is specified in the config (the default usage pattern), `cfg.CUSTOM_ELEMENT_HANDLING` is `undefined`, and the fallback `{}` is used. This plain object inherits from `Object.prototype`.\n\nLines 591-598 then check `cfg.CUSTOM_ELEMENT_HANDLING` (the original config property) \u2014 which is `undefined` \u2014 so the conditional blocks that would set `tagNameCheck` and `attributeNameCheck` from the config are never entered.\n\nAs a result, `CUSTOM_ELEMENT_HANDLING.tagNameCheck` and `CUSTOM_ELEMENT_HANDLING.attributeNameCheck` resolve via the prototype chain. If an attacker has polluted `Object.prototype.tagNameCheck` and `Object.prototype.attributeNameCheck` with permissive values (e.g., `/.*/`), these polluted values flow into DOMPurify\'s custom element validation at lines 973-977 and attribute validation, causing all custom elements and all attributes to be allowed.\n\n## Impact\n\n- **Attack type:** XSS bypass via prototype pollution chain\n- **Prerequisites:** Attacker must have a prototype pollution primitive in the same execution context (e.g., vulnerable version of lodash, jQuery.extend, query-string parser, deep merge utility, or any other PP gadget)\n- **Config required:** Default. No special DOMPurify configuration needed. The standard `DOMPurify.sanitize(userInput)` call is affected.\n- **Payload:** Any HTML custom element (name containing a hyphen) with event handler attributes survives sanitization\n\n## Proof of Concept\n\n```javascript\n// Step 1: Attacker exploits a prototype pollution gadget elsewhere in the application\nObject.prototype.tagNameCheck = /.*/;\nObject.prototype.attributeNameCheck = /.*/;\n\n// Step 2: Application sanitizes user input with DEFAULT config\nconst clean = DOMPurify.sanitize(\'<x-x onfocus=alert(document.cookie) tabindex=0 autofocus>\');\n\n// Step 3: "Sanitized" output still contains the event handler\nconsole.log(clean);\n// Output: <x-x onfocus="alert(document.cookie)" tabindex="0" autofocus="">\n\n// Step 4: When injected into DOM, XSS executes\ndocument.body.innerHTML = clean; // alert() fires\n```\n\n### Tested configurations that are vulnerable:\n\n| Call Pattern | Vulnerable? |\n|---|---|\n| `DOMPurify.sanitize(input)` | YES |\n| `DOMPurify.sanitize(input, {})` | YES |\n| `DOMPurify.sanitize(input, { CUSTOM_ELEMENT_HANDLING: null })` | YES |\n| `DOMPurify.sanitize(input, { CUSTOM_ELEMENT_HANDLING: {} })` | NO (explicit object triggers L591 path) |\n\n## Suggested Fix\n\nChange line 590 from:\n```javascript\nCUSTOM_ELEMENT_HANDLING = cfg.CUSTOM_ELEMENT_HANDLING || {};\n```\n\nTo:\n```javascript\nCUSTOM_ELEMENT_HANDLING = cfg.CUSTOM_ELEMENT_HANDLING || create(null);\n```\n\nThe `create(null)` function (already used elsewhere in DOMPurify, e.g., in `clone()`) creates an object with no prototype, preventing prototype chain inheritance.\n\n### Alternative application-level mitigation:\n\nApplications can protect themselves by always providing an explicit `CUSTOM_ELEMENT_HANDLING` in their config:\n\n```javascript\nDOMPurify.sanitize(input, {\n  CUSTOM_ELEMENT_HANDLING: {\n    tagNameCheck: null,\n    attributeNameCheck: null\n  }\n});\n```\n\n## Timeline\n\n- **2026-04-04:** Vulnerability discovered during automated DOMPurify fuzzing research (Fermat project)\n- **2026-04-04:** Confirmed in Chrome browser with DOMPurify 3.3.3\n- **2026-04-04:** Verified distinct from GHSA-cj63-jhhr-wcxv and CVE-2024-45801\n- **2026-04-04:** Advisory drafted, responsible disclosure initiated\n\n## Credit\n\nhttps://github.com/trace37labs',
+                  githubID: "GHSA-v9jr-rg53-9pgp",
+                  CVE: [
+                    "CVE-2026-41238"
+                  ]
+                },
+                info: [
+                  "https://github.com/cure53/DOMPurify/security/advisories/GHSA-v9jr-rg53-9pgp",
+                  "https://github.com/cure53/DOMPurify/releases/tag/3.4.0"
+                ]
               }
             ],
             extractors: {
@@ -18461,6 +18569,53 @@ Upgrade to version 1.9.0 or later.`,
                 ]
               },
               {
+                atOrAbove: "0",
+                below: "0.31.0",
+                severity: "critical",
+                cwe: [
+                  "CWE-441",
+                  "CWE-918"
+                ],
+                identifiers: {
+                  summary: 'Axios does not correctly handle hostname normalization when checking `NO_PROXY` rules.\nRequests to loopback addresses like `localhost.` (with a trailing dot) or `[::1]` (IPv6 literal) skip `NO_PROXY` matching and go through the configured proxy.\n\nThis goes against what developers expect and lets attackers force requests through a proxy, even if `NO_PROXY` is set up to protect loopback or internal services.\n\nAccording to [RFC 1034 \xA73.1](https://datatracker.ietf.org/doc/html/rfc1034#section-3.1) and [RFC 3986 \xA73.2.2](https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.2), a hostname can have a trailing dot to show it is a fully qualified domain name (FQDN). At the DNS level, `localhost.` is the same as `localhost`. \nHowever, Axios does a literal string comparison instead of normalizing hostnames before checking `NO_PROXY`. This causes requests like `http://localhost.:8080/` and `http://[::1]:8080/` to be incorrectly proxied.\n\nThis issue leads to the possibility of proxy bypass and SSRF vulnerabilities allowing attackers to reach sensitive loopback or internal services despite the configured protections.\n\n---\n\n**PoC**\n\n```js\nimport http from "http";\nimport axios from "axios";\n\nconst proxyPort = 5300;\n\nhttp.createServer((req, res) => {\n  console.log("[PROXY] Got:", req.method, req.url, "Host:", req.headers.host);\n  res.writeHead(200, { "Content-Type": "text/plain" });\n  res.end("proxied");\n}).listen(proxyPort, () => console.log("Proxy", proxyPort));\n\nprocess.env.HTTP_PROXY = `http://127.0.0.1:${proxyPort}`;\nprocess.env.NO_PROXY = "localhost,127.0.0.1,::1";\n\nasync function test(url) {\n  try {\n    await axios.get(url, { timeout: 2000 });\n  } catch {}\n}\n\nsetTimeout(async () => {\n  console.log("\\n[*] Testing http://localhost.:8080/");\n  await test("http://localhost.:8080/"); // goes through proxy\n\n  console.log("\\n[*] Testing http://[::1]:8080/");\n  await test("http://[::1]:8080/"); // goes through proxy\n}, 500);\n```\n\n**Expected:** Requests bypass the proxy (direct to loopback).\n**Actual:** Proxy logs requests for `localhost.` and `[::1]`.\n\n---\n\n**Impact**\n\n* Applications that rely on `NO_PROXY=localhost,127.0.0.1,::1` for protecting loopback/internal access are vulnerable.\n* Attackers controlling request URLs can:\n\n  * Force Axios to send local traffic through an attacker-controlled proxy.\n  * Bypass SSRF mitigations relying on NO\\_PROXY rules.\n  * Potentially exfiltrate sensitive responses from internal services via the proxy.\n  \n  \n---\n\n**Affected Versions**\n\n* Confirmed on Axios **1.12.2** (latest at time of testing).\n* affects all versions that rely on Axios\u2019 current `NO_PROXY` evaluation.\n\n---\n\n**Remediation**\nAxios should normalize hostnames before evaluating `NO_PROXY`, including:\n\n* Strip trailing dots from hostnames (per RFC 3986).\n* Normalize IPv6 literals by removing brackets for matching.',
+                  githubID: "GHSA-3p68-rc4w-qgx5",
+                  CVE: [
+                    "CVE-2025-62718"
+                  ]
+                },
+                info: [
+                  "https://github.com/axios/axios/security/advisories/GHSA-3p68-rc4w-qgx5",
+                  "https://github.com/axios/axios/pull/10661",
+                  "https://github.com/axios/axios/commit/fb3befb6daac6cad26b2e54094d0f2d9e47f24df",
+                  "https://datatracker.ietf.org/doc/html/rfc1034#section-3.1",
+                  "https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.2",
+                  "https://github.com/axios/axios/releases/tag/v1.15.0"
+                ]
+              },
+              {
+                atOrAbove: "0",
+                below: "0.31.0",
+                severity: "critical",
+                cwe: [
+                  "CWE-113",
+                  "CWE-444",
+                  "CWE-918"
+                ],
+                identifiers: {
+                  summary: '# Vulnerability Disclosure: Unrestricted Cloud Metadata Exfiltration via Header Injection Chain\n\n## Summary\nThe Axios library is vulnerable to a specific "Gadget" attack chain that allows **Prototype Pollution** in any third-party dependency to be escalated into **Remote Code Execution (RCE)** or **Full Cloud Compromise** (via AWS IMDSv2 bypass).\n\nWhile Axios patches exist for *preventing check* pollution, the library remains vulnerable to *being used* as a gadget when pollution occurs elsewhere. This is due to a lack of HTTP Header Sanitization (CWE-113) combined with default SSRF capabilities.\n\n**Severity**: Critical (CVSS 9.9)\n**Affected Versions**: All versions (v0.x - v1.x)\n**Vulnerable Component**: `lib/adapters/http.js` (Header Processing)\n\n## Usage of "Helper" Vulnerabilities\nThis vulnerability is unique because it requires **Zero Direct User Input**.\nIf an attacker can pollute `Object.prototype` via *any* other library in the stack (e.g., `qs`, `minimist`, `ini`, `body-parser`), Axios will automatically pick up the polluted properties during its config merge.\n\nBecause Axios does not sanitise these merged header values for CRLF (`\\r\\n`) characters, the polluted property becomes a **Request Smuggling** payload.\n\n## Proof of Concept\n\n### 1. The Setup (Simulated Pollution)\nImagine a scenario where a known vulnerability exists in a query parser. The attacker sends a payload that sets:\n```javascript\nObject.prototype[\'x-amz-target\'] = "dummy\\r\\n\\r\\nPUT /latest/api/token HTTP/1.1\\r\\nHost: 169.254.169.254\\r\\nX-aws-ec2-metadata-token-ttl-seconds: 21600\\r\\n\\r\\nGET /ignore";\n```\n\n### 2. The Gadget Trigger (Safe Code)\nThe application makes a completely safe, hardcoded request:\n```javascript\n// This looks safe to the developer\nawait axios.get(\'https://analytics.internal/pings\'); \n```\n\n### 3. The Execution\nAxios merges the prototype property `x-amz-target` into the request headers. It then writes the header value directly to the socket without validation.\n\n**Resulting HTTP traffic:**\n```http\nGET /pings HTTP/1.1\nHost: analytics.internal\nx-amz-target: dummy\n\nPUT /latest/api/token HTTP/1.1\nHost: 169.254.169.254\nX-aws-ec2-metadata-token-ttl-seconds: 21600\n\nGET /ignore HTTP/1.1\n...\n```\n\n### 4. The Impact (IMDSv2 Bypass)\nThe "Smuggled" second request is a valid `PUT` request to the AWS Metadata Service. It includes the required `X-aws-ec2-metadata-token-ttl-seconds` header (which a normal SSRF cannot send).\nThe Metadata Service returns a session token, allowing the attacker to steal IAM credentials and compromise the cloud account.\n\n## Impact Analysis\n-   **Security Control Bypass**: Defeats AWS IMDSv2 (Session Tokens).\n-   **Authentication Bypass**: Can inject headers (`Cookie`, `Authorization`) to pivot into internal administrative panels.\n-   **Cache Poisoning**: Can inject `Host` headers to poison shared caches.\n\n## Recommended Fix\nValidate all header values in `lib/adapters/http.js` and `xhr.js` before passing them to the underlying request function.\n\n**Patch Suggestion:**\n```javascript\n// In lib/adapters/http.js\nutils.forEach(requestHeaders, function setRequestHeader(val, key) {\n  if (/[\\r\\n]/.test(val)) {\n    throw new Error(\'Security: Header value contains invalid characters\');\n  }\n  // ... proceed to set header\n});\n```\n\n## References\n-   **OWASP**: CRLF Injection (CWE-113)\n\nThis report was generated as part of a security audit of the Axios library.',
+                  githubID: "GHSA-fvcv-3m26-pcqx",
+                  CVE: [
+                    "CVE-2026-40175"
+                  ]
+                },
+                info: [
+                  "https://github.com/axios/axios/security/advisories/GHSA-fvcv-3m26-pcqx",
+                  "https://github.com/axios/axios/pull/10660",
+                  "https://github.com/axios/axios/commit/363185461b90b1b78845dc8a99a1f103d9b122a1",
+                  "https://github.com/axios/axios/releases/tag/v1.15.0"
+                ]
+              },
+              {
                 atOrAbove: "1.0.0",
                 below: "1.6.0",
                 cwe: [
@@ -18572,6 +18727,44 @@ Upgrade to version 1.9.0 or later.`,
                 ]
               },
               {
+                atOrAbove: "0",
+                below: "1.13.2",
+                severity: "medium",
+                cwe: [
+                  "CWE-400"
+                ],
+                identifiers: {
+                  summary: "### Summary\n\nAxios HTTP/2 session cleanup logic contains a state corruption bug that allows a malicious server to crash the client process through concurrent session closures. This denial-of-service vulnerability affects axios versions prior to 1.13.2 when HTTP/2 is enabled.\n\n### Details\n\nThe vulnerability exists in the `Http2Sessions.getSession()` method in `lib/adapters/http.js`. The session cleanup logic contains a control flow error when removing sessions from the sessions array.\n\n**Vulnerable Code:**\n```javascript\nwhile (i--) {\n  if (entries[i][0] === session) {\n    entries.splice(i, 1);\n    if (len === 1) {\n      delete this.sessions[authority];\n      return;\n    }\n  }\n}\n```\n\n**Root Cause:**\nAfter calling `entries.splice(i, 1)` to remove a session, the original code only returned early if `len === 1`. For arrays with multiple entries, the iteration continued after modifying the array, causing undefined behavior and potential crashes when accessing shifted array indices.\n\n**Fixed Code:**\n```javascript\nwhile (i--) {\n  if (entries[i][0] === session) {\n    if (len === 1) {\n      delete this.sessions[authority];\n    } else {\n      entries.splice(i, 1);\n    }\n    return;\n  }\n}\n```\n\nThe fix restructures the control flow to immediately return after removing a session, regardless of whether the array is being emptied or just having one element removed. This prevents continued iteration over a modified array and eliminates the state corruption vulnerability.\n\n**Affected Component:**\n- `lib/adapters/http.js` - Http2Sessions class, session cleanup in connection close handler\n\n### PoC\n\n1. Set up a malicious HTTP/2 server that accepts multiple concurrent connections from an axios client\n2. Establish multiple concurrent HTTP/2 sessions with the axios client\n3. Close all sessions simultaneously with precise timing\n4. The flawed cleanup logic attempts to iterate over and modify the sessions array concurrently\n5. This causes the client to access invalid memory locations, resulting in a process crash\n\n**Prerequisites:**\n- Client must use axios with HTTP/2 enabled\n- Client must connect to attacker-controlled HTTP/2 server\n- Multiple concurrent HTTP/2 sessions must be established\n- Server must close all sessions simultaneously with precise timing\n\n### Impact\n\n**Who is impacted:**\n- Applications using axios with HTTP/2 enabled\n- Applications connecting to untrusted or attacker-controlled HTTP/2 servers\n- Node.js applications using axios for HTTP/2 requests\n\n**Impact Details:**\n- **Denial of Service:** Malicious server can crash the axios client process by accepting and closing multiple concurrent HTTP/2 connections simultaneously\n- **Availability Impact:** Complete loss of availability for the client process through crash (though service may auto-restart)\n- **Scope:** Impact is limited to the single client process making the requests; does not escape to affect other components or systems\n- **No Confidentiality or Integrity Impact:** Vulnerability only causes process crash, no information disclosure or data modification\n\n**CVSS Score:** 5.9 (Medium)\n**CVSS Vector:** CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H\n\n**CWE Classifications:**\n- CWE-400: Uncontrolled Resource Consumption\n- CWE-662: Improper Synchronization",
+                  githubID: "GHSA-qj83-cq47-w5f8",
+                  CVE: [
+                    "CVE-2026-39865"
+                  ]
+                },
+                info: [
+                  "https://github.com/axios/axios/security/advisories/GHSA-qj83-cq47-w5f8",
+                  "https://github.com/axios/axios/releases/tag/v1.13.2"
+                ]
+              },
+              {
+                atOrAbove: "1.13.0",
+                below: "1.13.2",
+                severity: "medium",
+                cwe: [
+                  "CWE-400"
+                ],
+                identifiers: {
+                  summary: "### Summary\n\nAxios HTTP/2 session cleanup logic contains a state corruption bug that allows a malicious server to crash the client process through concurrent session closures. This denial-of-service vulnerability affects axios versions prior to 1.13.2 when HTTP/2 is enabled.\n\n### Details\n\nThe vulnerability exists in the `Http2Sessions.getSession()` method in `lib/adapters/http.js`. The session cleanup logic contains a control flow error when removing sessions from the sessions array.\n\n**Vulnerable Code:**\n```javascript\nwhile (i--) {\n  if (entries[i][0] === session) {\n    entries.splice(i, 1);\n    if (len === 1) {\n      delete this.sessions[authority];\n      return;\n    }\n  }\n}\n```\n\n**Root Cause:**\nAfter calling `entries.splice(i, 1)` to remove a session, the original code only returned early if `len === 1`. For arrays with multiple entries, the iteration continued after modifying the array, causing undefined behavior and potential crashes when accessing shifted array indices.\n\n**Fixed Code:**\n```javascript\nwhile (i--) {\n  if (entries[i][0] === session) {\n    if (len === 1) {\n      delete this.sessions[authority];\n    } else {\n      entries.splice(i, 1);\n    }\n    return;\n  }\n}\n```\n\nThe fix restructures the control flow to immediately return after removing a session, regardless of whether the array is being emptied or just having one element removed. This prevents continued iteration over a modified array and eliminates the state corruption vulnerability.\n\n**Affected Component:**\n- `lib/adapters/http.js` - Http2Sessions class, session cleanup in connection close handler\n\n### PoC\n\n1. Set up a malicious HTTP/2 server that accepts multiple concurrent connections from an axios client\n2. Establish multiple concurrent HTTP/2 sessions with the axios client\n3. Close all sessions simultaneously with precise timing\n4. The flawed cleanup logic attempts to iterate over and modify the sessions array concurrently\n5. This causes the client to access invalid memory locations, resulting in a process crash\n\n**Prerequisites:**\n- Client must use axios with HTTP/2 enabled\n- Client must connect to attacker-controlled HTTP/2 server\n- Multiple concurrent HTTP/2 sessions must be established\n- Server must close all sessions simultaneously with precise timing\n\n### Impact\n\n**Who is impacted:**\n- Applications using axios with HTTP/2 enabled\n- Applications connecting to untrusted or attacker-controlled HTTP/2 servers\n- Node.js applications using axios for HTTP/2 requests\n\n**Impact Details:**\n- **Denial of Service:** Malicious server can crash the axios client process by accepting and closing multiple concurrent HTTP/2 connections simultaneously\n- **Availability Impact:** Complete loss of availability for the client process through crash (though service may auto-restart)\n- **Scope:** Impact is limited to the single client process making the requests; does not escape to affect other components or systems\n- **No Confidentiality or Integrity Impact:** Vulnerability only causes process crash, no information disclosure or data modification\n\n**CVSS Score:** 5.9 (Medium)\n**CVSS Vector:** CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H\n\n**CWE Classifications:**\n- CWE-400: Uncontrolled Resource Consumption\n- CWE-662: Improper Synchronization",
+                  githubID: "GHSA-qj83-cq47-w5f8",
+                  CVE: [
+                    "CVE-2026-39865"
+                  ]
+                },
+                info: [
+                  "https://github.com/axios/axios/security/advisories/GHSA-qj83-cq47-w5f8",
+                  "https://github.com/axios/axios/releases/tag/v1.13.2"
+                ]
+              },
+              {
                 atOrAbove: "1.0.0",
                 below: "1.13.5",
                 severity: "high",
@@ -18593,6 +18786,100 @@ Upgrade to version 1.9.0 or later.`,
                   "https://github.com/axios/axios/commit/d7ff1409c68168d3057fc3891f911b2b92616f9e",
                   "https://github.com/axios/axios/releases/tag/v0.30.3",
                   "https://github.com/axios/axios/releases/tag/v1.13.5"
+                ]
+              },
+              {
+                atOrAbove: "0",
+                below: "1.15.0",
+                severity: "critical",
+                cwe: [
+                  "CWE-441",
+                  "CWE-918"
+                ],
+                identifiers: {
+                  summary: 'Axios does not correctly handle hostname normalization when checking `NO_PROXY` rules.\nRequests to loopback addresses like `localhost.` (with a trailing dot) or `[::1]` (IPv6 literal) skip `NO_PROXY` matching and go through the configured proxy.\n\nThis goes against what developers expect and lets attackers force requests through a proxy, even if `NO_PROXY` is set up to protect loopback or internal services.\n\nAccording to [RFC 1034 \xA73.1](https://datatracker.ietf.org/doc/html/rfc1034#section-3.1) and [RFC 3986 \xA73.2.2](https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.2), a hostname can have a trailing dot to show it is a fully qualified domain name (FQDN). At the DNS level, `localhost.` is the same as `localhost`. \nHowever, Axios does a literal string comparison instead of normalizing hostnames before checking `NO_PROXY`. This causes requests like `http://localhost.:8080/` and `http://[::1]:8080/` to be incorrectly proxied.\n\nThis issue leads to the possibility of proxy bypass and SSRF vulnerabilities allowing attackers to reach sensitive loopback or internal services despite the configured protections.\n\n---\n\n**PoC**\n\n```js\nimport http from "http";\nimport axios from "axios";\n\nconst proxyPort = 5300;\n\nhttp.createServer((req, res) => {\n  console.log("[PROXY] Got:", req.method, req.url, "Host:", req.headers.host);\n  res.writeHead(200, { "Content-Type": "text/plain" });\n  res.end("proxied");\n}).listen(proxyPort, () => console.log("Proxy", proxyPort));\n\nprocess.env.HTTP_PROXY = `http://127.0.0.1:${proxyPort}`;\nprocess.env.NO_PROXY = "localhost,127.0.0.1,::1";\n\nasync function test(url) {\n  try {\n    await axios.get(url, { timeout: 2000 });\n  } catch {}\n}\n\nsetTimeout(async () => {\n  console.log("\\n[*] Testing http://localhost.:8080/");\n  await test("http://localhost.:8080/"); // goes through proxy\n\n  console.log("\\n[*] Testing http://[::1]:8080/");\n  await test("http://[::1]:8080/"); // goes through proxy\n}, 500);\n```\n\n**Expected:** Requests bypass the proxy (direct to loopback).\n**Actual:** Proxy logs requests for `localhost.` and `[::1]`.\n\n---\n\n**Impact**\n\n* Applications that rely on `NO_PROXY=localhost,127.0.0.1,::1` for protecting loopback/internal access are vulnerable.\n* Attackers controlling request URLs can:\n\n  * Force Axios to send local traffic through an attacker-controlled proxy.\n  * Bypass SSRF mitigations relying on NO\\_PROXY rules.\n  * Potentially exfiltrate sensitive responses from internal services via the proxy.\n  \n  \n---\n\n**Affected Versions**\n\n* Confirmed on Axios **1.12.2** (latest at time of testing).\n* affects all versions that rely on Axios\u2019 current `NO_PROXY` evaluation.\n\n---\n\n**Remediation**\nAxios should normalize hostnames before evaluating `NO_PROXY`, including:\n\n* Strip trailing dots from hostnames (per RFC 3986).\n* Normalize IPv6 literals by removing brackets for matching.',
+                  githubID: "GHSA-3p68-rc4w-qgx5",
+                  CVE: [
+                    "CVE-2025-62718"
+                  ]
+                },
+                info: [
+                  "https://github.com/axios/axios/security/advisories/GHSA-3p68-rc4w-qgx5",
+                  "https://github.com/axios/axios/pull/10661",
+                  "https://github.com/axios/axios/commit/fb3befb6daac6cad26b2e54094d0f2d9e47f24df",
+                  "https://datatracker.ietf.org/doc/html/rfc1034#section-3.1",
+                  "https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.2",
+                  "https://github.com/axios/axios/releases/tag/v1.15.0"
+                ]
+              },
+              {
+                atOrAbove: "0",
+                below: "1.15.0",
+                severity: "critical",
+                cwe: [
+                  "CWE-113",
+                  "CWE-444",
+                  "CWE-918"
+                ],
+                identifiers: {
+                  summary: '# Vulnerability Disclosure: Unrestricted Cloud Metadata Exfiltration via Header Injection Chain\n\n## Summary\nThe Axios library is vulnerable to a specific "Gadget" attack chain that allows **Prototype Pollution** in any third-party dependency to be escalated into **Remote Code Execution (RCE)** or **Full Cloud Compromise** (via AWS IMDSv2 bypass).\n\nWhile Axios patches exist for *preventing check* pollution, the library remains vulnerable to *being used* as a gadget when pollution occurs elsewhere. This is due to a lack of HTTP Header Sanitization (CWE-113) combined with default SSRF capabilities.\n\n**Severity**: Critical (CVSS 9.9)\n**Affected Versions**: All versions (v0.x - v1.x)\n**Vulnerable Component**: `lib/adapters/http.js` (Header Processing)\n\n## Usage of "Helper" Vulnerabilities\nThis vulnerability is unique because it requires **Zero Direct User Input**.\nIf an attacker can pollute `Object.prototype` via *any* other library in the stack (e.g., `qs`, `minimist`, `ini`, `body-parser`), Axios will automatically pick up the polluted properties during its config merge.\n\nBecause Axios does not sanitise these merged header values for CRLF (`\\r\\n`) characters, the polluted property becomes a **Request Smuggling** payload.\n\n## Proof of Concept\n\n### 1. The Setup (Simulated Pollution)\nImagine a scenario where a known vulnerability exists in a query parser. The attacker sends a payload that sets:\n```javascript\nObject.prototype[\'x-amz-target\'] = "dummy\\r\\n\\r\\nPUT /latest/api/token HTTP/1.1\\r\\nHost: 169.254.169.254\\r\\nX-aws-ec2-metadata-token-ttl-seconds: 21600\\r\\n\\r\\nGET /ignore";\n```\n\n### 2. The Gadget Trigger (Safe Code)\nThe application makes a completely safe, hardcoded request:\n```javascript\n// This looks safe to the developer\nawait axios.get(\'https://analytics.internal/pings\'); \n```\n\n### 3. The Execution\nAxios merges the prototype property `x-amz-target` into the request headers. It then writes the header value directly to the socket without validation.\n\n**Resulting HTTP traffic:**\n```http\nGET /pings HTTP/1.1\nHost: analytics.internal\nx-amz-target: dummy\n\nPUT /latest/api/token HTTP/1.1\nHost: 169.254.169.254\nX-aws-ec2-metadata-token-ttl-seconds: 21600\n\nGET /ignore HTTP/1.1\n...\n```\n\n### 4. The Impact (IMDSv2 Bypass)\nThe "Smuggled" second request is a valid `PUT` request to the AWS Metadata Service. It includes the required `X-aws-ec2-metadata-token-ttl-seconds` header (which a normal SSRF cannot send).\nThe Metadata Service returns a session token, allowing the attacker to steal IAM credentials and compromise the cloud account.\n\n## Impact Analysis\n-   **Security Control Bypass**: Defeats AWS IMDSv2 (Session Tokens).\n-   **Authentication Bypass**: Can inject headers (`Cookie`, `Authorization`) to pivot into internal administrative panels.\n-   **Cache Poisoning**: Can inject `Host` headers to poison shared caches.\n\n## Recommended Fix\nValidate all header values in `lib/adapters/http.js` and `xhr.js` before passing them to the underlying request function.\n\n**Patch Suggestion:**\n```javascript\n// In lib/adapters/http.js\nutils.forEach(requestHeaders, function setRequestHeader(val, key) {\n  if (/[\\r\\n]/.test(val)) {\n    throw new Error(\'Security: Header value contains invalid characters\');\n  }\n  // ... proceed to set header\n});\n```\n\n## References\n-   **OWASP**: CRLF Injection (CWE-113)\n\nThis report was generated as part of a security audit of the Axios library.',
+                  githubID: "GHSA-fvcv-3m26-pcqx",
+                  CVE: [
+                    "CVE-2026-40175"
+                  ]
+                },
+                info: [
+                  "https://github.com/axios/axios/security/advisories/GHSA-fvcv-3m26-pcqx",
+                  "https://github.com/axios/axios/pull/10660",
+                  "https://github.com/axios/axios/commit/363185461b90b1b78845dc8a99a1f103d9b122a1",
+                  "https://github.com/axios/axios/releases/tag/v1.15.0"
+                ]
+              },
+              {
+                atOrAbove: "1.0.0",
+                below: "1.15.0",
+                severity: "critical",
+                cwe: [
+                  "CWE-441",
+                  "CWE-918"
+                ],
+                identifiers: {
+                  summary: 'Axios does not correctly handle hostname normalization when checking `NO_PROXY` rules.\nRequests to loopback addresses like `localhost.` (with a trailing dot) or `[::1]` (IPv6 literal) skip `NO_PROXY` matching and go through the configured proxy.\n\nThis goes against what developers expect and lets attackers force requests through a proxy, even if `NO_PROXY` is set up to protect loopback or internal services.\n\nAccording to [RFC 1034 \xA73.1](https://datatracker.ietf.org/doc/html/rfc1034#section-3.1) and [RFC 3986 \xA73.2.2](https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.2), a hostname can have a trailing dot to show it is a fully qualified domain name (FQDN). At the DNS level, `localhost.` is the same as `localhost`. \nHowever, Axios does a literal string comparison instead of normalizing hostnames before checking `NO_PROXY`. This causes requests like `http://localhost.:8080/` and `http://[::1]:8080/` to be incorrectly proxied.\n\nThis issue leads to the possibility of proxy bypass and SSRF vulnerabilities allowing attackers to reach sensitive loopback or internal services despite the configured protections.\n\n---\n\n**PoC**\n\n```js\nimport http from "http";\nimport axios from "axios";\n\nconst proxyPort = 5300;\n\nhttp.createServer((req, res) => {\n  console.log("[PROXY] Got:", req.method, req.url, "Host:", req.headers.host);\n  res.writeHead(200, { "Content-Type": "text/plain" });\n  res.end("proxied");\n}).listen(proxyPort, () => console.log("Proxy", proxyPort));\n\nprocess.env.HTTP_PROXY = `http://127.0.0.1:${proxyPort}`;\nprocess.env.NO_PROXY = "localhost,127.0.0.1,::1";\n\nasync function test(url) {\n  try {\n    await axios.get(url, { timeout: 2000 });\n  } catch {}\n}\n\nsetTimeout(async () => {\n  console.log("\\n[*] Testing http://localhost.:8080/");\n  await test("http://localhost.:8080/"); // goes through proxy\n\n  console.log("\\n[*] Testing http://[::1]:8080/");\n  await test("http://[::1]:8080/"); // goes through proxy\n}, 500);\n```\n\n**Expected:** Requests bypass the proxy (direct to loopback).\n**Actual:** Proxy logs requests for `localhost.` and `[::1]`.\n\n---\n\n**Impact**\n\n* Applications that rely on `NO_PROXY=localhost,127.0.0.1,::1` for protecting loopback/internal access are vulnerable.\n* Attackers controlling request URLs can:\n\n  * Force Axios to send local traffic through an attacker-controlled proxy.\n  * Bypass SSRF mitigations relying on NO\\_PROXY rules.\n  * Potentially exfiltrate sensitive responses from internal services via the proxy.\n  \n  \n---\n\n**Affected Versions**\n\n* Confirmed on Axios **1.12.2** (latest at time of testing).\n* affects all versions that rely on Axios\u2019 current `NO_PROXY` evaluation.\n\n---\n\n**Remediation**\nAxios should normalize hostnames before evaluating `NO_PROXY`, including:\n\n* Strip trailing dots from hostnames (per RFC 3986).\n* Normalize IPv6 literals by removing brackets for matching.',
+                  githubID: "GHSA-3p68-rc4w-qgx5",
+                  CVE: [
+                    "CVE-2025-62718"
+                  ]
+                },
+                info: [
+                  "https://github.com/axios/axios/security/advisories/GHSA-3p68-rc4w-qgx5",
+                  "https://github.com/axios/axios/pull/10661",
+                  "https://github.com/axios/axios/commit/fb3befb6daac6cad26b2e54094d0f2d9e47f24df",
+                  "https://datatracker.ietf.org/doc/html/rfc1034#section-3.1",
+                  "https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.2",
+                  "https://github.com/axios/axios/releases/tag/v1.15.0"
+                ]
+              },
+              {
+                atOrAbove: "1.0.0",
+                below: "1.15.0",
+                severity: "critical",
+                cwe: [
+                  "CWE-113",
+                  "CWE-444",
+                  "CWE-918"
+                ],
+                identifiers: {
+                  summary: '# Vulnerability Disclosure: Unrestricted Cloud Metadata Exfiltration via Header Injection Chain\n\n## Summary\nThe Axios library is vulnerable to a specific "Gadget" attack chain that allows **Prototype Pollution** in any third-party dependency to be escalated into **Remote Code Execution (RCE)** or **Full Cloud Compromise** (via AWS IMDSv2 bypass).\n\nWhile Axios patches exist for *preventing check* pollution, the library remains vulnerable to *being used* as a gadget when pollution occurs elsewhere. This is due to a lack of HTTP Header Sanitization (CWE-113) combined with default SSRF capabilities.\n\n**Severity**: Critical (CVSS 9.9)\n**Affected Versions**: All versions (v0.x - v1.x)\n**Vulnerable Component**: `lib/adapters/http.js` (Header Processing)\n\n## Usage of "Helper" Vulnerabilities\nThis vulnerability is unique because it requires **Zero Direct User Input**.\nIf an attacker can pollute `Object.prototype` via *any* other library in the stack (e.g., `qs`, `minimist`, `ini`, `body-parser`), Axios will automatically pick up the polluted properties during its config merge.\n\nBecause Axios does not sanitise these merged header values for CRLF (`\\r\\n`) characters, the polluted property becomes a **Request Smuggling** payload.\n\n## Proof of Concept\n\n### 1. The Setup (Simulated Pollution)\nImagine a scenario where a known vulnerability exists in a query parser. The attacker sends a payload that sets:\n```javascript\nObject.prototype[\'x-amz-target\'] = "dummy\\r\\n\\r\\nPUT /latest/api/token HTTP/1.1\\r\\nHost: 169.254.169.254\\r\\nX-aws-ec2-metadata-token-ttl-seconds: 21600\\r\\n\\r\\nGET /ignore";\n```\n\n### 2. The Gadget Trigger (Safe Code)\nThe application makes a completely safe, hardcoded request:\n```javascript\n// This looks safe to the developer\nawait axios.get(\'https://analytics.internal/pings\'); \n```\n\n### 3. The Execution\nAxios merges the prototype property `x-amz-target` into the request headers. It then writes the header value directly to the socket without validation.\n\n**Resulting HTTP traffic:**\n```http\nGET /pings HTTP/1.1\nHost: analytics.internal\nx-amz-target: dummy\n\nPUT /latest/api/token HTTP/1.1\nHost: 169.254.169.254\nX-aws-ec2-metadata-token-ttl-seconds: 21600\n\nGET /ignore HTTP/1.1\n...\n```\n\n### 4. The Impact (IMDSv2 Bypass)\nThe "Smuggled" second request is a valid `PUT` request to the AWS Metadata Service. It includes the required `X-aws-ec2-metadata-token-ttl-seconds` header (which a normal SSRF cannot send).\nThe Metadata Service returns a session token, allowing the attacker to steal IAM credentials and compromise the cloud account.\n\n## Impact Analysis\n-   **Security Control Bypass**: Defeats AWS IMDSv2 (Session Tokens).\n-   **Authentication Bypass**: Can inject headers (`Cookie`, `Authorization`) to pivot into internal administrative panels.\n-   **Cache Poisoning**: Can inject `Host` headers to poison shared caches.\n\n## Recommended Fix\nValidate all header values in `lib/adapters/http.js` and `xhr.js` before passing them to the underlying request function.\n\n**Patch Suggestion:**\n```javascript\n// In lib/adapters/http.js\nutils.forEach(requestHeaders, function setRequestHeader(val, key) {\n  if (/[\\r\\n]/.test(val)) {\n    throw new Error(\'Security: Header value contains invalid characters\');\n  }\n  // ... proceed to set header\n});\n```\n\n## References\n-   **OWASP**: CRLF Injection (CWE-113)\n\nThis report was generated as part of a security audit of the Axios library.',
+                  githubID: "GHSA-fvcv-3m26-pcqx",
+                  CVE: [
+                    "CVE-2026-40175"
+                  ]
+                },
+                info: [
+                  "https://github.com/axios/axios/security/advisories/GHSA-fvcv-3m26-pcqx",
+                  "https://github.com/axios/axios/pull/10660",
+                  "https://github.com/axios/axios/commit/363185461b90b1b78845dc8a99a1f103d9b122a1",
+                  "https://github.com/axios/axios/releases/tag/v1.15.0"
                 ]
               }
             ],
@@ -19789,6 +20076,111 @@ Upgrade to version 1.9.0 or later.`,
                 ]
               },
               {
+                atOrAbove: "15.0.0-canary.0",
+                below: "15.0.0-canary.206",
+                severity: "medium",
+                cwe: [
+                  "CWE-400",
+                  "CWE-409",
+                  "CWE-770"
+                ],
+                identifiers: {
+                  summary: "A denial of service vulnerability exists in Next.js versions with Partial Prerendering (PPR) enabled when running in minimal mode. The PPR resume endpoint accepts unauthenticated POST requests with the `Next-Resume: 1` header and processes attacker-controlled postponed state data. Two closely related vulnerabilities allow an attacker to crash the server process through memory exhaustion:\n\n1. **Unbounded request body buffering**: The server buffers the entire POST request body into memory using `Buffer.concat()` without enforcing any size limit, allowing arbitrarily large payloads to exhaust available memory.\n\n2. **Unbounded decompression (zipbomb)**: The resume data cache is decompressed using `inflateSync()` without limiting the decompressed output size. A small compressed payload can expand to hundreds of megabytes or gigabytes, causing memory exhaustion.\n\nBoth attack vectors result in a fatal V8 out-of-memory error (`FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory`) causing the Node.js process to terminate. The zipbomb variant is particularly dangerous as it can bypass reverse proxy request size limits while still causing large memory allocation on the server.\n\nTo be affected, an application must run with `experimental.ppr: true` or `cacheComponents: true` configured along with the NEXT_PRIVATE_MINIMAL_MODE=1 environment variable.\n\nStrongly consider upgrading to 15.6.0-canary.61 or 16.1.5 to reduce risk and prevent availability issues in Next applications.",
+                  githubID: "GHSA-5f7q-jpqc-wp7h",
+                  CVE: [
+                    "CVE-2025-59472"
+                  ]
+                },
+                info: [
+                  "https://github.com/vercel/next.js/security/advisories/GHSA-5f7q-jpqc-wp7h",
+                  "https://vercel.com/changelog/summaries-of-cve-2025-59471-and-cve-2025-59472"
+                ]
+              },
+              {
+                atOrAbove: "15.0.1-canary.0",
+                below: "15.0.1-canary.4",
+                severity: "medium",
+                cwe: [
+                  "CWE-400",
+                  "CWE-409",
+                  "CWE-770"
+                ],
+                identifiers: {
+                  summary: "A denial of service vulnerability exists in Next.js versions with Partial Prerendering (PPR) enabled when running in minimal mode. The PPR resume endpoint accepts unauthenticated POST requests with the `Next-Resume: 1` header and processes attacker-controlled postponed state data. Two closely related vulnerabilities allow an attacker to crash the server process through memory exhaustion:\n\n1. **Unbounded request body buffering**: The server buffers the entire POST request body into memory using `Buffer.concat()` without enforcing any size limit, allowing arbitrarily large payloads to exhaust available memory.\n\n2. **Unbounded decompression (zipbomb)**: The resume data cache is decompressed using `inflateSync()` without limiting the decompressed output size. A small compressed payload can expand to hundreds of megabytes or gigabytes, causing memory exhaustion.\n\nBoth attack vectors result in a fatal V8 out-of-memory error (`FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory`) causing the Node.js process to terminate. The zipbomb variant is particularly dangerous as it can bypass reverse proxy request size limits while still causing large memory allocation on the server.\n\nTo be affected, an application must run with `experimental.ppr: true` or `cacheComponents: true` configured along with the NEXT_PRIVATE_MINIMAL_MODE=1 environment variable.\n\nStrongly consider upgrading to 15.6.0-canary.61 or 16.1.5 to reduce risk and prevent availability issues in Next applications.",
+                  githubID: "GHSA-5f7q-jpqc-wp7h",
+                  CVE: [
+                    "CVE-2025-59472"
+                  ]
+                },
+                info: [
+                  "https://github.com/vercel/next.js/security/advisories/GHSA-5f7q-jpqc-wp7h",
+                  "https://vercel.com/changelog/summaries-of-cve-2025-59471-and-cve-2025-59472"
+                ]
+              },
+              {
+                atOrAbove: "15.0.2-canary.0",
+                below: "15.0.2-canary.12",
+                severity: "medium",
+                cwe: [
+                  "CWE-400",
+                  "CWE-409",
+                  "CWE-770"
+                ],
+                identifiers: {
+                  summary: "A denial of service vulnerability exists in Next.js versions with Partial Prerendering (PPR) enabled when running in minimal mode. The PPR resume endpoint accepts unauthenticated POST requests with the `Next-Resume: 1` header and processes attacker-controlled postponed state data. Two closely related vulnerabilities allow an attacker to crash the server process through memory exhaustion:\n\n1. **Unbounded request body buffering**: The server buffers the entire POST request body into memory using `Buffer.concat()` without enforcing any size limit, allowing arbitrarily large payloads to exhaust available memory.\n\n2. **Unbounded decompression (zipbomb)**: The resume data cache is decompressed using `inflateSync()` without limiting the decompressed output size. A small compressed payload can expand to hundreds of megabytes or gigabytes, causing memory exhaustion.\n\nBoth attack vectors result in a fatal V8 out-of-memory error (`FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory`) causing the Node.js process to terminate. The zipbomb variant is particularly dangerous as it can bypass reverse proxy request size limits while still causing large memory allocation on the server.\n\nTo be affected, an application must run with `experimental.ppr: true` or `cacheComponents: true` configured along with the NEXT_PRIVATE_MINIMAL_MODE=1 environment variable.\n\nStrongly consider upgrading to 15.6.0-canary.61 or 16.1.5 to reduce risk and prevent availability issues in Next applications.",
+                  githubID: "GHSA-5f7q-jpqc-wp7h",
+                  CVE: [
+                    "CVE-2025-59472"
+                  ]
+                },
+                info: [
+                  "https://github.com/vercel/next.js/security/advisories/GHSA-5f7q-jpqc-wp7h",
+                  "https://vercel.com/changelog/summaries-of-cve-2025-59471-and-cve-2025-59472"
+                ]
+              },
+              {
+                atOrAbove: "15.0.3-canary.0",
+                below: "15.0.3-canary.10",
+                severity: "medium",
+                cwe: [
+                  "CWE-400",
+                  "CWE-409",
+                  "CWE-770"
+                ],
+                identifiers: {
+                  summary: "A denial of service vulnerability exists in Next.js versions with Partial Prerendering (PPR) enabled when running in minimal mode. The PPR resume endpoint accepts unauthenticated POST requests with the `Next-Resume: 1` header and processes attacker-controlled postponed state data. Two closely related vulnerabilities allow an attacker to crash the server process through memory exhaustion:\n\n1. **Unbounded request body buffering**: The server buffers the entire POST request body into memory using `Buffer.concat()` without enforcing any size limit, allowing arbitrarily large payloads to exhaust available memory.\n\n2. **Unbounded decompression (zipbomb)**: The resume data cache is decompressed using `inflateSync()` without limiting the decompressed output size. A small compressed payload can expand to hundreds of megabytes or gigabytes, causing memory exhaustion.\n\nBoth attack vectors result in a fatal V8 out-of-memory error (`FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory`) causing the Node.js process to terminate. The zipbomb variant is particularly dangerous as it can bypass reverse proxy request size limits while still causing large memory allocation on the server.\n\nTo be affected, an application must run with `experimental.ppr: true` or `cacheComponents: true` configured along with the NEXT_PRIVATE_MINIMAL_MODE=1 environment variable.\n\nStrongly consider upgrading to 15.6.0-canary.61 or 16.1.5 to reduce risk and prevent availability issues in Next applications.",
+                  githubID: "GHSA-5f7q-jpqc-wp7h",
+                  CVE: [
+                    "CVE-2025-59472"
+                  ]
+                },
+                info: [
+                  "https://github.com/vercel/next.js/security/advisories/GHSA-5f7q-jpqc-wp7h",
+                  "https://vercel.com/changelog/summaries-of-cve-2025-59471-and-cve-2025-59472"
+                ]
+              },
+              {
+                atOrAbove: "15.0.4-canary.0",
+                below: "15.0.4-canary.53",
+                severity: "medium",
+                cwe: [
+                  "CWE-400",
+                  "CWE-409",
+                  "CWE-770"
+                ],
+                identifiers: {
+                  summary: "A denial of service vulnerability exists in Next.js versions with Partial Prerendering (PPR) enabled when running in minimal mode. The PPR resume endpoint accepts unauthenticated POST requests with the `Next-Resume: 1` header and processes attacker-controlled postponed state data. Two closely related vulnerabilities allow an attacker to crash the server process through memory exhaustion:\n\n1. **Unbounded request body buffering**: The server buffers the entire POST request body into memory using `Buffer.concat()` without enforcing any size limit, allowing arbitrarily large payloads to exhaust available memory.\n\n2. **Unbounded decompression (zipbomb)**: The resume data cache is decompressed using `inflateSync()` without limiting the decompressed output size. A small compressed payload can expand to hundreds of megabytes or gigabytes, causing memory exhaustion.\n\nBoth attack vectors result in a fatal V8 out-of-memory error (`FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory`) causing the Node.js process to terminate. The zipbomb variant is particularly dangerous as it can bypass reverse proxy request size limits while still causing large memory allocation on the server.\n\nTo be affected, an application must run with `experimental.ppr: true` or `cacheComponents: true` configured along with the NEXT_PRIVATE_MINIMAL_MODE=1 environment variable.\n\nStrongly consider upgrading to 15.6.0-canary.61 or 16.1.5 to reduce risk and prevent availability issues in Next applications.",
+                  githubID: "GHSA-5f7q-jpqc-wp7h",
+                  CVE: [
+                    "CVE-2025-59472"
+                  ]
+                },
+                info: [
+                  "https://github.com/vercel/next.js/security/advisories/GHSA-5f7q-jpqc-wp7h",
+                  "https://vercel.com/changelog/summaries-of-cve-2025-59471-and-cve-2025-59472"
+                ]
+              },
+              {
                 atOrAbove: "14.3.0-canary.77",
                 below: "15.0.5",
                 severity: "critical",
@@ -19878,6 +20270,27 @@ Upgrade to version 1.9.0 or later.`,
                   "https://github.com/facebook/react/security/advisories/GHSA-83fc-fqcc-2hmg",
                   "https://github.com/vercel/next.js/security/advisories/GHSA-h25m-26qc-wcjf",
                   "https://vercel.com/changelog/summary-of-cve-2026-23864"
+                ]
+              },
+              {
+                atOrAbove: "15.1.1-canary.0",
+                below: "15.1.1-canary.28",
+                severity: "medium",
+                cwe: [
+                  "CWE-400",
+                  "CWE-409",
+                  "CWE-770"
+                ],
+                identifiers: {
+                  summary: "A denial of service vulnerability exists in Next.js versions with Partial Prerendering (PPR) enabled when running in minimal mode. The PPR resume endpoint accepts unauthenticated POST requests with the `Next-Resume: 1` header and processes attacker-controlled postponed state data. Two closely related vulnerabilities allow an attacker to crash the server process through memory exhaustion:\n\n1. **Unbounded request body buffering**: The server buffers the entire POST request body into memory using `Buffer.concat()` without enforcing any size limit, allowing arbitrarily large payloads to exhaust available memory.\n\n2. **Unbounded decompression (zipbomb)**: The resume data cache is decompressed using `inflateSync()` without limiting the decompressed output size. A small compressed payload can expand to hundreds of megabytes or gigabytes, causing memory exhaustion.\n\nBoth attack vectors result in a fatal V8 out-of-memory error (`FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory`) causing the Node.js process to terminate. The zipbomb variant is particularly dangerous as it can bypass reverse proxy request size limits while still causing large memory allocation on the server.\n\nTo be affected, an application must run with `experimental.ppr: true` or `cacheComponents: true` configured along with the NEXT_PRIVATE_MINIMAL_MODE=1 environment variable.\n\nStrongly consider upgrading to 15.6.0-canary.61 or 16.1.5 to reduce risk and prevent availability issues in Next applications.",
+                  githubID: "GHSA-5f7q-jpqc-wp7h",
+                  CVE: [
+                    "CVE-2025-59472"
+                  ]
+                },
+                info: [
+                  "https://github.com/vercel/next.js/security/advisories/GHSA-5f7q-jpqc-wp7h",
+                  "https://vercel.com/changelog/summaries-of-cve-2025-59471-and-cve-2025-59472"
                 ]
               },
               {
@@ -20038,6 +20451,48 @@ Upgrade to version 1.9.0 or later.`,
                 ]
               },
               {
+                atOrAbove: "15.2.0-canary.0",
+                below: "15.2.0-canary.78",
+                severity: "medium",
+                cwe: [
+                  "CWE-400",
+                  "CWE-409",
+                  "CWE-770"
+                ],
+                identifiers: {
+                  summary: "A denial of service vulnerability exists in Next.js versions with Partial Prerendering (PPR) enabled when running in minimal mode. The PPR resume endpoint accepts unauthenticated POST requests with the `Next-Resume: 1` header and processes attacker-controlled postponed state data. Two closely related vulnerabilities allow an attacker to crash the server process through memory exhaustion:\n\n1. **Unbounded request body buffering**: The server buffers the entire POST request body into memory using `Buffer.concat()` without enforcing any size limit, allowing arbitrarily large payloads to exhaust available memory.\n\n2. **Unbounded decompression (zipbomb)**: The resume data cache is decompressed using `inflateSync()` without limiting the decompressed output size. A small compressed payload can expand to hundreds of megabytes or gigabytes, causing memory exhaustion.\n\nBoth attack vectors result in a fatal V8 out-of-memory error (`FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory`) causing the Node.js process to terminate. The zipbomb variant is particularly dangerous as it can bypass reverse proxy request size limits while still causing large memory allocation on the server.\n\nTo be affected, an application must run with `experimental.ppr: true` or `cacheComponents: true` configured along with the NEXT_PRIVATE_MINIMAL_MODE=1 environment variable.\n\nStrongly consider upgrading to 15.6.0-canary.61 or 16.1.5 to reduce risk and prevent availability issues in Next applications.",
+                  githubID: "GHSA-5f7q-jpqc-wp7h",
+                  CVE: [
+                    "CVE-2025-59472"
+                  ]
+                },
+                info: [
+                  "https://github.com/vercel/next.js/security/advisories/GHSA-5f7q-jpqc-wp7h",
+                  "https://vercel.com/changelog/summaries-of-cve-2025-59471-and-cve-2025-59472"
+                ]
+              },
+              {
+                atOrAbove: "15.2.1-canary.0",
+                below: "15.2.1-canary.7",
+                severity: "medium",
+                cwe: [
+                  "CWE-400",
+                  "CWE-409",
+                  "CWE-770"
+                ],
+                identifiers: {
+                  summary: "A denial of service vulnerability exists in Next.js versions with Partial Prerendering (PPR) enabled when running in minimal mode. The PPR resume endpoint accepts unauthenticated POST requests with the `Next-Resume: 1` header and processes attacker-controlled postponed state data. Two closely related vulnerabilities allow an attacker to crash the server process through memory exhaustion:\n\n1. **Unbounded request body buffering**: The server buffers the entire POST request body into memory using `Buffer.concat()` without enforcing any size limit, allowing arbitrarily large payloads to exhaust available memory.\n\n2. **Unbounded decompression (zipbomb)**: The resume data cache is decompressed using `inflateSync()` without limiting the decompressed output size. A small compressed payload can expand to hundreds of megabytes or gigabytes, causing memory exhaustion.\n\nBoth attack vectors result in a fatal V8 out-of-memory error (`FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory`) causing the Node.js process to terminate. The zipbomb variant is particularly dangerous as it can bypass reverse proxy request size limits while still causing large memory allocation on the server.\n\nTo be affected, an application must run with `experimental.ppr: true` or `cacheComponents: true` configured along with the NEXT_PRIVATE_MINIMAL_MODE=1 environment variable.\n\nStrongly consider upgrading to 15.6.0-canary.61 or 16.1.5 to reduce risk and prevent availability issues in Next applications.",
+                  githubID: "GHSA-5f7q-jpqc-wp7h",
+                  CVE: [
+                    "CVE-2025-59472"
+                  ]
+                },
+                info: [
+                  "https://github.com/vercel/next.js/security/advisories/GHSA-5f7q-jpqc-wp7h",
+                  "https://vercel.com/changelog/summaries-of-cve-2025-59471-and-cve-2025-59472"
+                ]
+              },
+              {
                 atOrAbove: "15.0.0",
                 below: "15.2.2",
                 cwe: [
@@ -20057,6 +20512,27 @@ Upgrade to version 1.9.0 or later.`,
                   "https://nvd.nist.gov/vuln/detail/CVE-2025-48068",
                   "https://github.com/vercel/next.js",
                   "https://vercel.com/changelog/cve-2025-48068"
+                ]
+              },
+              {
+                atOrAbove: "15.2.2-canary.0",
+                below: "15.2.2-canary.8",
+                severity: "medium",
+                cwe: [
+                  "CWE-400",
+                  "CWE-409",
+                  "CWE-770"
+                ],
+                identifiers: {
+                  summary: "A denial of service vulnerability exists in Next.js versions with Partial Prerendering (PPR) enabled when running in minimal mode. The PPR resume endpoint accepts unauthenticated POST requests with the `Next-Resume: 1` header and processes attacker-controlled postponed state data. Two closely related vulnerabilities allow an attacker to crash the server process through memory exhaustion:\n\n1. **Unbounded request body buffering**: The server buffers the entire POST request body into memory using `Buffer.concat()` without enforcing any size limit, allowing arbitrarily large payloads to exhaust available memory.\n\n2. **Unbounded decompression (zipbomb)**: The resume data cache is decompressed using `inflateSync()` without limiting the decompressed output size. A small compressed payload can expand to hundreds of megabytes or gigabytes, causing memory exhaustion.\n\nBoth attack vectors result in a fatal V8 out-of-memory error (`FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory`) causing the Node.js process to terminate. The zipbomb variant is particularly dangerous as it can bypass reverse proxy request size limits while still causing large memory allocation on the server.\n\nTo be affected, an application must run with `experimental.ppr: true` or `cacheComponents: true` configured along with the NEXT_PRIVATE_MINIMAL_MODE=1 environment variable.\n\nStrongly consider upgrading to 15.6.0-canary.61 or 16.1.5 to reduce risk and prevent availability issues in Next applications.",
+                  githubID: "GHSA-5f7q-jpqc-wp7h",
+                  CVE: [
+                    "CVE-2025-59472"
+                  ]
+                },
+                info: [
+                  "https://github.com/vercel/next.js/security/advisories/GHSA-5f7q-jpqc-wp7h",
+                  "https://vercel.com/changelog/summaries-of-cve-2025-59471-and-cve-2025-59472"
                 ]
               },
               {
@@ -20204,6 +20680,48 @@ Upgrade to version 1.9.0 or later.`,
                 ]
               },
               {
+                atOrAbove: "15.3.0-canary.0",
+                below: "15.3.0-canary.47",
+                severity: "medium",
+                cwe: [
+                  "CWE-400",
+                  "CWE-409",
+                  "CWE-770"
+                ],
+                identifiers: {
+                  summary: "A denial of service vulnerability exists in Next.js versions with Partial Prerendering (PPR) enabled when running in minimal mode. The PPR resume endpoint accepts unauthenticated POST requests with the `Next-Resume: 1` header and processes attacker-controlled postponed state data. Two closely related vulnerabilities allow an attacker to crash the server process through memory exhaustion:\n\n1. **Unbounded request body buffering**: The server buffers the entire POST request body into memory using `Buffer.concat()` without enforcing any size limit, allowing arbitrarily large payloads to exhaust available memory.\n\n2. **Unbounded decompression (zipbomb)**: The resume data cache is decompressed using `inflateSync()` without limiting the decompressed output size. A small compressed payload can expand to hundreds of megabytes or gigabytes, causing memory exhaustion.\n\nBoth attack vectors result in a fatal V8 out-of-memory error (`FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory`) causing the Node.js process to terminate. The zipbomb variant is particularly dangerous as it can bypass reverse proxy request size limits while still causing large memory allocation on the server.\n\nTo be affected, an application must run with `experimental.ppr: true` or `cacheComponents: true` configured along with the NEXT_PRIVATE_MINIMAL_MODE=1 environment variable.\n\nStrongly consider upgrading to 15.6.0-canary.61 or 16.1.5 to reduce risk and prevent availability issues in Next applications.",
+                  githubID: "GHSA-5f7q-jpqc-wp7h",
+                  CVE: [
+                    "CVE-2025-59472"
+                  ]
+                },
+                info: [
+                  "https://github.com/vercel/next.js/security/advisories/GHSA-5f7q-jpqc-wp7h",
+                  "https://vercel.com/changelog/summaries-of-cve-2025-59471-and-cve-2025-59472"
+                ]
+              },
+              {
+                atOrAbove: "15.3.1-canary.0",
+                below: "15.3.1-canary.16",
+                severity: "medium",
+                cwe: [
+                  "CWE-400",
+                  "CWE-409",
+                  "CWE-770"
+                ],
+                identifiers: {
+                  summary: "A denial of service vulnerability exists in Next.js versions with Partial Prerendering (PPR) enabled when running in minimal mode. The PPR resume endpoint accepts unauthenticated POST requests with the `Next-Resume: 1` header and processes attacker-controlled postponed state data. Two closely related vulnerabilities allow an attacker to crash the server process through memory exhaustion:\n\n1. **Unbounded request body buffering**: The server buffers the entire POST request body into memory using `Buffer.concat()` without enforcing any size limit, allowing arbitrarily large payloads to exhaust available memory.\n\n2. **Unbounded decompression (zipbomb)**: The resume data cache is decompressed using `inflateSync()` without limiting the decompressed output size. A small compressed payload can expand to hundreds of megabytes or gigabytes, causing memory exhaustion.\n\nBoth attack vectors result in a fatal V8 out-of-memory error (`FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory`) causing the Node.js process to terminate. The zipbomb variant is particularly dangerous as it can bypass reverse proxy request size limits while still causing large memory allocation on the server.\n\nTo be affected, an application must run with `experimental.ppr: true` or `cacheComponents: true` configured along with the NEXT_PRIVATE_MINIMAL_MODE=1 environment variable.\n\nStrongly consider upgrading to 15.6.0-canary.61 or 16.1.5 to reduce risk and prevent availability issues in Next applications.",
+                  githubID: "GHSA-5f7q-jpqc-wp7h",
+                  CVE: [
+                    "CVE-2025-59472"
+                  ]
+                },
+                info: [
+                  "https://github.com/vercel/next.js/security/advisories/GHSA-5f7q-jpqc-wp7h",
+                  "https://vercel.com/changelog/summaries-of-cve-2025-59471-and-cve-2025-59472"
+                ]
+              },
+              {
                 atOrAbove: "15.3.0",
                 below: "15.3.3",
                 cwe: [
@@ -20316,6 +20834,48 @@ Upgrade to version 1.9.0 or later.`,
                   "https://github.com/facebook/react/security/advisories/GHSA-83fc-fqcc-2hmg",
                   "https://github.com/vercel/next.js/security/advisories/GHSA-h25m-26qc-wcjf",
                   "https://vercel.com/changelog/summary-of-cve-2026-23864"
+                ]
+              },
+              {
+                atOrAbove: "15.4.0-canary.0",
+                below: "15.4.0-canary.131",
+                severity: "medium",
+                cwe: [
+                  "CWE-400",
+                  "CWE-409",
+                  "CWE-770"
+                ],
+                identifiers: {
+                  summary: "A denial of service vulnerability exists in Next.js versions with Partial Prerendering (PPR) enabled when running in minimal mode. The PPR resume endpoint accepts unauthenticated POST requests with the `Next-Resume: 1` header and processes attacker-controlled postponed state data. Two closely related vulnerabilities allow an attacker to crash the server process through memory exhaustion:\n\n1. **Unbounded request body buffering**: The server buffers the entire POST request body into memory using `Buffer.concat()` without enforcing any size limit, allowing arbitrarily large payloads to exhaust available memory.\n\n2. **Unbounded decompression (zipbomb)**: The resume data cache is decompressed using `inflateSync()` without limiting the decompressed output size. A small compressed payload can expand to hundreds of megabytes or gigabytes, causing memory exhaustion.\n\nBoth attack vectors result in a fatal V8 out-of-memory error (`FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory`) causing the Node.js process to terminate. The zipbomb variant is particularly dangerous as it can bypass reverse proxy request size limits while still causing large memory allocation on the server.\n\nTo be affected, an application must run with `experimental.ppr: true` or `cacheComponents: true` configured along with the NEXT_PRIVATE_MINIMAL_MODE=1 environment variable.\n\nStrongly consider upgrading to 15.6.0-canary.61 or 16.1.5 to reduce risk and prevent availability issues in Next applications.",
+                  githubID: "GHSA-5f7q-jpqc-wp7h",
+                  CVE: [
+                    "CVE-2025-59472"
+                  ]
+                },
+                info: [
+                  "https://github.com/vercel/next.js/security/advisories/GHSA-5f7q-jpqc-wp7h",
+                  "https://vercel.com/changelog/summaries-of-cve-2025-59471-and-cve-2025-59472"
+                ]
+              },
+              {
+                atOrAbove: "15.4.2-canary.0",
+                below: "15.4.2-canary.57",
+                severity: "medium",
+                cwe: [
+                  "CWE-400",
+                  "CWE-409",
+                  "CWE-770"
+                ],
+                identifiers: {
+                  summary: "A denial of service vulnerability exists in Next.js versions with Partial Prerendering (PPR) enabled when running in minimal mode. The PPR resume endpoint accepts unauthenticated POST requests with the `Next-Resume: 1` header and processes attacker-controlled postponed state data. Two closely related vulnerabilities allow an attacker to crash the server process through memory exhaustion:\n\n1. **Unbounded request body buffering**: The server buffers the entire POST request body into memory using `Buffer.concat()` without enforcing any size limit, allowing arbitrarily large payloads to exhaust available memory.\n\n2. **Unbounded decompression (zipbomb)**: The resume data cache is decompressed using `inflateSync()` without limiting the decompressed output size. A small compressed payload can expand to hundreds of megabytes or gigabytes, causing memory exhaustion.\n\nBoth attack vectors result in a fatal V8 out-of-memory error (`FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory`) causing the Node.js process to terminate. The zipbomb variant is particularly dangerous as it can bypass reverse proxy request size limits while still causing large memory allocation on the server.\n\nTo be affected, an application must run with `experimental.ppr: true` or `cacheComponents: true` configured along with the NEXT_PRIVATE_MINIMAL_MODE=1 environment variable.\n\nStrongly consider upgrading to 15.6.0-canary.61 or 16.1.5 to reduce risk and prevent availability issues in Next applications.",
+                  githubID: "GHSA-5f7q-jpqc-wp7h",
+                  CVE: [
+                    "CVE-2025-59472"
+                  ]
+                },
+                info: [
+                  "https://github.com/vercel/next.js/security/advisories/GHSA-5f7q-jpqc-wp7h",
+                  "https://vercel.com/changelog/summaries-of-cve-2025-59471-and-cve-2025-59472"
                 ]
               },
               {
@@ -20473,6 +21033,27 @@ Upgrade to version 1.9.0 or later.`,
                 ]
               },
               {
+                atOrAbove: "15.5.1-canary.0",
+                below: "15.5.1-canary.40",
+                severity: "medium",
+                cwe: [
+                  "CWE-400",
+                  "CWE-409",
+                  "CWE-770"
+                ],
+                identifiers: {
+                  summary: "A denial of service vulnerability exists in Next.js versions with Partial Prerendering (PPR) enabled when running in minimal mode. The PPR resume endpoint accepts unauthenticated POST requests with the `Next-Resume: 1` header and processes attacker-controlled postponed state data. Two closely related vulnerabilities allow an attacker to crash the server process through memory exhaustion:\n\n1. **Unbounded request body buffering**: The server buffers the entire POST request body into memory using `Buffer.concat()` without enforcing any size limit, allowing arbitrarily large payloads to exhaust available memory.\n\n2. **Unbounded decompression (zipbomb)**: The resume data cache is decompressed using `inflateSync()` without limiting the decompressed output size. A small compressed payload can expand to hundreds of megabytes or gigabytes, causing memory exhaustion.\n\nBoth attack vectors result in a fatal V8 out-of-memory error (`FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory`) causing the Node.js process to terminate. The zipbomb variant is particularly dangerous as it can bypass reverse proxy request size limits while still causing large memory allocation on the server.\n\nTo be affected, an application must run with `experimental.ppr: true` or `cacheComponents: true` configured along with the NEXT_PRIVATE_MINIMAL_MODE=1 environment variable.\n\nStrongly consider upgrading to 15.6.0-canary.61 or 16.1.5 to reduce risk and prevent availability issues in Next applications.",
+                  githubID: "GHSA-5f7q-jpqc-wp7h",
+                  CVE: [
+                    "CVE-2025-59472"
+                  ]
+                },
+                info: [
+                  "https://github.com/vercel/next.js/security/advisories/GHSA-5f7q-jpqc-wp7h",
+                  "https://vercel.com/changelog/summaries-of-cve-2025-59471-and-cve-2025-59472"
+                ]
+              },
+              {
                 atOrAbove: "15.5.0-canary.0",
                 below: "15.5.7",
                 severity: "critical",
@@ -20626,6 +21207,22 @@ Upgrade to version 1.9.0 or later.`,
                   "https://github.com/vercel/next.js/security/advisories/GHSA-3x4c-7xq6-9pq8",
                   "https://github.com/vercel/next.js/commit/39eb8e0ac498b48855a0430fbf4c22276a73b4bd",
                   "https://github.com/vercel/next.js/releases/tag/v16.1.7"
+                ]
+              },
+              {
+                atOrAbove: "13.0.0",
+                below: "15.5.15",
+                severity: "high",
+                cwe: [
+                  "CWE-770"
+                ],
+                identifiers: {
+                  summary: "A vulnerability affects certain React Server Components packages for versions 19.x and frameworks that use the affected packages, including Next.js 13.x, 14.x, 15.x, and 16.x using the App Router. The issue is tracked upstream as [CVE-2026-23869](https://github.com/facebook/react/security/advisories/GHSA-479c-33wc-g2pg). You can read more about this advisory our [this changelog](https://vercel.com/changelog/summary-of-cve-2026-23869).\n\nA specially crafted HTTP request can be sent to any App Router Server Function endpoint that, when deserialized, may trigger excessive CPU usage. This can result in denial of service in unpatched environments.",
+                  githubID: "GHSA-q4gf-8mx6-v5v3"
+                },
+                info: [
+                  "https://github.com/vercel/next.js/security/advisories/GHSA-q4gf-8mx6-v5v3",
+                  "https://vercel.com/changelog/summary-of-cve-2026-23869"
                 ]
               },
               {
@@ -21079,6 +21676,22 @@ Upgrade to version 1.9.0 or later.`,
                   "https://github.com/vercel/next.js/security/advisories/GHSA-mq59-m269-xvcx",
                   "https://github.com/vercel/next.js/commit/a27a11d78e748a8c7ccfd14b7759ad2b9bf097d8",
                   "https://github.com/vercel/next.js/releases/tag/v16.1.7"
+                ]
+              },
+              {
+                atOrAbove: "16.0.0-beta.0",
+                below: "16.2.3",
+                severity: "high",
+                cwe: [
+                  "CWE-770"
+                ],
+                identifiers: {
+                  summary: "A vulnerability affects certain React Server Components packages for versions 19.x and frameworks that use the affected packages, including Next.js 13.x, 14.x, 15.x, and 16.x using the App Router. The issue is tracked upstream as [CVE-2026-23869](https://github.com/facebook/react/security/advisories/GHSA-479c-33wc-g2pg). You can read more about this advisory our [this changelog](https://vercel.com/changelog/summary-of-cve-2026-23869).\n\nA specially crafted HTTP request can be sent to any App Router Server Function endpoint that, when deserialized, may trigger excessive CPU usage. This can result in denial of service in unpatched environments.",
+                  githubID: "GHSA-q4gf-8mx6-v5v3"
+                },
+                info: [
+                  "https://github.com/vercel/next.js/security/advisories/GHSA-q4gf-8mx6-v5v3",
+                  "https://vercel.com/changelog/summary-of-cve-2026-23869"
                 ]
               },
               {
@@ -22939,6 +23552,116 @@ Upgrade to version 1.9.0 or later.`,
               ]
             }
           },
+          echarts: {
+            licenses: [
+              "Apache-2.0 >=0"
+            ],
+            vulnerabilities: [],
+            extractors: {
+              uri: [
+                "/echarts[@/](\xA7\xA7version\xA7\xA7)/"
+              ],
+              filename: [
+                "echarts[-.](\xA7\xA7version\xA7\xA7)(.min)?.js"
+              ],
+              filecontent: [
+                "'(\xA7\xA7version\xA7\xA7)';[\\s]+var dependencies = \\{[\\s]+zrender: '[0-9.]+'[\\s]+\\};[\\s]+var TEST_FRAME_REMAIN_TIME = 1;",
+                `setPlatformAPI=[a-zA-Z_]+,.\\.throttle=[a-zA-Z_]+,.\\.time=[a-zA-Z_]+,.\\.use=[a-zA-Z_]+,.\\.util=[a-zA-Z_]+,.\\.vector=[a-zA-Z_]+,.\\.version=['"](\xA7\xA7version\xA7\xA7)['"],.\\.zrUtil`,
+                `.\\.throttle=[a-zA-Z_]+,.\\.time=[a-zA-Z_]+,.\\.util=[a-zA-Z_]+,.\\.vector=[a-zA-Z_]+,.\\.version=['"](\xA7\xA7version\xA7\xA7)['"],.\\.zrender`
+              ],
+              ast: [
+                '//SequenceExpression[/AssignmentExpression/:left/:property/:name == "disConnect"]/AssignmentExpression[//:left/:property/:name == "version"]/:right/:value',
+                '//BlockStatement[/FunctionDeclaration/:id/:name == "createRegisterEventWithLowercaseECharts"]/VariableDeclaration/:declarations[/:id/:name == "version"]/:init/:value'
+              ]
+            }
+          },
+          zrender: {
+            licenses: [
+              "Apache-2.0 >=0"
+            ],
+            vulnerabilities: [
+              {
+                atOrAbove: "0",
+                below: "4.3.3",
+                severity: "medium",
+                cwe: [
+                  "CWE-1321",
+                  "CWE-915"
+                ],
+                identifiers: {
+                  summary: "### Impact\nUsing `merge` and `clone` helper methods in the `src/core/util.ts` module will have prototype pollution. It will affect the popular data visualization library Apache ECharts, which is using and exported these two methods directly.\n\n### Patches\n \nIt has been patched in https://github.com/ecomfe/zrender/pull/826. \nUsers should update zrender to `5.2.1`.  and update echarts to `5.2.1` if project is using echarts.\n\n### References\nNA\n\n### For more information\nNA\n",
+                  githubID: "GHSA-fhv8-fx5f-7fxf",
+                  CVE: [
+                    "CVE-2021-39227"
+                  ]
+                },
+                info: [
+                  "https://github.com/ecomfe/zrender/security/advisories/GHSA-fhv8-fx5f-7fxf",
+                  "https://github.com/ecomfe/zrender/pull/826",
+                  "https://github.com/ecomfe/zrender/releases/tag/5.2.1"
+                ]
+              },
+              {
+                atOrAbove: "5.0.0",
+                below: "5.2.1",
+                severity: "medium",
+                cwe: [
+                  "CWE-1321",
+                  "CWE-915"
+                ],
+                identifiers: {
+                  summary: "### Impact\nUsing `merge` and `clone` helper methods in the `src/core/util.ts` module will have prototype pollution. It will affect the popular data visualization library Apache ECharts, which is using and exported these two methods directly.\n\n### Patches\n \nIt has been patched in https://github.com/ecomfe/zrender/pull/826. \nUsers should update zrender to `5.2.1`.  and update echarts to `5.2.1` if project is using echarts.\n\n### References\nNA\n\n### For more information\nNA\n",
+                  githubID: "GHSA-fhv8-fx5f-7fxf",
+                  CVE: [
+                    "CVE-2021-39227"
+                  ]
+                },
+                info: [
+                  "https://github.com/ecomfe/zrender/security/advisories/GHSA-fhv8-fx5f-7fxf",
+                  "https://github.com/ecomfe/zrender/pull/826",
+                  "https://github.com/ecomfe/zrender/releases/tag/5.2.1"
+                ]
+              }
+            ],
+            extractors: {
+              uri: [
+                "/zrender[@/](\xA7\xA7version\xA7\xA7)/"
+              ],
+              filename: [
+                "zrender[-.](\xA7\xA7version\xA7\xA7)(.min)?.js"
+              ],
+              filecontent: [
+                "ssrDataGetter = getter;[\\s]+\\}[\\s]+var version = '(\xA7\xA7version\xA7\xA7)';[\\s]+",
+                "painterCtors\\[name\\] = Ctor;[\\s]+\\}[\\s]+var version = '(\xA7\xA7version\xA7\xA7)';[\\s]+",
+                `.\\.util=[a-zA-Z_]+,.\\.vector=[a-zA-Z_]+,.\\.version=['"](\xA7\xA7version\xA7\xA7)['"],Object`
+              ],
+              ast: [
+                '//SequenceExpression[/AssignmentExpression/:left/:property/:name == "showDebugDirtyRect"]/AssignmentExpression[//:left/:property/:name == "version"]/:right/:value',
+                '//BlockStatement[/FunctionDeclaration/:id/:name == "registerPainter" && /FunctionDeclaration/:id/:name == "getWheelDeltaMayPolyfill"]/VariableDeclaration/VariableDeclarator[/:id/:name == "version"]/Literal/:value'
+              ]
+            }
+          },
+          d3: {
+            licenses: [
+              "ISC >=0"
+            ],
+            vulnerabilities: [],
+            extractors: {
+              uri: [
+                "/d3[@/](\xA7\xA7version\xA7\xA7)/d3.(min.)?js"
+              ],
+              filename: [
+                "d3[-.](\xA7\xA7version\xA7\xA7)(.min)?.js"
+              ],
+              filecontent: [
+                "\\/\\/ https:\\/\\/d3js\\.org (?:v|Version )(\xA7\xA7version\xA7\xA7) "
+              ],
+              ast: [
+                '//BlockStatement[       /ExpressionStatement/AssignmentExpression/:left/:property/:name == "curveCatmullRomClosed" &&       /ExpressionStatement/AssignmentExpression/:left/:property/:name == "thresholdFreedmanDiaconis"     ]/ExpressionStatement/AssignmentExpression[ /:left/:property/:name == "version" ]/$$:right/:value',
+                '//BlockStatement/ExpressionStatement/SequenceExpression[       /AssignmentExpression/:left/:property/:name == "thresholdFreedmanDiaconis" &&       /AssignmentExpression/:left/:property/:name == "thresholdSturges" &&       /AssignmentExpression/:left/:property/:name == "thresholdScott"      ]/AssignmentExpression[ /:left/:property/:name == "version" ]/$$:right/:value'
+              ]
+            }
+          },
           "dont check": {
             licenses: [],
             vulnerabilities: [],
@@ -22998,4 +23721,13 @@ Upgrade to version 1.9.0 or later.`,
   });
   return require_index();
 })();
+/*! Bundled license information:
+
+astronomical/lib/index.js:
+  (**
+   * ASTronomical - AST query language for JavaScript
+   * @license Apache-2.0
+   * Copyright (c) Erlend Oftedal
+   *)
+*/
 if (globalThis) globalThis.retirechrome = retirechrome;
