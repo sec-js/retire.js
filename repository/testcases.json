@@ -778,5 +778,11 @@
       "versions": ["7.9.0", "7.0.0", "6.5.0", "5.16.0", "4.5.0"],
       "subversions": ["", ".min"]
     }
+  },
+  "video.js" : {
+    "https://cdnjs.cloudflare.com/ajax/libs/video.js/§§version§§/video§§subversion§§.js": {
+      "versions": ["8.23.4", "7.21.7", "6.13.0", "5.20.5"],
+      "subversions": ["", ".min"]
+    }
   }
 }

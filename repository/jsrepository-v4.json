@@ -12699,6 +12699,22 @@
       ]
     }
   },
+  "video.js": {
+    "vulnerabilities": [],
+    "extractors": {
+      "uri": [
+        "/video\\.js[@/](§§version§§)/"
+      ],
+      "filename": [
+        "video\\.js[-.](§§version§§)(\\.min)?\\.js"
+      ],
+      "filecontent": [
+        "\\* Video\\.js (§§version§§)",
+        "\\.videojs=[a-zA-Z]\\(\\)\\}\\(this,function\\(\\)\\{var [a-zA-Z]=[\"'](§§version§§)[\"']",
+        "[\"']The element or ID supplied is not valid. \\(videojs\\)[\"']\\)[\\s\\S]{100,400}var (?:[a-zA-Z]{1,2},)?[a-zA-Z]{1,2}=[\"'](§§version§§)[\"']"
+      ]
+    }
+  },
   "dont check": {
     "licenses": [],
     "vulnerabilities": [],
