@@ -12716,6 +12716,22 @@
         ]
       }
     },
+    "quill": {
+      "npmname": "quill",
+      "vulnerabilities": [],
+      "extractors": {
+        "filename": [
+          "quill-(§§version§§)(?:\\.min)?\\.js"
+        ],
+        "filecontent": [
+          "Quill Editor v(§§version§§)",
+          "static version=\"(§§version§§)\";static imports=\\{delta:[^,]{1,20},parchment:"
+        ],
+        "uri": [
+          "/(§§version§§)/quill(?:\\.min)?\\.js"
+        ]
+      }
+    },
     "dont check": {
       "licenses": [],
       "vulnerabilities": [],
