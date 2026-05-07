@@ -10,8 +10,9 @@ Retire.js can be used in many ways:
 2. [As a Chrome extension](https://github.com/RetireJS/retire.js/tree/master/chrome) - **Not** officially available in the Chrome web store
 3. [As a Burp Extension](https://github.com/h3xstream/burp-retire-js) or [OWASP ZAP Add-on](https://www.zaproxy.org/docs/desktop/addons/retire.js/)
 4. [As a Firefox extension](https://github.com/RetireJS/retire.js/tree/master/firefox) - **Deprecated** Let us know if you want to maintain and undeprecate it.
-5. [As a grunt plugin (deprecated)](https://github.com/bekk/grunt-retire)
-6. [As a gulp task (deprecated)](#user-content-gulp-task)
+5. [A headless web site scanner](https://github.com/RetireJS/retire-site-scanner)
+6. [As a grunt plugin (deprecated)](https://github.com/bekk/grunt-retire)
+7. [As a gulp task (deprecated)](#user-content-gulp-task)
 
 ## Command line scanner
 
@@ -42,6 +43,10 @@ Scans visited sites for references to insecure libraries, and puts warnings in t
 [@h3xstream](https://github.com/h3xstream) has adapted Retire.js as a [plugin](https://github.com/h3xstream/burp-retire-js) for the penetration testing tools [Burp](https://portswigger.net/burp/) and [OWASP ZAP](https://www.zaproxy.org).
 
 The [OWASP ZAP](https://www.zaproxy.org) team officially supports a Retire.js add-on which is available via the ZAP Marketplace and is included by default in the ZAP weekly releases: https://www.zaproxy.org/docs/desktop/addons/retire.js/
+
+## Headless site scanner
+
+The retire-site-scanner https://github.com/RetireJS/retire-site-scanner can be used to scan a web site in headless mode (as opposed to using the chrome/firefox extensions)
 
 
 ## Grunt plugin (deprecated)
