@@ -13147,6 +13147,9 @@
     }
   },
   "video.js": {
+    "licenses": [
+      "Apache-2.0 >=0"
+    ],
     "vulnerabilities": [],
     "extractors": {
       "uri": [
@@ -13164,6 +13167,9 @@
   },
   "quill": {
     "npmname": "quill",
+    "licenses": [
+      "BSD-3-Clause >=0"
+    ],
     "vulnerabilities": [],
     "extractors": {
       "filename": [
@@ -13175,6 +13181,23 @@
       ],
       "uri": [
         "/(§§version§§)/quill(?:\\.min)?\\.js"
+      ]
+    }
+  },
+  "swiper": {
+    "licenses": [
+      "MIT >=0"
+    ],
+    "vulnerabilities": [],
+    "extractors": {
+      "uri": [
+        "/[Ss]wiper[@/](§§version§§)/swiper"
+      ],
+      "filename": [
+        "swiper[-.](§§version§§)(.min)?.js"
+      ],
+      "filecontent": [
+        "\\* Swiper (§§version§§)"
       ]
     }
   },

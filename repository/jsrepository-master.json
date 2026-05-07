@@ -11173,7 +11173,10 @@
         "\\.videojs=[a-zA-Z]\\(\\)\\}\\(this,function\\(\\)\\{var [a-zA-Z]=[\"'](§§version§§)[\"']",
         "[\"']The element or ID supplied is not valid. \\(videojs\\)[\"']\\)[\\s\\S]{100,400}var (?:[a-zA-Z]{1,2},)?[a-zA-Z]{1,2}=[\"'](§§version§§)[\"']"
       ]
-    }
+    },
+    "licenses": [
+      "Apache-2.0 >=0"
+    ]
   },
   "quill": {
     "npmname": "quill",
@@ -11185,8 +11188,29 @@
         "static version=\"(§§version§§)\";static imports=\\{delta:[^,]{1,20},parchment:"
       ],
       "uri": ["/(§§version§§)/quill(?:\\.min)?\\.js"]
-    }
+    },
+    "licenses": [
+      "BSD-3-Clause >=0"
+    ]
   },
+  "swiper": {
+    "vulnerabilities": [],
+    "extractors": {
+      "uri": [
+        "/[Ss]wiper[@/](§§version§§)/swiper"
+      ],
+      "filename": [
+        "swiper[-.](§§version§§)(.min)?.js"
+      ],
+      "filecontent": [
+        "\\* Swiper (§§version§§)"
+      ]
+    },
+    "licenses": [
+      "MIT >=0"
+    ]
+  },
+
   "dont check": {
     "vulnerabilities": [],
     "extractors": {

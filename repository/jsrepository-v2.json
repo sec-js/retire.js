@@ -12958,6 +12958,20 @@
       ]
     }
   },
+  "swiper": {
+    "vulnerabilities": [],
+    "extractors": {
+      "uri": [
+        "/[Ss]wiper[@/](§§version§§)/swiper"
+      ],
+      "filename": [
+        "swiper[-.](§§version§§)(.min)?.js"
+      ],
+      "filecontent": [
+        "\\* Swiper (§§version§§)"
+      ]
+    }
+  },
   "dont check": {
     "vulnerabilities": [],
     "extractors": {
