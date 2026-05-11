@@ -11369,6 +11369,24 @@
       "MIT >=0"
     ]
   },
+  "mootools": {
+    "npmname": "mootools",
+    "vulnerabilities": [],
+    "extractors": {
+      "func": [
+        "MooTools.version"
+      ],
+      "filename": [
+        "mootools-(§§version§§)(?:\\.min)?\\.js"
+      ],
+      "filecontent": [
+        "this\\.MooTools\\s*=\\s*\\{[\\s\\S]{0,30}version:\\s*['\"](§§version§§)['\"]"
+      ],
+      "uri": [
+        "/mootools/(§§version§§)/mootools"
+      ]
+    }
+  },
   "dont check": {
     "vulnerabilities": [],
     "extractors": {

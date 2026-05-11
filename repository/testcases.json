@@ -790,5 +790,18 @@
       "versions": ["0.20.1", "1.0.0", "1.3.7", "2.0.0"],
       "subversions": ["", ".min"]
     }
+  },
+  "mootools": {
+    "https://cdnjs.cloudflare.com/ajax/libs/mootools/§§version§§/mootools-core§§subversion§§.js": {
+      "versions": ["1.5.2", "1.6.0"],
+      "subversions": ["", ".min"]
+    },
+    "https://cdnjs.cloudflare.com/ajax/libs/mootools/§§version§§/mootools-core-full-compat§§subversion§§.js": {
+      "versions": ["1.4.5", "1.5.0"],
+      "subversions": ["", ".min"]
+    },
+    "https://cdnjs.cloudflare.com/ajax/libs/mootools/§§version§§/mootools-yui-compressed.js": {
+      "versions": ["1.3.2"]
+    }
   }
 }

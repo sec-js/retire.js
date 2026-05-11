@@ -20,6 +20,10 @@ Fetch library metadata from cdnjs:
 ```
 https://api.cdnjs.com/libraries/{NAME}?fields=name,versions,filename,description,homepage
 ```
+or 
+```
+https://cdnjs.com/libraries/{NAME}
+```
 
 This returns all available versions and the canonical filename (e.g. `lodash.min.js`). If the library isn't on cdnjs, try jsdelivr:
 
@@ -151,6 +155,7 @@ Insert the new entry **immediately before** the `"dont check"` key at the end of
   }
 },
 ```
+Don't add npmname if the library isn't on npm or if the npm package name is the same as the library name.
 
 ## Step 10 — Add Entry to testcases.json
 
