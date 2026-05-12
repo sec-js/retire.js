@@ -297,6 +297,26 @@ exports.queries = {
         /*/SequenceExpression/AssignmentExpression[/:left/:property/:name == "version"]/:left/$:object
       ]/*/SequenceExpression/AssignmentExpression[/:left/:property/:name == "version"]/:$right/:init/:value`,
   ],
+  "mustache.js": [
+    /*
+    mustache.name = "mustache.js";
+    mustache.version = "2.1.0";  (2.x – 3.x pattern)
+    */
+    `//BlockStatement[
+      /ExpressionStatement/AssignmentExpression[
+        /:left/:object/:name == "mustache" &&
+        /:left/:property/:name == "name"
+      ]
+    ]/ExpressionStatement/AssignmentExpression[
+      /:left/:property/:name == "version"
+    ]/:right/:value`,
+    /*
+    var mustache = { name: "mustache.js", version: "4.0.1", ... }  (4.x pattern)
+    */
+    `//ObjectExpression[
+      /Property[/:key/:name == "name"]/:value/:value == "mustache.js"
+    ]/Property[/:key/:name == "version"]/:value/:value`,
+  ],
   nextjs: [
     `//BlockStatement[
       /ExpressionStatement/AssignmentExpression/:left/:property/:name == "version" &&

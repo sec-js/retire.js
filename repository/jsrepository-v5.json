@@ -4197,12 +4197,16 @@
         "mustache(?:js)?-(§§version§§)(.min)?\\.js"
       ],
       "filecontent": [
-        "name:\"mustache.js\",version:\"(§§version§§)\"",
+        "name:\\s*['\"]mustache.js['\"],\\s*version:\\s*['\"](§§version§§)['\"]",
         "name=\"mustache.js\"[;,].\\.version=\"(§§version§§)\"",
         "[^a-z]mustache.version[ ]?=[ ]?(?:'|\")(§§version§§)(?:'|\")",
         "exports.name[ ]?=[ ]?\"mustache.js\";[\n ]*exports.version[ ]?=[ ]?(?:'|\")(§§version§§)(?:'|\");"
       ],
-      "hashes": {}
+      "hashes": {},
+      "ast": [
+        "//BlockStatement[       /ExpressionStatement/AssignmentExpression[         /:left/:object/:name == \"mustache\" &&         /:left/:property/:name == \"name\"       ]     ]/ExpressionStatement/AssignmentExpression[       /:left/:property/:name == \"version\"     ]/:right/:value",
+        "//ObjectExpression[       /Property[/:key/:name == \"name\"]/:value/:value == \"mustache.js\"     ]/Property[/:key/:name == \"version\"]/:value/:value"
+      ]
     }
   },
   "handlebars": {
