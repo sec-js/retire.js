@@ -176,7 +176,7 @@
   },
   "tinyMCE": {
     "https://cdnjs.cloudflare.com/ajax/libs/tinymce/§§version§§/tinymce.min.js": {
-      "versions": ["6.1.1", "5.4.0", "4.0.20"],
+      "versions": ["8.1.2", "7.0.0", "6.1.1", "5.4.0", "4.9.11", "4.0.20"],
       "allowedOtherComponents": "DOMPurify"
     }
   },

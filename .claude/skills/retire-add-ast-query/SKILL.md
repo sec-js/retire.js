@@ -88,9 +88,16 @@ sed -n '${LINE_MINUS_10},${LINE_PLUS_10}p' /tmp/retire-ast-{NAME}/{VERSION}.js
 
 Identify two things:
 1. **What node holds the version**: e.g. `x.VERSION = "1.2.3"` (AssignmentExpression → right → Literal), `{version: "1.2.3"}` (ObjectExpression → Property → value → Literal), `var version = "1.2.3"` (VariableDeclarator → init → Literal)
-2. **Library-specific anchors nearby**: a property name, object name, or sibling property that uniquely identifies this library — e.g. `isMoment`, `migrateVersion`, `HandlebarsEnvironment`, `__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED`, or a set of co-occurring sibling properties. The anchor must appear in the same block/expression as the version assignment.
+2. **Library-specific anchors nearby**: an identifier that uniquely identifies this library. The anchor must appear in the same block/expression as the version assignment — or inside a method body of the same object.
 
-Avoid anchors that are too generic on their own (e.g. `version`, `major`, `init`). The combination of the version-holding pattern + anchor must be specific to this library.
+**Anchor quality, best to worst:**
+- **Gold**: an identifier that contains the library name — e.g. `tinyMCEPreInit`, `isMoment`, `HandlebarsEnvironment`, `__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED`. These cannot match any other library by definition.
+- **Good**: a highly domain-specific sibling property or method that wouldn't appear together with a version string in any other library — e.g. `migrateVersion`, `focusedEditor` combined with `majorVersion`.
+- **Weak**: generic property names like `releaseDate`, `activeEditor`, `major`, `init`, `build`. These could plausibly appear in other libraries and should only be used in combination with other anchors, never alone.
+
+**Look inside method bodies too.** If the version is in an object literal, scan the body of methods on that same object for library-name identifiers — e.g. `setup() { ... window.tinyMCEPreInit ... }` inside the same ObjectExpression. A `//MemberExpression` or `//Identifier` traversal into a method body provides a much stronger anchor than any generic sibling property name.
+
+Ask yourself: *would this query fire on a file from an unrelated library that happens to assign a version string?* If you're not confident the answer is no, strengthen the anchor.
 
 ## Step 6 — Write a Candidate Query
 
@@ -141,6 +148,18 @@ Use ASTronomical syntax to navigate from the root to the version Literal, filter
   /AssignmentExpression[/:left/:property/:name == "ANCHOR_PROP"]/:left/$:object ==
   /AssignmentExpression[/:left/:property/:name == "version"]/:left/$:object
 ]/AssignmentExpression[/:left/:property/:name == "version"]/$$:right/:value
+```
+
+**Object with library-name identifier inside a method body (gold anchor):**
+```
+//ObjectExpression[
+  /Property[/:key/:name == "majorVersion"] &&
+  /Property[/:key/:name == "setup"]//MemberExpression[/:property/:name == "libraryNamePreInit"]
+]/fn:concat(
+  /Property[/:key/:name == "majorVersion"]/:value/:value,
+  ".",
+  /Property[/:key/:name == "minorVersion"]/:value/:value
+)
 ```
 
 Start simple, add anchors until the query is specific enough. Multiple queries in the array are OR'd — add a second entry for a different version era if the code structure changed across major versions.

@@ -382,7 +382,23 @@ exports.queries = {
     `//BlockStatement/ExpressionStatement/SequenceExpression[
       /AssignmentExpression/:left/:property/:name == "thresholdFreedmanDiaconis" &&
       /AssignmentExpression/:left/:property/:name == "thresholdSturges" &&
-      /AssignmentExpression/:left/:property/:name == "thresholdScott" 
+      /AssignmentExpression/:left/:property/:name == "thresholdScott"
     ]/AssignmentExpression[ /:left/:property/:name == "version" ]/$$:right/:value`
+  ],
+  "tinyMCE": [
+    /*
+      EditorManager = {
+        majorVersion: '8', minorVersion: '1.2',
+        setup() { ... window.tinyMCEPreInit ... }
+      }
+    */
+    `//ObjectExpression[
+      /Property[/:key/:name == "majorVersion"] &&
+      /Property[/:key/:name == "setup"]//MemberExpression[/:property/:name == "tinyMCEPreInit"]
+    ]/fn:concat(
+      /Property[/:key/:name == "majorVersion"]/:value/:value,
+      ".",
+      /Property[/:key/:name == "minorVersion"]/:value/:value
+    )`,
   ]
 };

@@ -1936,6 +1936,9 @@
         ],
         "func": [
           "tinyMCE.majorVersion + '.'+ tinyMCE.minorVersion"
+        ],
+        "ast": [
+          "//ObjectExpression[       /Property[/:key/:name == \"majorVersion\"] &&       /Property[/:key/:name == \"setup\"]//MemberExpression[/:property/:name == \"tinyMCEPreInit\"]     ]/fn:concat(       /Property[/:key/:name == \"majorVersion\"]/:value/:value,       \".\",       /Property[/:key/:name == \"minorVersion\"]/:value/:value     )"
         ]
       }
     },
@@ -13665,7 +13668,7 @@
         ],
         "ast": [
           "//BlockStatement[       /ExpressionStatement/AssignmentExpression/:left/:property/:name == \"curveCatmullRomClosed\" &&       /ExpressionStatement/AssignmentExpression/:left/:property/:name == \"thresholdFreedmanDiaconis\"     ]/ExpressionStatement/AssignmentExpression[ /:left/:property/:name == \"version\" ]/$$:right/:value",
-          "//BlockStatement/ExpressionStatement/SequenceExpression[       /AssignmentExpression/:left/:property/:name == \"thresholdFreedmanDiaconis\" &&       /AssignmentExpression/:left/:property/:name == \"thresholdSturges\" &&       /AssignmentExpression/:left/:property/:name == \"thresholdScott\"      ]/AssignmentExpression[ /:left/:property/:name == \"version\" ]/$$:right/:value"
+          "//BlockStatement/ExpressionStatement/SequenceExpression[       /AssignmentExpression/:left/:property/:name == \"thresholdFreedmanDiaconis\" &&       /AssignmentExpression/:left/:property/:name == \"thresholdSturges\" &&       /AssignmentExpression/:left/:property/:name == \"thresholdScott\"     ]/AssignmentExpression[ /:left/:property/:name == \"version\" ]/$$:right/:value"
         ]
       }
     },
