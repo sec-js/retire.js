@@ -809,5 +809,11 @@
     "https://cdnjs.cloudflare.com/ajax/libs/mootools/§§version§§/mootools-yui-compressed.js": {
       "versions": ["1.3.2"]
     }
+  },
+  "protobufjs": {
+    "https://cdnjs.cloudflare.com/ajax/libs/protobufjs/§§version§§/protobuf§§subversion§§.js": {
+      "versions": ["6.11.0", "7.2.6", "7.4.0", "7.5.4"],
+      "subversions": ["", ".min"]
+    }
   }
 }

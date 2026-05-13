@@ -13681,6 +13681,21 @@
       ]
     }
   },
+  "protobufjs": {
+    "npmname": "protobufjs",
+    "vulnerabilities": [],
+    "extractors": {
+      "filename": [
+        "protobuf-(§§version§§)(?:\\.min)?\\.js"
+      ],
+      "filecontent": [
+        "protobuf\\.js v(§§version§§)"
+      ],
+      "uri": [
+        "/protobufjs/(§§version§§)/protobuf(?:\\.min)?\\.js"
+      ]
+    }
+  },
   "dont check": {
     "vulnerabilities": [],
     "extractors": {
