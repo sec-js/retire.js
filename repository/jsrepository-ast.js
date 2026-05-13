@@ -1,4 +1,51 @@
 exports.queries = {
+  "bootstrap": [
+    /*
+      5.x unminified — BlockStatement has both class BaseComponent and var DATA_KEY... = 'bs.alert'
+        const VERSION = '5.3.8';
+        class BaseComponent extends Config { ... }
+        const DATA_KEY$a = 'bs.alert';
+    */
+    `//BlockStatement[
+      /ClassDeclaration[/:id/:name == "BaseComponent"] &&
+      /VariableDeclaration/VariableDeclarator[/:init/:value == "bs.alert"]
+    ]/VariableDeclaration/VariableDeclarator[/:id/:name == "VERSION"]/:init/:value`,
+    /*
+      5.x minified (5.2.3+) — BaseComponent class body has VERSION getter, DATA_KEY getter
+      (TemplateLiteral bs.${this.NAME}), and EVENT_KEY getter (TemplateLiteral .${this.DATA_KEY})
+    */
+    `//ClassBody[
+      /MethodDefinition[/:kind == "get" && /:key/:name == "DATA_KEY"]//TemplateLiteral &&
+      /MethodDefinition[/:kind == "get" && /:key/:name == "EVENT_KEY"]//TemplateLiteral
+    ]/MethodDefinition[/:kind == "get" && /:key/:name == "VERSION"]//ReturnStatement//Literal/:value`,
+    /*
+      5.0.0 minified — VERSION getter and DATA_KEY getter in different classes (base vs Alert),
+      but in the same BlockStatement (factory body)
+        class B { static get VERSION(){return"5.0.0"} }
+        class $ extends B { static get DATA_KEY(){return"bs.alert"} }
+    */
+    `//BlockStatement[
+      //ClassBody/MethodDefinition[/:kind == "get" && /:key/:name == "DATA_KEY"]//Literal[/:value == "bs.alert"]
+    ]//ClassBody/MethodDefinition[/:kind == "get" && /:key/:name == "VERSION"]//ReturnStatement//Literal/:value`,
+    /*
+      4.x unminified — _createClass(Alert, null, [{key:"VERSION", get:...}]) where getter
+      returns outer var VERSION... = '4.x.x'; sibling of var DATA_KEY... = 'bs.alert'
+    */
+    `//BlockStatement[
+      /VariableDeclaration/VariableDeclarator[/:init/:value == "bs.alert"]
+    ]//ExpressionStatement/CallExpression/ArrayExpression/ObjectExpression[
+      /Property[/:key/:name == "key" && /:value/:value == "VERSION"]
+    ]/Property[/:key/:name == "get"]//ReturnStatement/$:argument/:init/:value`,
+    /*
+      4.x minified — {key:"VERSION", get:function(){return"4.x.x"}} in same BlockStatement
+      as bootstrap-specific event name "click.bs.alert.data-api"
+    */
+    `//BlockStatement[
+      //Literal[/:value == "click.bs.alert.data-api"]
+    ]//ObjectExpression[
+      /Property[/:key/:name == "key" && /:value/:value == "VERSION"]
+    ]/Property[/:key/:name == "get"]//ReturnStatement//Literal/:value`,
+  ],
   "jquery-migrate": [
     /* 
       function(x) {
