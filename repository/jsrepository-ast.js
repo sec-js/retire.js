@@ -363,6 +363,27 @@ exports.queries = {
           /ExpressionStatement/CallExpression/:arguments/:value == "isWriteableObservable"
         ]/ExpressionStatement/AssignmentExpression[/:left/:property/:name == "version"]/:right/:value`
   ],
+  "ckeditor5": [
+    /*
+      const v = "1.2.3"; ...; x.CKEDITOR_VERSION = v   (newer)
+      x.CKEDITOR_VERSION = "1.2.3"                      (older)
+    */
+    `//AssignmentExpression[
+      /:left/:property/:name == "CKEDITOR_VERSION"
+    ]/$$:right/:value`,
+  ],
+  "ckeditor": [
+    /*
+      window.CKEDITOR = (..., {
+        timestamp: "...", version: "4.x.y", revision: "...",
+        basePath: function() { var a = window.CKEDITOR_BASEPATH || ""; ... }
+      })
+    */
+    `//ObjectExpression[
+      /Property[/:key/:name == "revision"] &&
+      /Property[/:key/:name == "basePath"]//Identifier[/:name == "CKEDITOR_BASEPATH"]
+    ]/Property[/:key/:name == "version"]/:value/:value`,
+  ],
   "highlightjs": [
     `//VariableDeclarator[/:id/:name == "hljs"]//AssignmentExpression[/MemberExpression/:property/:name=="versionString"]/:right/:value`
   ],

@@ -6390,7 +6390,7 @@
         "ckeditor5-(§§version§§)(\\.min)?\\.js"
       ],
       "filecontent": [
-        "const .=\"(§§version§§)\";.{0,140}?\\.CKEDITOR_VERSION=.;",
+        "const .=\"(§§version§§)\"[,;].{0,140}?\\.CKEDITOR_VERSION=.;",
         "CKEDITOR_VERSION=\"(§§version§§)\""
       ],
       "hashes": {},

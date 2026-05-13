@@ -6865,6 +6865,9 @@
         "hashes": {},
         "func": [
           "CKEDITOR.version"
+        ],
+        "ast": [
+          "//ObjectExpression[       /Property[/:key/:name == \"revision\"] &&       /Property[/:key/:name == \"basePath\"]//Identifier[/:name == \"CKEDITOR_BASEPATH\"]     ]/Property[/:key/:name == \"version\"]/:value/:value"
         ]
       }
     },
@@ -7008,12 +7011,15 @@
           "ckeditor5-(§§version§§)(\\.min)?\\.js"
         ],
         "filecontent": [
-          "const .=\"(§§version§§)\";.{0,140}?\\.CKEDITOR_VERSION=.;",
+          "const .=\"(§§version§§)\"[,;].{0,140}?\\.CKEDITOR_VERSION=.;",
           "CKEDITOR_VERSION=\"(§§version§§)\""
         ],
         "hashes": {},
         "func": [
           "CKEDITOR_VERSION"
+        ],
+        "ast": [
+          "//AssignmentExpression[       /:left/:property/:name == \"CKEDITOR_VERSION\"     ]/$$:right/:value"
         ]
       }
     },

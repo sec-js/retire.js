@@ -432,10 +432,26 @@
       "versions": ["4.0.19"]
     }
   },
+  "ckeditor5": {
+    "https://cdnjs.cloudflare.com/ajax/libs/ckeditor5/§§version§§/ckeditor§§subversion§§.js": {
+      "versions": ["38.0.0", "33.0.0"],
+      "subversions": ["", ".min"],
+      "contentOnly": true
+    },
+    "https://cdnjs.cloudflare.com/ajax/libs/ckeditor5/§§version§§/ckeditor.js": {
+      "versions": ["44.3.0", "25.0.0"],
+      "subversions": [""],
+      "contentOnly": true
+    }
+  },
   "ckeditor": {
     "https://cdnjs.cloudflare.com/ajax/libs/ckeditor/§§version§§/ckeditor§§subversion§§.js": {
-      "versions": ["4.20.2", "4.0.1"],
+      "versions": ["4.25.1", "4.17.2", "4.0.1"],
       "subversions": ["", ".min"]
+    },
+    "https://cdnjs.cloudflare.com/ajax/libs/ckeditor/§§version§§/ckeditor.js": {
+      "versions": ["4.9.2", "4.4.5"],
+      "subversions": [""]
     }
   },
   "highcharts": {
