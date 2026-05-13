@@ -28,23 +28,16 @@ exports.queries = {
       //ClassBody/MethodDefinition[/:kind == "get" && /:key/:name == "DATA_KEY"]//Literal[/:value == "bs.alert"]
     ]//ClassBody/MethodDefinition[/:kind == "get" && /:key/:name == "VERSION"]//ReturnStatement//Literal/:value`,
     /*
-      4.x unminified — _createClass(Alert, null, [{key:"VERSION", get:...}]) where getter
-      returns outer var VERSION... = '4.x.x'; sibling of var DATA_KEY... = 'bs.alert'
+      4.x min+unmin — Babel _createClass descriptor {key:"VERSION", get:function(){return...}}
+      anchored by "bs.alert" literal (VariableDeclarator in unmin, Data_KEY getter body in min).
+      $$: resolves identifier binding in unmin (return VERSION → '4.x.x') and returns the
+      inline Literal directly in minified (return "4.x.x").
     */
     `//BlockStatement[
-      /VariableDeclaration/VariableDeclarator[/:init/:value == "bs.alert"]
-    ]//ExpressionStatement/CallExpression/ArrayExpression/ObjectExpression[
-      /Property[/:key/:name == "key" && /:value/:value == "VERSION"]
-    ]/Property[/:key/:name == "get"]//ReturnStatement/$:argument/:init/:value`,
-    /*
-      4.x minified — {key:"VERSION", get:function(){return"4.x.x"}} in same BlockStatement
-      as bootstrap-specific event name "click.bs.alert.data-api"
-    */
-    `//BlockStatement[
-      //Literal[/:value == "click.bs.alert.data-api"]
+      //Literal[/:value == "bs.alert"]
     ]//ObjectExpression[
       /Property[/:key/:name == "key" && /:value/:value == "VERSION"]
-    ]/Property[/:key/:name == "get"]//ReturnStatement//Literal/:value`,
+    ]/Property[/:key/:name == "get"]//ReturnStatement/$$:argument/:value`,
   ],
   "jquery-migrate": [
     /* 
