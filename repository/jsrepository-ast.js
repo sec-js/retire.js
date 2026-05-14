@@ -159,6 +159,15 @@ exports.queries = {
     ]/AssignmentExpression[
       /MemberExpression/:property/:name == "VERSION"
     ]/:right/:value`,
+    /*
+    ember 6.x: version Literal co-declared with an ember-specific module export
+    6.0.x sibling: Object.defineProperty({...WireFormatDebugger...},...) — glimmer wire-format class
+    6.7.x sibling: Object.defineProperty({...isLowLevelRegister...},...) — glimmer-vm register check
+    */
+    `//VariableDeclaration[
+      //Property/:key/:name == "WireFormatDebugger" ||
+      //Property/:key/:name == "isLowLevelRegister"
+    ]/VariableDeclarator[/:init/:type == "Literal"]/:init/:value`,
   ],
   vue: [
     `//VariableDeclarator[
@@ -178,11 +187,15 @@ exports.queries = {
     ]/:right/:value`,
   ],
   DOMPurify: [
+    /*
+    All versions (minified): DOMPurify.version = "x.y.z" inside UMD factory
+    2.x/3.0.x: var DOMPurify = function DOMPurify(root){...}
+    3.1.x+:    const DOMPurify = root => createDOMPurify(root)
+    */
     `//CallExpression[
       /:callee//:left/:property/:name == "DOMPurify"
     ]/:arguments//AssignmentExpression[
-      /:left/:property/:name == "version" &&
-      /:left/$:object/:init/:type == "FunctionExpression"
+      /:left/:property/:name == "version"
     ]/:right/:value`,
   ],
   "ua-parser-js": [

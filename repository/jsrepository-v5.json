@@ -2710,13 +2710,16 @@
         "e\\(\"ember/version\",\\[\"exports\"\\],function\\(e\\)\\{\"use strict\";?[\\s]*e(?:\\.|\\[\")default(?:\"\\])?=\"(§§version§§)\"",
         "\\(\"ember/version\",\\[\"exports\"\\],function\\(e\\)\\{\"use strict\";.{1,70}\\.default=\"(§§version§§)\"",
         "/\\*![\\s]+\\* @overview  Ember - JavaScript Application Framework[\\s\\S]{0,400}\\* @version   (§§version§§)",
-        "// Version: (§§version§§)[\\s]+\\(function\\(\\) *\\{[\\s]*/\\*\\*[\\s]+@module ember[\\s]"
+        "// Version: (§§version§§)[\\s]+\\(function\\(\\) *\\{[\\s]*/\\*\\*[\\s]+@module ember[\\s]",
+        "Object\\.defineProperty\\(\\{__proto__:null,CI:!1,DEBUG:!1\\},Symbol\\.toStringTag,\\{value:\"Module\"\\}\\),\\w+=\"(§§version§§)\"",
+        "isLowLevelRegister:function\\(e\\)\\{return e<=3\\}\\},Symbol\\.toStringTag,\\{value:\"Module\"\\}\\),\\w+=\"(§§version§§)\""
       ],
       "hashes": {},
       "ast": [
         "//AssignmentExpression[       /:left/:object/:name == \"Ember\" &&       /:left/:property/:name == \"VERSION\"     ]/:right/:value",
         "//CallExpression[       /Literal/:value == \"ember/version\"     ]/FunctionExpression/BlockStatement/ExpressionStatement/AssignmentExpression[       /:left/:property/:name == \"default\" || /:left/:property/:value == \"default\"     ]/:right/:value",
-        "//SequenceExpression[       /AssignmentExpression[         /:left/:property/:name == \"toString\" &&         /:right//ReturnStatement/:argument/:value == \"Ember\"       ]     ]/AssignmentExpression[       /MemberExpression/:property/:name == \"VERSION\"     ]/:right/:value"
+        "//SequenceExpression[       /AssignmentExpression[         /:left/:property/:name == \"toString\" &&         /:right//ReturnStatement/:argument/:value == \"Ember\"       ]     ]/AssignmentExpression[       /MemberExpression/:property/:name == \"VERSION\"     ]/:right/:value",
+        "//VariableDeclaration[       //Property/:key/:name == \"WireFormatDebugger\" ||       //Property/:key/:name == \"isLowLevelRegister\"     ]/VariableDeclarator[/:init/:type == \"Literal\"]/:init/:value"
       ]
     }
   },
@@ -5595,7 +5598,7 @@
       ],
       "hashes": {},
       "ast": [
-        "//CallExpression[       /:callee//:left/:property/:name == \"DOMPurify\"     ]/:arguments//AssignmentExpression[       /:left/:property/:name == \"version\" &&       /:left/$:object/:init/:type == \"FunctionExpression\"     ]/:right/:value"
+        "//CallExpression[       /:callee//:left/:property/:name == \"DOMPurify\"     ]/:arguments//AssignmentExpression[       /:left/:property/:name == \"version\"     ]/:right/:value"
       ]
     }
   },
@@ -13011,7 +13014,8 @@
         "\\.MathJax\\.config\\.startup;{10,100}.\\.VERSION=\"(§§version§§)\"",
         "\\.MathJax=\\{version:\"(§§version§§)\"",
         "MathJax.{0,100}.\\.VERSION=void 0,.\\.VERSION=\"(§§version§§)\"",
-        "MathJax\\.version=\"(§§version§§)\";"
+        "MathJax\\.version=\"(§§version§§)\";",
+        "\\.mathjaxVersion=\"(§§version§§)\""
       ],
       "func": [
         "MathJax.version"
@@ -13126,7 +13130,8 @@
         "(?:const|var) pdfjsVersion = ['\"](§§version§§)['\"];",
         "PDFJS.version ?= ?['\"](§§version§§)['\"]",
         "apiVersion: ?['\"](§§version§§)['\"][\\s\\S]*,data(:[a-zA-Z.]{1,6})?,[\\s\\S]*password(:[a-zA-Z.]{1,10})?,[\\s\\S]*disableAutoFetch(:[a-zA-Z.]{1,22})?,[\\s\\S]*rangeChunkSize",
-        "messageHandler\\.sendWithPromise\\(\"GetDocRequest\",\\{docId:[a-zA-Z],apiVersion:\"(§§version§§)\""
+        "messageHandler\\.sendWithPromise\\(\"GetDocRequest\",\\{docId:[a-zA-Z],apiVersion:\"(§§version§§)\"",
+        "const version = ['\"](§§version§§)['\"];\\s*const build ="
       ]
     }
   },
