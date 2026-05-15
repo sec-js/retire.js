@@ -12,18 +12,18 @@ window.addEventListener(
 
     document.querySelector("input[type=checkbox]#enabled").addEventListener(
       "click",
-      () => {
+      (e) => {
         chrome.action.setIcon({
-          path: this.checked ? "icons/icon48.png" : "icons/icon_bw48.png",
+          path: e.target.checked ? "icons/icon48.png" : "icons/icon_bw48.png",
         });
-        sendMessage("enable", this.checked, null);
+        sendMessage("enable", e.target.checked, null);
       },
       false
     );
     document.querySelector("input[type=checkbox]#deepEnabled").addEventListener(
       "click",
-      () => {
-        sendMessage("deepScanEnable", this.checked, null);
+      (e) => {
+        sendMessage("deepScanEnable", e.target.checked, null);
       },
       false
     );
@@ -170,12 +170,7 @@ function show(totalResults) {
         table.appendChild(tr);
         td(tr).innerText = v.severity || " ";
         td(tr).innerText = v.identifiers
-          ? v.identifiers
-              .mapOwnProperty(function (val) {
-                return val;
-              })
-              .flatten()
-              .join(" ")
+          ? Object.values(v.identifiers).flat().join(" ")
           : " ";
         let info = td(tr);
         info.className = "info";
@@ -203,20 +198,6 @@ function span(data, className) {
   return s;
 }
 
-Object.prototype.forEachOwnProperty = function (f) {
-  mapOwnProperty(f);
-};
-Object.prototype.mapOwnProperty = function (f) {
-  var results = [];
-  for (var i in this) {
-    if (this.hasOwnProperty(i)) results.push(f(this[i], i));
-  }
-  return results;
-};
-
-Array.prototype.flatten = function () {
-  return this.reduce((a, b) => a.concat(b), []);
-};
 
 function sendMessage(message, data, callback) {
   chrome.runtime.sendMessage(
