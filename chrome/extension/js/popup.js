@@ -46,6 +46,7 @@ window.addEventListener(
   },
   false
 );
+let lastShown = "";
 
 function queryForResults() {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -53,6 +54,9 @@ function queryForResults() {
       tabs[0].id,
       { getDetected: 1 },
       function (response) {
+        let dt = JSON.stringify(response);
+        if (dt == lastShown) return;
+        lastShown = dt;
         show(response);
         console.log(response);
       }
@@ -169,9 +173,18 @@ function show(totalResults) {
         tr.className = v.severity;
         table.appendChild(tr);
         td(tr).innerText = v.severity || " ";
-        td(tr).innerText = v.identifiers
+        let text = td(tr);
+        let textDiv = document.createElement("div");
+        text.appendChild(textDiv);
+        textDiv.className = "text";
+        textDiv.innerText = v.identifiers
           ? Object.values(v.identifiers).flat().join(" ")
           : " ";
+        textDiv.classList.add("collapsed");
+        textDiv.addEventListener("click", () => textDiv.classList.toggle("collapsed"));
+
+
+
         let info = td(tr);
         info.className = "info";
         v.info.forEach(function (u, i) {
@@ -200,6 +213,7 @@ function span(data, className) {
 
 
 function sendMessage(message, data, callback) {
+  console.log("Sending message", message, data);
   chrome.runtime.sendMessage(
     { to: "background", message: message, data: data },
     (response) => {

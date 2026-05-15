@@ -3,7 +3,8 @@
 <head>
 <script src="js/popup.js" defer></script>
 <style type="text/css">
-	body { width: 600px;}
+	html { padding: 0; margin: 0;}
+	body { padding:0; margin: 0.5em; }
 	table { width: 100%; margin-top: 0.5em; border-collapse: collapse;}
 	table#results > tr {
 		border-top: 1px solid #ddd;
@@ -14,11 +15,38 @@
 	}
 	.vulnerable a:before { content: "["; }
 	.vulnerable a:after { content: "]"; }
+	table table tr {
+		border-top: 1px solid #ddd;
+	}
+	table table td {
+		padding-top: 0.5em;
+	}
 	.info {
 		width: 5em;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-evenly;
+	}
+	td:has(.text) {
+		padding-bottom: 0.5em;
+	}
+	.text {
+		position: relative;
+		cursor: pointer;
+	}
+	.text.collapsed {
+		max-height: 4.7em;
+		overflow: hidden;
+	}
+	.text.collapsed::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 1.5em;
+		background: linear-gradient(to bottom, transparent, white);
+		pointer-events: none;
 	}
 	.hideunknown .unknown { display: none; }
 	.unknown { color: #999; }

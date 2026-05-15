@@ -60,6 +60,7 @@ function setFuncs() {
       repoFuncs[component] = repo[component].extractors.func;
     }
   }
+  console.log("I have funcs", repoFuncs);
 }
 
 function getFileName(url) {

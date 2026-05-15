@@ -16620,7 +16620,8 @@ Reporter: Koda Reef`,
               ],
               hashes: {},
               ast: [
-                '//CallExpression[       /:callee//:left/:property/:name == "DOMPurify"     ]/:arguments//AssignmentExpression[       /:left/:property/:name == "version"     ]/:right/:value'
+                '//CallExpression[       /:callee//:left/:property/:name == "DOMPurify"     ]/:arguments//AssignmentExpression[       /:left/:property/:name == "version"     ]/:right/:value',
+                '//IfStatement[       /:test//AssignmentExpression[/:left/:property/:name == "removed"]/:left/$:object ==       /:consequent//AssignmentExpression[/:left/:property/:name == "isSupported"]/:left/$:object     ]/:test//AssignmentExpression[/:left/:property/:name == "version"]/$$:right/:value'
               ]
             }
           },

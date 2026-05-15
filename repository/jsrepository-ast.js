@@ -197,6 +197,15 @@ exports.queries = {
     ]/:arguments//AssignmentExpression[
       /:left/:property/:name == "version"
     ]/:right/:value`,
+    /*
+    Turbopack/bundled: if (o.version = "x.y.z", o.removed = [], ...)
+      return o.isSupported = false, o;
+    Anchored by o.removed (test) + o.isSupported (consequent) on same object
+    */
+    `//IfStatement[
+      /:test//AssignmentExpression[/:left/:property/:name == "removed"]/:left/$:object ==
+      /:consequent//AssignmentExpression[/:left/:property/:name == "isSupported"]/:left/$:object
+    ]/:test//AssignmentExpression[/:left/:property/:name == "version"]/$$:right/:value`,
   ],
   "ua-parser-js": [
     `//SequenceExpression[
